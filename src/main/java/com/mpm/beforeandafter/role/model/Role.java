@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Class representing a role in the system.
+ */
 @Setter
 @Getter
 @NoArgsConstructor

@@ -6,6 +6,9 @@ import com.mpm.beforeandafter.role.type.RolesType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for managing roles in the system.
+ */
 @Service
 public class RoleService {
 
@@ -16,6 +19,9 @@ public class RoleService {
         this.roleDAO = roleDAO;
     }
 
+    /**
+     * Creates default roles in the system.
+     */
     public void createRoles() {
         for (RolesType roleType: RolesType.values()) {
             Role role = new Role(roleType.getRoleName());

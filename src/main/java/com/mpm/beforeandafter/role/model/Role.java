@@ -1,4 +1,4 @@
-package com.mpm.beforeandafter.status.model;
+package com.mpm.beforeandafter.role.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +15,7 @@ public class Role{
     @Column(name = "role_id")
     private long roleId;
 
-    @Column(name = "role_name", length = 50, unique = true)
+    @Column(name = "role_name", length = 60, unique = true)
     @NotBlank
     @NotNull
     private String roleName;

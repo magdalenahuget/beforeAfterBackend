@@ -45,8 +45,8 @@ public class CategoryController {
         return ResponseEntity.ok(categoryDTO);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable("id") Long categoryId,@RequestBody Category updatedCategory) {
+    @PatchMapping("{id}")
+    public ResponseEntity<Category> updateCategoryName(@PathVariable("id") Long categoryId, @RequestBody Category updatedCategory) {
 
         log.info("Updating category with id: {} with data: {}", categoryId, updatedCategory);
         Category categoryDTO = categoryService.updateCategory(categoryId, updatedCategory);

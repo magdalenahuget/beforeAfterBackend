@@ -13,7 +13,7 @@ public interface CategoryService {
 
     Category createCategory(Category category);
 
-     Set<Category> getCategories(Long categoryId);
+     Set<Category> getCategories();
 
     Category getCategoryById(Long categoryId);
 

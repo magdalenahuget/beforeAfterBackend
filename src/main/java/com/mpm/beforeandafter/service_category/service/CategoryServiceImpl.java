@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Set<Category> getCategories(Long categoryId) {
+    public Set<Category> getCategories() {
         return new HashSet<>(categoryRepository.findAll());
     }
 

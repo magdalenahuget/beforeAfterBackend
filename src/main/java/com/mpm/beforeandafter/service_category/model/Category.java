@@ -1,11 +1,11 @@
 package com.mpm.beforeandafter.service_category.model;
 
+import com.mpm.beforeandafter.image.model.Image;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.awt.*;
 import java.util.Set;
 
 @Getter

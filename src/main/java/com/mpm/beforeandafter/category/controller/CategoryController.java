@@ -45,11 +45,11 @@ public class CategoryController {
         return ResponseEntity.ok(categoryDTO);
     }
 
-    @PatchMapping("{id}")
-    public ResponseEntity<Category> updateCategoryName(@PathVariable("id") Long categoryId, @RequestBody Category updatedCategory) {
-
-        log.info("Updating category with id: {} with data: {}", categoryId, updatedCategory);
-        Category categoryDTO = categoryService.updateCategory(categoryId, updatedCategory);
+    @PatchMapping("{id}/name")
+    public ResponseEntity<Category> updateCategoryName(@PathVariable("id") Long categoryId,
+                                                       @RequestBody String categoryName) {
+        log.info("Updating category with id: {} with data: {}", categoryId, categoryName);
+        Category categoryDTO = categoryService.updateCategoryName(categoryId, categoryName);
         log.info("Category updated: {}", categoryDTO);
         return ResponseEntity.ok(categoryDTO);
     }

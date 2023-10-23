@@ -1,5 +1,6 @@
 package com.mpm.beforeandafter.image.model;
 
+import com.mpm.beforeandafter.service_category.model.Category;
 import com.mpm.beforeandafter.status.type.StatusesType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Entity
 @Table(name = "images")
 public class Image {
@@ -25,8 +27,9 @@ public class Image {
     @Column(name="image")
     private String image;
 
-    @Column(name="service_category_id")
-    private Long serviceCategoryId;
+    @ManyToOne
+    @JoinColumn(name="service_category_id", nullable = false)
+    private Category category;
 
     @Column(name="image_description")
     private String description;

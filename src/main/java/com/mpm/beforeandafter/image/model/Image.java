@@ -1,6 +1,6 @@
 package com.mpm.beforeandafter.image.model;
 
-import com.mpm.beforeandafter.service_category.model.Category;
+import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.status.type.StatusesType;
 import com.mpm.beforeandafter.user.model.User;
 import jakarta.persistence.*;

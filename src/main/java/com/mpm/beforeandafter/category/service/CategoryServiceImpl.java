@@ -1,7 +1,7 @@
-package com.mpm.beforeandafter.service_category.service;
+package com.mpm.beforeandafter.category.service;
 
-import com.mpm.beforeandafter.service_category.model.Category;
-import com.mpm.beforeandafter.service_category.repository.CategoryRepository;
+import com.mpm.beforeandafter.category.model.Category;
+import com.mpm.beforeandafter.category.repository.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

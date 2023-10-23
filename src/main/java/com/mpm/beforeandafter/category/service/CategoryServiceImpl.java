@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(Category category) {
-        log.info("Creating category: {}", category);
+        log.debug("Creating category: {}", category);
         Category savedCategory = categoryRepository.save(category);
         log.info("Category created: {}", savedCategory);
         return savedCategory;
@@ -36,25 +36,32 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getCategories() {
+        log.debug("Getting all categories");
         return categoryRepository.findAll();
     }
 
     @Override
     public Category getCategoryById(Long categoryId) {
-        log.info("Getting category by id: {}", categoryId);
+        log.debug("Getting category by id: {}", categoryId);
         return categoryRepository
                 .findById(categoryId)
-                .orElseThrow(() -> new RuntimeException(
-                        "There is no category with the given ID: " + categoryId));
+                .orElseThrow(() -> {
+                    log.error("There is no category with the given ID: {}", categoryId);
+                    return new RuntimeException(
+                            "There is no category with the given ID: " + categoryId);
+                });
     }
 
     @Override
     public Category updateCategoryName(Long categoryId, String categoryName) {
-        log.info("Updating category with ID: {} with data: {}", categoryId,categoryName );
+        log.debug("Updating category with ID: {} with data: {}", categoryId, categoryName);
         Category category = categoryRepository
                 .findById(categoryId)
-                .orElseThrow(() -> new RuntimeException(
-                        "There is no category with the given ID: " + categoryId));
+                .orElseThrow(() -> {
+                    log.error("There is no category with the given ID: {}", categoryId);
+                    return new RuntimeException(
+                            "There is no category with the given ID: " + categoryId);
+                });
 
         category.setCategoryName(categoryName);
 
@@ -63,11 +70,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long categoryId) {
-        log.info("Deleting category with id: {}", categoryId);
+        log.debug("Deleting category with id: {}", categoryId);
         categoryRepository
                 .findById(categoryId)
                 .ifPresentOrElse((categoryRepository::delete),
                         () -> {
+                            log.error("There is no category with the given ID: {}", categoryId);
                             throw new RuntimeException(
                                     "There is no category with the given ID: " + categoryId);
                         });

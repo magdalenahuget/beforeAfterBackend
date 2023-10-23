@@ -9,10 +9,12 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "users")
 public class User {
@@ -33,7 +35,7 @@ public class User {
     @Size(min=5, max=50,message="User email must be between 5 and 50 characters long.")
     private String userEmail;
 
-    @Column(name = "user_password", length = 100, unique = true)//TODO security hash?
+    @Column(name = "user_password", length = 200)//TODO security hash?
     @NotBlank(message = "User password is mandatory.")
     @NotNull
     @Size(min=8, max=50,message="User password must be between 8 and 50 characters long.")
@@ -53,54 +55,38 @@ public class User {
     @Column(name = "user_profile_image", unique = true)
     private String userProfileImage;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "user_id=" + user_id +
-                ", userName='" + userName + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", role=" + role +
-                ", cityName='" + cityName + '\'' +
-                ", userProfileImage='" + userProfileImage + '\'' +
-                '}';
-    }
+    @Column(name = "address_id")//TODO relation with table addresses oneToOne
+    private int addressId;
 
-//    @Column(name = "address_id")//TODO polaczeniez tabelą addreesses oneToOne
-//    private int addressId;
-
-//    @Column(name = "image_id")//TODO polaczenie z tabela images oneToMAny
+    @Column(name = "image_id")//TODO this relation should be removed, as image has userId
 //    @NotNull
 //    @NotBlank
-//    private int imagesId;
+    private int imagesId;
 
-//    @Column(name = "about_me", columnDefinition = "TEXT")
-//    private String aboutMe;
-//
-//    @Column(name = "phone_number", length = 15)
-//    private String phoneNumber;
-//
-//    @Column(name = "webpage", length = 150)
-//    private String webpage;
-//
-//    @Column(name = "favourites_id")//TODO polaczenie z tabela favourites oneToMany
-//    private String favouritesId;
-//
-//    @Column(name = "status_id")//TODO polaczenie z tabela statuses
+    @Column(name = "about_me", columnDefinition = "TEXT")
+    private String aboutMe;
+
+    @Column(name = "phone_number", length = 15)
+    private String phoneNumber;
+
+    @Column(name = "webpage", length = 150)
+    private String webpage;
+
+    @Column(name = "favourites_id")//TODO relation ManyToMany, here should be list
+    private String favouritesId;
+
+    @Column(name = "status_id")//TODO no relation, status should be value from enum or as role model
 //    @NotNull
 //    @NotBlank
-//    private int statusId;
-//
-//    @Column(name = "user_approved", columnDefinition = "BOOLEAN")
-//    @NotNull
-//    @NotBlank
-//    private boolean userApproved;
-//
-//    @Column(name = "user_approved_by_user_id")
-//    private int userApprovedByUserId;
-//
-//    @Column(name = "user_approved_date")
-//    private String userApprovedDate;
+    private int statusId;
 
+    @Column(name = "user_approved", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @NotNull
+    private boolean userApproved;
 
+    @Column(name = "user_approved_by_user_id")
+    private int userApprovedByUserId;
+
+    @Column(name = "user_approved_date")
+    private String userApprovedDate;
 }

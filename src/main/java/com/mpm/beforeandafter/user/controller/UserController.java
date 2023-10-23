@@ -32,6 +32,8 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody UserRequestDto user) {
         User createdUser = userServiceImpl.createUser(user);
+//        UserResponseDto userResponseDto = new UserResponseDto()
+//        TODO: In future return userResponseDto without password
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 }

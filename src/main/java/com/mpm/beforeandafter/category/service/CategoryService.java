@@ -2,7 +2,7 @@ package com.mpm.beforeandafter.category.service;
 
 import com.mpm.beforeandafter.category.model.Category;
 
-import java.util.Set;
+import java.util.List;
 
 public interface CategoryService {
 
@@ -13,7 +13,7 @@ public interface CategoryService {
 
     Category createCategory(Category category);
 
-     Set<Category> getCategories();
+     List<Category> getCategories();
 
     Category getCategoryById(Long categoryId);
 

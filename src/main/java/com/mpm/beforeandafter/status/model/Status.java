@@ -21,4 +21,8 @@ public class Status {
 
     @Column(name = "status_name")
     private String name;
+
+    public Status(String name) {
+        this.name = name;
+    }
 }

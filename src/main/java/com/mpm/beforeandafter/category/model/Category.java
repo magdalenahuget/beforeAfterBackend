@@ -1,4 +1,4 @@
-package com.mpm.beforeandafter.service_category.model;
+package com.mpm.beforeandafter.category.model;
 
 import com.mpm.beforeandafter.image.model.Image;
 import jakarta.persistence.*;

@@ -1,8 +1,8 @@
-package com.mpm.beforeandafter.service_category.controller;
+package com.mpm.beforeandafter.category.controller;
 
 
-import com.mpm.beforeandafter.service_category.model.Category;
-import com.mpm.beforeandafter.service_category.service.CategoryService;
+import com.mpm.beforeandafter.category.model.Category;
+import com.mpm.beforeandafter.category.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
-package com.mpm.beforeandafter.service_category.service;
+package com.mpm.beforeandafter.category.service;
 
-import com.mpm.beforeandafter.service_category.model.Category;
+import com.mpm.beforeandafter.category.model.Category;
 
 import java.util.Set;
 

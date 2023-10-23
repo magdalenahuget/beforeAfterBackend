@@ -24,14 +24,8 @@ public class Favourite {
     @NotNull
     @NonNull
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @NotNull
-    @ManyToOne
-    @NonNull
-    @JoinColumn(name = "favourite_id")
-    private User favouriteUser;
 
     @NonNull
     @OneToMany(mappedBy = "favourite")

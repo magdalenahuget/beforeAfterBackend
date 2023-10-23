@@ -28,6 +28,6 @@ public class Category {
     @NonNull
     private String categoryName;
 
-    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category")
     private Set<Image> images;
 }

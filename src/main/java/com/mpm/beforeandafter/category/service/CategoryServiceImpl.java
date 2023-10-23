@@ -50,14 +50,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Long categoryId, Category updatedCategory) {
-        log.info("Updating category with ID: {} with data: {}", categoryId, updatedCategory);
+    public Category updateCategoryName(Long categoryId, String categoryName) {
+        log.info("Updating category with ID: {} with data: {}", categoryId,categoryName );
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> new RuntimeException(
                         "There is no employee with the given ID: " + categoryId));
 
-        category.setCategoryName(updatedCategory.getCategoryName());
+        category.setCategoryName(categoryName);
 
         return categoryRepository.save(category);
     }

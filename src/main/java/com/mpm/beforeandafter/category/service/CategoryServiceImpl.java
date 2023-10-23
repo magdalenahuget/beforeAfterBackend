@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> new RuntimeException(
-                        "There is no employee with the given ID: " + categoryId));
+                        "There is no category with the given ID: " + categoryId));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> new RuntimeException(
-                        "There is no employee with the given ID: " + categoryId));
+                        "There is no category with the given ID: " + categoryId));
 
         category.setCategoryName(categoryName);
 
@@ -70,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .ifPresentOrElse((categoryRepository::delete),
                         () -> {
                             throw new RuntimeException(
-                                    "There is no employee with the given ID: " + categoryId);
+                                    "There is no category with the given ID: " + categoryId);
                         });
     }
 }

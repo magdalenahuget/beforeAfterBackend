@@ -46,7 +46,7 @@ public class Image {
     )
     private Set<User> users = new HashSet<>();
 
-    @Column(name = "approved")
+    @Column(name = "is_approved")
     private boolean isApproved;
 
     @Column(name = "approved_by")

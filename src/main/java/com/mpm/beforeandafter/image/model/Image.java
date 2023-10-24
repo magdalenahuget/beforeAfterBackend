@@ -2,6 +2,7 @@ package com.mpm.beforeandafter.image.model;
 
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.status.type.StatusesType;
+import com.mpm.beforeandafter.user.model.Favourite;
 import com.mpm.beforeandafter.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -50,4 +51,8 @@ public class Image {
 
     @Column(name = "status")
     private StatusesType status;
+
+    @ManyToOne
+    @JoinColumn(name = "favourite_id")
+    private Favourite favourite;
 }

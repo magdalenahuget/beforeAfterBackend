@@ -1,4 +1,4 @@
-package com.mpm.beforeandafter.status.type;
+package com.mpm.beforeandafter.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum StatusesType {
+public enum StatusType {
     IN_REVIEW("in_review"),
     USER_REVISION("user_revision"),
     ACCEPTED("accepted");

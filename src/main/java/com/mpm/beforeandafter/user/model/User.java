@@ -53,40 +53,28 @@ public class User {
     private String cityName;
 
     @Column(name = "user_profile_image", unique = true)
-    private String userProfileImage;
+    private String userProfileImage; //TODO:change type to proper type for images, and rename to "avatar"(?)
 
-    @Column(name = "address_id")//TODO relation with table addresses oneToOne
-    private int addressId;
-
-    @Column(name = "image_id")//TODO this relation should be removed, as image has userId
-//    @NotNull
-//    @NotBlank
-    private int imagesId;
+    @Column(name = "contact_id")//TODO relation with table addresses oneToOne
+    private int contactId;
 
     @Column(name = "about_me", columnDefinition = "TEXT")
+    @Size(min = 10, max = 500, message = "About me must be between 10 and 500 characters.")
+    @Lob
     private String aboutMe;
 
-    @Column(name = "phone_number", length = 15)
-    private String phoneNumber;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    @NotNull(message = "Status is mandatory.")
+    private StatusType status;
 
-    @Column(name = "webpage", length = 150)
-    private String webpage;
+    @Column(name = "approved", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @NotNull(message = "Approved status is mandatory.")
+    private boolean approved;
 
-    @Column(name = "favourites_id")//TODO relation ManyToMany, here should be list
-    private String favouritesId;
+    @Column(name = "approved_by_user_id", nullable = true)
+    private int approvedByUserId;
 
-    @Column(name = "status_id")//TODO no relation, status should be value from enum or as role model
-//    @NotNull
-//    @NotBlank
-    private int statusId;
-
-    @Column(name = "user_approved", columnDefinition = "BOOLEAN DEFAULT FALSE")
-    @NotNull
-    private boolean userApproved;
-
-    @Column(name = "user_approved_by_user_id")
-    private int userApprovedByUserId;
-
-    @Column(name = "user_approved_date")
-    private String userApprovedDate;
+    @Column(name = "approved_date", nullable = true)
+    private String approvedDate;
 }

@@ -40,7 +40,7 @@ public class Image {
 
     @ManyToMany
     @JoinTable(
-            name = "favourite",
+            name = "favourites",
             joinColumns = @JoinColumn(name = "image_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
     )

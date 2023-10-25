@@ -1,5 +1,6 @@
 package com.mpm.beforeandafter.contactdetails.model;
 
+import com.mpm.beforeandafter.user.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -18,6 +19,10 @@ public class ContactDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "street_name")
     @Size(max = 30, message = "Street name cannot exceed 30 characters")

@@ -2,7 +2,6 @@ package com.mpm.beforeandafter.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mpm.beforeandafter.role.model.Role;
-import com.mpm.beforeandafter.contactdetails.model.ContactDetails;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -58,10 +57,6 @@ public class User {
 
     @Column(name = "contact_id")//TODO relation with table addresses oneToOne
     private int contactId;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contact_details_id")
-    private ContactDetails contactDetails;
 
 
     @Column(name = "about_me", columnDefinition = "TEXT")

@@ -28,15 +28,15 @@ public class ContactDetails {
     @Size(max = 30, message = "Street name cannot exceed 30 characters")
     private String streetName;
 
-    @Column(name = "street_num")
+    @Column(name = "street_number")
     @Size(max = 10, message = "Street number cannot exceed 10 characters")
     private String streetNumber;
 
-    @Column(name = "apart_num")
+    @Column(name = "apart_number")
     @Size(max = 10, message = "Apartment number cannot exceed 10 characters")
     private String apartNumber;
 
-
+    @Column(name = "post_code")
     @Size(max = 10, message = "Postcode cannot exceed 10 characters")
     private String postcode;
 

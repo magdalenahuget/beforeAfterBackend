@@ -22,7 +22,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long id;
 
     @Column(name = "user_name", length = 50, unique = true)
     @NotBlank(message = "User name is mandatory.")
@@ -58,6 +58,7 @@ public class User {
 
     @Column(name = "contact_id")//TODO relation with table addresses oneToOne
     private int contactId;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contact_details_id")
     private ContactDetails contactDetails;

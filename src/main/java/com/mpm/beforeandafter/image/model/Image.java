@@ -1,16 +1,18 @@
 package com.mpm.beforeandafter.image.model;
 
 import com.mpm.beforeandafter.category.model.Category;
-import com.mpm.beforeandafter.status.type.StatusesType;
-import com.mpm.beforeandafter.user.model.Favourite;
+import com.mpm.beforeandafter.user.model.StatusType;
 import com.mpm.beforeandafter.user.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,36 +25,38 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_id")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "image")
-    private String image;
+    @Column(name = "file")
+    private String file;
 
     @ManyToOne
-    @JoinColumn(name = "service_category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(name = "image_description")
+    @Column(name = "description")
     private String description;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", unique = true, nullable = false)
-    private User user;
+    @ManyToMany
+    @JoinTable(
+            name = "user_image",
+            joinColumns = @JoinColumn(name = "image_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
+    private Set<User> users = new HashSet<>();
 
-    @Column(name = "image_approved")
+    @Column(name = "is_approved")
     private boolean isApproved;
 
-    @Column(name = "image_approved_by")
+    @Column(name = "approved_by")
     private String approvedBy;
 
-    @Column(name = "image_approved_date")
+    @Column(name = "approved_date")
     private LocalDate approvedDate;
 
     @Column(name = "status")
-    private StatusesType status;
-
-    @ManyToOne
-    @JoinColumn(name = "favourite_id")
-    private Favourite favourite;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status is mandatory.")
+    private StatusType status;
 }

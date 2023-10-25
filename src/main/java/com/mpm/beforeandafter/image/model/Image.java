@@ -46,6 +46,10 @@ public class Image {
     )
     private Set<User> users = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @Column(name = "is_approved")
     private boolean isApproved;
 

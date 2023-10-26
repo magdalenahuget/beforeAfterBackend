@@ -1,7 +1,6 @@
 package com.mpm.beforeandafter.category.controller;
 
 
-import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,21 +38,15 @@ public class CategoryController {
         return ResponseEntity.ok(categoriesDTO);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable("id") Long categoryId) {
         log.debug("Getting category by id: {}", categoryId);
         Category categoryDTO = categoryService.getCategoryById(categoryId);
         return ResponseEntity.ok(categoryDTO);
     }
 
-    @GetMapping("/name/{name}")
-    public Category getCategoryByName(@PathVariable("name") String categoryName) {
-        log.debug("Getting category by name: {}", categoryName);
-        return categoryService.getCategoryByName(categoryName)
-                .orElseThrow(() -> new ResourceNotFoundException("No category found with name: " + categoryName));
-    }
 
-    @PatchMapping("{id}/name")
+    @PatchMapping("/{id}")
     public ResponseEntity<Category> updateCategoryName(@PathVariable("id") Long categoryId,
                                                        @RequestBody String categoryName) {
         log.debug("Updating category with id: {} with data: {}", categoryId, categoryName);
@@ -62,7 +55,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryDTO);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long categoryId) {
         log.debug("Deleting category with id: {}", categoryId);
         categoryService.deleteCategory(categoryId);

@@ -2,23 +2,17 @@ package com.mpm.beforeandafter.category.service;
 
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
+import com.mpm.beforeandafter.exception.CategoryNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Slf4j
 @Service
 public class CategoryServiceImpl implements CategoryService {
-
-    /*
-       in the future create a DTO class to handle the flow of data between the client and the
-       database.
-     */
-
 
     private final CategoryRepository categoryRepository;
 
@@ -48,16 +42,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .findById(categoryId)
                 .orElseThrow(() -> {
                     log.error("There is no category with the given ID: {}", categoryId);
-                    return new RuntimeException(
+                    return new CategoryNotFoundException(
                             "There is no category with the given ID: " + categoryId);
                 });
     }
 
-    @Override
-    public Optional<Category> getCategoryByName(String categoryName) {
-        log.debug("Getting category by name: {}", categoryName);
-        return categoryRepository.findByName(categoryName);
-    }
 
     @Override
     public Category updateCategoryName(Long categoryId, String categoryName) {
@@ -66,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .findById(categoryId)
                 .orElseThrow(() -> {
                     log.error("There is no category with the given ID: {}", categoryId);
-                    return new RuntimeException(
+                    return new CategoryNotFoundException(
                             "There is no category with the given ID: " + categoryId);
                 });
 
@@ -83,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .ifPresentOrElse((categoryRepository::delete),
                         () -> {
                             log.error("There is no category with the given ID: {}", categoryId);
-                            throw new RuntimeException(
+                            throw new CategoryNotFoundException(
                                     "There is no category with the given ID: " + categoryId);
                         });
     }

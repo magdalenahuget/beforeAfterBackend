@@ -36,6 +36,9 @@ public class Image {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "city_name", length = 100)
+    private String cityName;
+
     @ManyToMany
     @JoinTable(
             name = "favourites",

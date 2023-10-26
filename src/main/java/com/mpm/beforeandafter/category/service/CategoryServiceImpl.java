@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Slf4j
@@ -53,6 +54,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Optional<Category> getCategoryByName(String categoryName) {
+        log.debug("Getting category by name: {}", categoryName);
+        return categoryRepository.findByName(categoryName);
+    }
+
+    @Override
     public Category updateCategoryName(Long categoryId, String categoryName) {
         log.debug("Updating category with ID: {} with data: {}", categoryId, categoryName);
         Category category = categoryRepository
@@ -63,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
                             "There is no category with the given ID: " + categoryId);
                 });
 
-        category.setCategoryName(categoryName);
+        category.setName(categoryName);
 
         return categoryRepository.save(category);
     }

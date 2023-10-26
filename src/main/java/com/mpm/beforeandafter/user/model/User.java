@@ -23,30 +23,30 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_name", length = 50, unique = true)
+    @Column(name = "name", length = 50, unique = true)
     @NotBlank(message = "User name is mandatory.")
     @Size(min = 2, max = 25, message = "User name must be between 2 and 25 characters long.")
     @NotNull
-    private String userName;
+    private String name;
 
-    @Column(name = "user_email", length = 100, unique = true)
+    @Column(name = "email", length = 100, unique = true)
     @NotNull
     @NotBlank(message = "User email is mandatory.")
     @Size(min = 5, max = 50, message = "User email must be between 5 and 50 characters long.")
     private String userEmail;
 
-    @Column(name = "user_password", length = 200)//TODO security hash?
+    @Column(name = "password", length = 200)//TODO security hash?
     @NotBlank(message = "User password is mandatory.")
-    @NotNull
     @Size(min = 8, max = 50, message = "User password must be between 8 and 50 characters long.")
     private String userPassword;
 
-    @NotNull
-//    @NotBlank(message = "User role is mandatory.")
+
+    @NotNull(message = "User role is mandatory.")
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     @JsonIgnore
     private Role role;
+
 
     @Column(name = "city_name", length = 100)
     @Size(min = 2, max = 100, message = "User password must be between 2 and 100 characters long.")
@@ -59,6 +59,9 @@ public class User {
     private Integer contactId;
 
 
+    @Column(name = "avatar", unique = true)
+    private String avatar; //TODO:change type to proper type for images
+
     @Column(name = "about_me", columnDefinition = "TEXT")
     @Size(min = 10, max = 500, message = "About me must be between 10 and 500 characters.")
     private String aboutMe;
@@ -68,9 +71,9 @@ public class User {
     @NotNull(message = "Status is mandatory.")
     private StatusType status;
 
-    @Column(name = "approved", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(name = "is_approved", columnDefinition = "BOOLEAN DEFAULT FALSE")
     @NotNull(message = "Approved status is mandatory.")
-    private boolean approved;
+    private boolean isApproved;
 
     @Column(name = "approved_by_user_id")
     private Integer approvedByUserId;

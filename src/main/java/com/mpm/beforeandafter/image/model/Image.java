@@ -5,7 +5,6 @@ import com.mpm.beforeandafter.user.model.StatusType;
 import com.mpm.beforeandafter.user.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 
 @Entity
 @Table(name = "images")
@@ -38,6 +36,9 @@ public class Image {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "city_name", length = 100)
+    private String cityName;
+
     @ManyToMany
     @JoinTable(
             name = "favourites",
@@ -53,8 +54,8 @@ public class Image {
     @Column(name = "is_approved")
     private boolean isApproved;
 
-    @Column(name = "approved_by")
-    private String approvedBy;
+    @Column(name = "approved_by_user_id")
+    private Long approvedByUserId;
 
     @Column(name = "approved_date")
     private LocalDate approvedDate;

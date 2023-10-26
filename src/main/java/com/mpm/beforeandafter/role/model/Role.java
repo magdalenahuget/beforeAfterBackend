@@ -33,7 +33,6 @@ public class Role {
     private String name;
 
     @OneToMany(mappedBy = "role")
-    @JsonIgnore
     private Set<User> users;
 
     public Role(String roleName) {

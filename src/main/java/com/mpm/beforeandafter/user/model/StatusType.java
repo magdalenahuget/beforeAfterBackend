@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum StatusType {
-    IN_REVIEW("in_review"),
+    TO_REVIEW("to_review"),
     USER_REVISION("user_revision"),
     ACCEPTED("accepted");
 

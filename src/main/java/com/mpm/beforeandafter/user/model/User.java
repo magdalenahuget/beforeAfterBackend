@@ -33,20 +33,18 @@ public class User {
     @NotNull
     @NotBlank(message = "User email is mandatory.")
     @Size(min = 5, max = 50, message = "User email must be between 5 and 50 characters long.")
-    private String userEmail;
+    private String email;
 
     @Column(name = "password", length = 200)//TODO security hash?
     @NotBlank(message = "User password is mandatory.")
     @Size(min = 8, max = 50, message = "User password must be between 8 and 50 characters long.")
-    private String userPassword;
-
+    private String password;
 
     @NotNull(message = "User role is mandatory.")
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     @JsonIgnore
     private Role role;
-
 
     @Column(name = "city_name", length = 100)
     @Size(min = 2, max = 100, message = "User password must be between 2 and 100 characters long.")
@@ -57,7 +55,6 @@ public class User {
 
     @Column(name = "contact_id")//TODO relation with table addresses oneToOne
     private Integer contactId;
-
 
     @Column(name = "avatar", unique = true)
     private String avatar; //TODO:change type to proper type for images
@@ -78,6 +75,6 @@ public class User {
     @Column(name = "approved_by_user_id")
     private Integer approvedByUserId;
 
-    @Column(name = "approved_date", nullable = true)
+    @Column(name = "approved_date")
     private String approvedDate;
 }

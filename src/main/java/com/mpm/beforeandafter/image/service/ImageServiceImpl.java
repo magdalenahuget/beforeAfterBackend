@@ -5,7 +5,7 @@ import com.mpm.beforeandafter.image.dto.CreateImageRequest;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.repository.ImageRepository;
 import com.mpm.beforeandafter.user.model.StatusType;
-import com.mpm.beforeandafter.user.repository.UserDAO;
+import com.mpm.beforeandafter.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
-    private final UserDAO userDAO;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ImageServiceImpl(ImageRepository imageRepository, CategoryRepository categoryRepository, UserDAO userDAO) {
+    public ImageServiceImpl(ImageRepository imageRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
         this.imageRepository = imageRepository;
         this.categoryRepository = categoryRepository;
-        this.userDAO = userDAO;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -40,8 +40,8 @@ public class ImageServiceImpl implements ImageService {
         image.setFile(request.getFile());
         image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
         image.setDescription(request.getDescription());
-        image.setUser(userDAO.getReferenceById(request.getUserId()));
-        image.setStatus(StatusType.IN_REVIEW);
+        image.setUser(userRepository.getReferenceById(request.getUserId()));
+        image.setStatus(StatusType.TO_REVIEW);
         log.info(image.toString());
 
        return imageRepository.save(image);

@@ -17,7 +17,7 @@ public class CreateImageResponse {
         return CreateImageResponse.builder()
                 .imageId(image.getId())
                 .file(image.getFile())
-                .categoryId(image.getCategory().getCategoryId())
+                .categoryId(image.getCategory().getId())
                 .description(image.getDescription())
                 .userId(image.getUser().getId())
                 .build();

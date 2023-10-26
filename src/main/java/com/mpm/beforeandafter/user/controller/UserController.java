@@ -1,19 +1,19 @@
 package com.mpm.beforeandafter.user.controller;
 
 import com.mpm.beforeandafter.role.type.RolesType;
-import com.mpm.beforeandafter.user.dto.UserAboutMeRequestDto;
-import com.mpm.beforeandafter.user.dto.UserAboutMeResponseDto;
+import com.mpm.beforeandafter.user.dto.CreateUserResponse;
+import com.mpm.beforeandafter.user.dto.CreateAboutMeRequest;
+import com.mpm.beforeandafter.user.dto.CreateAboutMeResponse;
 import com.mpm.beforeandafter.user.model.User;
-import com.mpm.beforeandafter.user.dto.UserRequestDto;
-import com.mpm.beforeandafter.user.dto.UserResponseDto;
+import com.mpm.beforeandafter.user.dto.CreateUserRequest;
 import com.mpm.beforeandafter.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Slf4j
 @RestController
@@ -28,42 +28,43 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDto>> getAllUsers(@RequestParam(required = false) RolesType roleType) {
-        List<UserResponseDto> userResponseDtos = userService.getUsers(roleType);
-        if (userResponseDtos.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public List<CreateUserResponse> getAllUsers(@RequestParam(required = false) RolesType roleType) {
+        List<User> users = userService.getUsers(roleType);
+        List<CreateUserResponse> createUserResponses = new ArrayList<>();
+        for (User user : users) {
+            CreateUserResponse createUserResponse = CreateUserResponse.map(user);
+            createUserResponses.add(createUserResponse);
         }
-        return new ResponseEntity<>(userResponseDtos, HttpStatus.OK);
+        return createUserResponses;
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody UserRequestDto user) {
-        User createdUser = userService.createUser(user);
-//        UserResponseDto userResponseDto = new UserResponseDto()
-//        TODO: In future return userResponseDto without password
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    public CreateUserResponse createUser(@RequestBody CreateUserRequest user) {
+        User createdUser = userService.createUser(user, RolesType.USER);
+        return CreateUserResponse.map(createdUser);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserResponseDto> getUserById(@PathVariable("id") Long userId){
+    public CreateUserResponse getUserById(@PathVariable("id") Long userId){
         log.debug("Getting user by id: {}", userId);
-        UserResponseDto userResponseDto = userService.getUserById(userId);
-        return ResponseEntity.ok(userResponseDto);
+        User userById = userService.getUserById(userId);
+        return CreateUserResponse.map(userById);
     }
 
-    @GetMapping("/{id}about_me")
-    public ResponseEntity<UserAboutMeResponseDto> getUserAboutMe(@PathVariable("id") Long userId){
+    @GetMapping("/{id}/about_me")
+    public CreateAboutMeResponse getUserAboutMe(@PathVariable("id") Long userId){
         log.debug("Getting user about me by id: {}", userId);
-        UserAboutMeResponseDto userAboutMeResponseDto = userService.getAboutMeByUserId(userId);
-        return ResponseEntity.ok(userAboutMeResponseDto);
+        User userWithAboutMe = userService.getAboutMeByUserId(userId);
+        return CreateAboutMeResponse.map(userWithAboutMe);
     }
 
-    @PatchMapping("/{id}about_me")
-    public ResponseEntity<User> updateUserAboutMe(@PathVariable("id") Long userId,
-                                                       @RequestBody UserAboutMeRequestDto aboutMe) {
-        log.debug("Updating user about me id: {} with data: {}", userId, aboutMe);
-        User updateUserByAboutMe = userService.updateUserByAboutMe(userId, aboutMe);
+    @PatchMapping("/{id}/about_me")
+    public CreateAboutMeResponse updateUserAboutMe(@PathVariable("id") Long userId,
+                                                       @RequestBody CreateAboutMeRequest aboutMe) {
+        log.debug("Updating about me of user with id: {} with data: {}", userId, aboutMe);
+        User userWithUpdatedAboutMe = userService.updateUserByAboutMe(userId, aboutMe);
         log.info("User about me updated: {}", userId);
-        return ResponseEntity.ok(updateUserByAboutMe);
+        return CreateAboutMeResponse.map(userWithUpdatedAboutMe);
     }
+
 }

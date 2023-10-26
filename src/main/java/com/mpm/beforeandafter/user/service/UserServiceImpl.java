@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService{
         for (User user : users) {
             UserResponseDto userResponseDto = new UserResponseDto();
             userResponseDto.setUserName(user.getName());
-            userResponseDto.setEmail(user.getEmail());
-            userResponseDto.setPassword(user.getPassword());
+            userResponseDto.setEmail(user.getUserEmail());
+            userResponseDto.setPassword(user.getUserPassword());
 
             Role userRole = user.getRole();
             userResponseDto.setRoleName(userRole.getName());
@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService{
     public User createUser(UserRequestDto userDto) {
         User user = new User();
         user.setName(userDto.getUserName());
-        user.setEmail(userDto.getUserEmail());
-        user.setPassword(userDto.getUserPassword());
+        user.setUserEmail(userDto.getUserEmail());
+        user.setUserPassword(userDto.getUserPassword());
         Role role = roleDAO.getReferenceById(1L);
         user.setRole(role);
         return userDAO.save(user);

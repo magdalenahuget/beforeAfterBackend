@@ -1,3 +1,3 @@
-package com.mpm.beforeandafter.category.exception;
+package com.mpm.beforeandafter.exception;
 
 record ErrorResponse(String error, String message) {}

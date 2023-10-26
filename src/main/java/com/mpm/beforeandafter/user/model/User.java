@@ -62,7 +62,7 @@ public class User {
     @NotNull(message = "Status is mandatory.")
     private StatusType status;
 
-    @Column(name = "approved", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(name = "is_approved", columnDefinition = "BOOLEAN DEFAULT FALSE")
     @NotNull(message = "Approved status is mandatory.")
     private boolean isApproved;
 

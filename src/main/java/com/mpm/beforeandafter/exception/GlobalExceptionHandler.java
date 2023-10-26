@@ -1,4 +1,4 @@
-package com.mpm.beforeandafter.category.exception;
+package com.mpm.beforeandafter.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,9 +11,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(CategoryNotFoundException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleCategoryNotFoundException(CategoryNotFoundException ex) {
+    public ErrorResponse handleCategoryNotFoundException(ResourceNotFoundException ex) {
         logger.error("Category not found exception: ", ex);
         return new ErrorResponse("Category Not Found", ex.getMessage());
     }

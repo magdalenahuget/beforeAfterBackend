@@ -3,6 +3,7 @@ package com.mpm.beforeandafter.category.service;
 import com.mpm.beforeandafter.category.model.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryService {
 
@@ -16,6 +17,8 @@ public interface CategoryService {
      List<Category> getCategories();
 
     Category getCategoryById(Long categoryId);
+
+    Optional<Category> getCategoryByName(String categoryName);
 
     Category updateCategoryName(Long categoryId, String categoryName);
 

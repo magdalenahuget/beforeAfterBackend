@@ -1,7 +1,7 @@
 package com.mpm.beforeandafter.category.controller;
 
 
-import com.mpm.beforeandafter.category.exception.CategoryNotFoundException;
+import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ public class CategoryController {
     public Category getCategoryByName(@PathVariable("name") String categoryName) {
         log.debug("Getting category by name: {}", categoryName);
         return categoryService.getCategoryByName(categoryName)
-                .orElseThrow(() -> new CategoryNotFoundException("No category found with name: " + categoryName));
+                .orElseThrow(() -> new ResourceNotFoundException("No category found with name: " + categoryName));
     }
 
     @PatchMapping("{id}/name")

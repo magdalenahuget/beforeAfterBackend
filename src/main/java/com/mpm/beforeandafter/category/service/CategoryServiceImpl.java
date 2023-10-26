@@ -14,6 +14,10 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+    private static final String CATEGORY_NOT_FOUND_MSG_TEMPLATE =
+            "There is no category with the given ID: {}";
+    private static final String CATEGORY_NOT_FOUND_MSG = "There is no category with the given ID: ";
+
     private final CategoryRepository categoryRepository;
 
     @Autowired
@@ -41,9 +45,8 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
-                    log.error("There is no category with the given ID: {}", categoryId);
-                    return new CategoryNotFoundException(
-                            "There is no category with the given ID: " + categoryId);
+                    log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
+                    return new CategoryNotFoundException(CATEGORY_NOT_FOUND_MSG + categoryId);
                 });
     }
 
@@ -54,9 +57,9 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
-                    log.error("There is no category with the given ID: {}", categoryId);
+                    log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
                     return new CategoryNotFoundException(
-                            "There is no category with the given ID: " + categoryId);
+                            CATEGORY_NOT_FOUND_MSG + categoryId);
                 });
 
         category.setName(categoryName);
@@ -71,9 +74,9 @@ public class CategoryServiceImpl implements CategoryService {
                 .findById(categoryId)
                 .ifPresentOrElse((categoryRepository::delete),
                         () -> {
-                            log.error("There is no category with the given ID: {}", categoryId);
+                            log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
                             throw new CategoryNotFoundException(
-                                    "There is no category with the given ID: " + categoryId);
+                                    CATEGORY_NOT_FOUND_MSG + categoryId);
                         });
     }
 }

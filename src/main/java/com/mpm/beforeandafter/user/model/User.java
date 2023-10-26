@@ -56,7 +56,6 @@ public class User {
 
     @Column(name = "about_me", columnDefinition = "TEXT")
     @Size(min = 10, max = 500, message = "About me must be between 10 and 500 characters.")
-    @Lob
     private String aboutMe;
 
     @Enumerated(EnumType.STRING)
@@ -69,7 +68,7 @@ public class User {
     private boolean isApproved;
 
     @Column(name = "approved_by_user_id", nullable = true)
-    private int approvedByUserId;
+    private Integer approvedByUserId;
 
     @Column(name = "approved_date", nullable = true)
     private String approvedDate;

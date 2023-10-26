@@ -3,13 +3,13 @@ package com.mpm.beforeandafter.user.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserRequestDto {
+@ToString
+public class UserAboutMeRequestDto {
 
-    private String userName;
-    private String userEmail;
-    private String userPassword;
+    private String aboutMe;
 }

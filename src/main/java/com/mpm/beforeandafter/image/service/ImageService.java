@@ -12,5 +12,5 @@ public interface ImageService {
 
     Image createImage(CreateImageRequest request);
 
-    List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName);
+//    List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName);
 }

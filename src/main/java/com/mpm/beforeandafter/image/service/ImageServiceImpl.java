@@ -1,6 +1,5 @@
 package com.mpm.beforeandafter.image.service;
 
-import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
 import com.mpm.beforeandafter.image.dto.CreateImageRequest;
 import com.mpm.beforeandafter.image.dto.GetImagesRequestByStatusApproval;

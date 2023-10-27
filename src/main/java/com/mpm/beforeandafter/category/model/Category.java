@@ -4,13 +4,17 @@ import com.mpm.beforeandafter.image.model.Image;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 
 @Entity
 @Table(name = "categories")

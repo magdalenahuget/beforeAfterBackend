@@ -25,7 +25,7 @@ public class CategoryController {
 
     @PostMapping
     public CategoryResponse createCategory(@Valid @RequestBody CategoryNameRequest request) {
-       return categoryService.createCategory(request);
+        return categoryService.createCategory(request);
     }
 
     @GetMapping
@@ -40,7 +40,7 @@ public class CategoryController {
 
     @PatchMapping("/{id}")
     public CategoryResponse updateCategoryName(@PathVariable("id") Long categoryId,
-                                                       CategoryNameRequest request) {
+                                               @Valid @RequestBody CategoryNameRequest request) {
         return categoryService.updateCategoryName(categoryId, request);
     }
 

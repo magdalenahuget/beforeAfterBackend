@@ -8,12 +8,14 @@ import com.mpm.beforeandafter.exception.CategoryNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 @Slf4j
 @Service
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
 
     private static final String CATEGORY_NOT_FOUND_MSG_TEMPLATE =
@@ -39,8 +41,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryResponse> getCategories() {
-        log.info("Getting all categories");
+        log.debug("Fetching all categories");
         List<Category> categories = categoryRepository.findAll();
+        log.info("Getting all categories (count): {}", categories.size());
         return categories.stream()
                 .map(CategoryResponse::map)
                 .toList();
@@ -55,6 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
                     log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
                     return new CategoryNotFoundException(CATEGORY_NOT_FOUND_MSG + categoryId);
                 });
+        log.info("Successfully fetched category with ID: {}", categoryId);
         return CategoryResponse.map(category);
     }
 
@@ -70,18 +74,19 @@ public class CategoryServiceImpl implements CategoryService {
                 });
         category.setName(request.categoryName());
         category = categoryRepository.save(category);
-        log.info("Category updated: {}", category);
+        log.info("Category updated: {}", category.getName());
         return CategoryResponse.map(category);
     }
 
     @Override
     public void deleteCategory(Long categoryId) {
         log.debug("Deleting category with id: {}", categoryId);
-
-        log.info("Category with id: {} deleted successfully", categoryId);
         categoryRepository
                 .findById(categoryId)
-                .ifPresentOrElse((categoryRepository::delete),
+                .ifPresentOrElse(category -> {
+                            categoryRepository.delete(category);
+                            log.info("Category with id: {} deleted successfully", categoryId);
+                        },
                         () -> {
                             log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
                             throw new CategoryNotFoundException(

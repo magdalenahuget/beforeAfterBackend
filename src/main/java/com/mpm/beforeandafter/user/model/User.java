@@ -53,7 +53,7 @@ public class User {
     @Column(name = "user_profile_image", unique = true)
     private String userProfileImage; //TODO:change type to proper type for images, and rename to "avatar"(?)
 
-    @Column(name = "contact_id")//TODO relation with table addresses oneToOne
+    @Column(name = "contact_id") //TODO relation with table addresses oneToOne
     private Integer contactId;
 
     @Column(name = "avatar", unique = true)
@@ -77,4 +77,6 @@ public class User {
 
     @Column(name = "approved_date")
     private String approvedDate;
+    // api/contact_details?user={id}
+    // api/contact_details/user_id/{id}
 }

@@ -1,12 +1,14 @@
 package com.mpm.beforeandafter.image.controller;
 
-import com.mpm.beforeandafter.image.dto.*;
+import com.mpm.beforeandafter.image.dto.CreateImageRequest;
+import com.mpm.beforeandafter.image.dto.CreateImageResponse;
+import com.mpm.beforeandafter.image.dto.GetImagesRequestByStatusApproval;
+import com.mpm.beforeandafter.image.dto.GetImagesResponseByStatusApproval;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.mpm.beforeandafter.image.dto.CreateImageResponse.map;
@@ -38,18 +40,18 @@ public class ImageController {
         return map(savedImage);
     }
 
-    @GetMapping("/categories/{id}/city")
-    public List<GetImagesByCategoryAndCityResponse> getImagesByCategoryAndCity(
-            @PathVariable("id") Long categoryId,
-            @RequestParam(name = "cityName", required = false) String cityName) {
-        log.debug("Get all images by category: {} and city name: {}", categoryId, cityName);
-        List<Image> images = imageService.getImagesByCategoryAndCity(categoryId, cityName);
-        log.info("Images by category and city: {}", images);
-        List<GetImagesByCategoryAndCityResponse> imagesByCategoryAndCity = new ArrayList<>();
-        for (Image image : images) {
-            GetImagesByCategoryAndCityResponse imageByCategoryAndCity = GetImagesByCategoryAndCityResponse.map(image);
-            imagesByCategoryAndCity.add(imageByCategoryAndCity);
-        }
-        return imagesByCategoryAndCity;
-    }
+//    @GetMapping("/categories/{id}/city")
+//    public List<GetImagesByCategoryAndCityResponse> getImagesByCategoryAndCity(
+//            @PathVariable("id") Long categoryId,
+//            @RequestParam(name = "cityName", required = false) String cityName) {
+//        log.debug("Get all images by category: {} and city name: {}", categoryId, cityName);
+//        List<Image> images = imageService.getImagesByCategoryAndCity(categoryId, cityName);
+//        log.info("Images by category and city: {}", images);
+//        List<GetImagesByCategoryAndCityResponse> imagesByCategoryAndCity = new ArrayList<>();
+//        for (Image image : images) {
+//            GetImagesByCategoryAndCityResponse imageByCategoryAndCity = GetImagesByCategoryAndCityResponse.map(image);
+//            imagesByCategoryAndCity.add(imageByCategoryAndCity);
+//        }
+//        return imagesByCategoryAndCity;
+//    }
 }

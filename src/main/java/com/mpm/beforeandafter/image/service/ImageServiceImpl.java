@@ -1,6 +1,5 @@
 package com.mpm.beforeandafter.image.service;
 
-import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
 import com.mpm.beforeandafter.category.service.CategoryService;
 import com.mpm.beforeandafter.image.dto.CreateImageRequest;
@@ -55,10 +54,10 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.save(image);
     }
 
-    @Override
-    public List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName) {
-        Category category = categoryService.getCategoryById(categoryId);
-        List<Image> images = imageRepository.findImagesByCategoryAndCityName(category, cityName);
-        return images;
-    }
+//    @Override
+//    public List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName) {
+//        Category category = categoryService
+//        List<Image> images = imageRepository.findImagesByCategoryAndCityName(category, cityName);
+//        return images;
+//    }
 }

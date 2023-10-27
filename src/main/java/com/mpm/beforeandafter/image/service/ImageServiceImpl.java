@@ -1,7 +1,6 @@
 package com.mpm.beforeandafter.image.service;
 
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
-import com.mpm.beforeandafter.category.service.CategoryService;
 import com.mpm.beforeandafter.image.dto.CreateImageRequest;
 import com.mpm.beforeandafter.image.dto.GetImagesRequestByStatusApproval;
 import com.mpm.beforeandafter.image.model.Image;
@@ -21,14 +20,12 @@ public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
-    private final CategoryService categoryService;
 
     @Autowired
-    public ImageServiceImpl(ImageRepository imageRepository, CategoryRepository categoryRepository, UserRepository userRepository, CategoryService categoryService) {
+    public ImageServiceImpl(ImageRepository imageRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
         this.imageRepository = imageRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
-        this.categoryService = categoryService;
     }
 
     @Override
@@ -54,10 +51,9 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.save(image);
     }
 
-//    @Override
-//    public List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName) {
-//        Category category = categoryService
-//        List<Image> images = imageRepository.findImagesByCategoryAndCityName(category, cityName);
-//        return images;
-//    }
+    @Override
+    public List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName) {
+        Category category = categoryRepository.getReferenceById(categoryId);
+        return imageRepository.findImagesByCategoryAndCityName(category, cityName);
+    }
 }

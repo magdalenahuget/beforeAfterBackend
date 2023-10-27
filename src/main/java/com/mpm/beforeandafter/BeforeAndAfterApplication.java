@@ -1,5 +1,8 @@
 package com.mpm.beforeandafter;
 
+import com.mpm.beforeandafter.category.dto.CategoryNameRequest;
+import com.mpm.beforeandafter.category.model.Category;
+import com.mpm.beforeandafter.category.service.CategoryService;
 import com.mpm.beforeandafter.role.service.RoleService;
 import com.mpm.beforeandafter.role.type.RolesType;
 import com.mpm.beforeandafter.user.dto.CreateUserRequest;
@@ -16,7 +19,10 @@ public class BeforeAndAfterApplication {
         SpringApplication.run(BeforeAndAfterApplication.class, args);
     }
     @Bean
-    CommandLineRunner commandLineRunner(RoleService roleService, UserService userService) {
+    CommandLineRunner commandLineRunner(
+            RoleService roleService,
+            UserService userService,
+            CategoryService categoryService) {
         return runner -> {
             roleService.createRoles();
             CreateUserRequest admin = new CreateUserRequest();
@@ -24,6 +30,13 @@ public class BeforeAndAfterApplication {
             admin.setUserEmail("exampleAdminEmail");
             admin.setUserPassword("exampleAdminPassword");
             userService.createUser(admin, RolesType.ADMIN);
+            CreateUserRequest user = new CreateUserRequest();
+            user.setUserName("exampleUserName");
+            user.setUserEmail("exampleUserEmail");
+            user.setUserPassword("exampleUserPassword");
+            userService.createUser(user, RolesType.USER);
+            CategoryNameRequest categoryBeauty = new CategoryNameRequest("Beauty");
+            categoryService.createCategory(categoryBeauty);
         };
     }
 }

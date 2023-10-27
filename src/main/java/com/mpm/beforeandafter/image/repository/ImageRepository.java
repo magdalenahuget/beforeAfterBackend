@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
-    List<Image> findImagesByCategory(Category category);
     List<Image> findImagesByCategoryAndCityName(Category category, String cityName);
 }

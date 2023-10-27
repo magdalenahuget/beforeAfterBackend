@@ -11,11 +11,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler(CategoryNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleCategoryNotFoundException(ResourceNotFoundException ex) {
         logger.error("Category not found exception: ", ex);
         return new ErrorResponse("Category Not Found", ex.getMessage());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException ex) {
+        logger.error("Resource not found exception: ", ex);
+        return new ErrorResponse("Resource Not Found", ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

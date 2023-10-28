@@ -2,8 +2,9 @@ package com.mpm.beforeandafter.image.service;
 
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
-import com.mpm.beforeandafter.image.dto.CreateImageRequest;
-import com.mpm.beforeandafter.image.dto.GetImagesRequestByStatusApproval;
+import com.mpm.beforeandafter.image.dto.CreateImageRequestDTO;
+import com.mpm.beforeandafter.image.dto.GetAllImagesResponseDTO;
+import com.mpm.beforeandafter.image.dto.GetImagesRequestByStatusApprovalDTO;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.repository.ImageRepository;
 import com.mpm.beforeandafter.user.model.StatusType;
@@ -30,7 +31,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<Image> getImagesByApprovalStatus(GetImagesRequestByStatusApproval request) {
+    public List<Image> getImagesByApprovalStatus(GetImagesRequestByStatusApprovalDTO request) {
         boolean approvalStatus = request.isApprovalStatus();
         return imageRepository.findAll().stream()
                 .toList()
@@ -40,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Image createImage(CreateImageRequest request) {
+    public Image createImage(CreateImageRequestDTO request) {
         Image image = new Image();
         image.setFile(request.getFile());
         image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
@@ -56,5 +57,13 @@ public class ImageServiceImpl implements ImageService {
     public List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName) {
         Category category = categoryRepository.getReferenceById(categoryId);
         return imageRepository.findImagesByCategoryAndCityName(category, cityName);
+    }
+
+    @Override
+    public List<GetAllImagesResponseDTO> getAllImages() {
+        log.debug("Get all images");
+        List<Image> images = imageRepository.findAll();
+        log.info("All images: {}", images);
+        return GetAllImagesResponseDTO.map(images);
     }
 }

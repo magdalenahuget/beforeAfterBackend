@@ -1,18 +1,16 @@
 package com.mpm.beforeandafter.image.controller;
 
-import com.mpm.beforeandafter.image.dto.CreateImageRequest;
-import com.mpm.beforeandafter.image.dto.CreateImageResponse;
-import com.mpm.beforeandafter.image.dto.GetImagesRequestByStatusApproval;
-import com.mpm.beforeandafter.image.dto.GetImagesResponseByStatusApproval;
+import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.service.ImageService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.mpm.beforeandafter.image.dto.CreateImageResponse.map;
-import static com.mpm.beforeandafter.image.dto.GetImagesResponseByStatusApproval.mapByStatusApproval;
+import static com.mpm.beforeandafter.image.dto.CreateImageResponseDTO.map;
+import static com.mpm.beforeandafter.image.dto.GetImagesResponseByStatusApprovalDTO.mapByStatusApproval;
 
 @Slf4j
 @RestController
@@ -25,7 +23,7 @@ public class ImageController {
     }
 
     @GetMapping
-    public List<GetImagesResponseByStatusApproval> getImages(@RequestBody GetImagesRequestByStatusApproval request) {
+    public List<GetImagesResponseByStatusApprovalDTO> getImages(@Valid @RequestBody GetImagesRequestByStatusApprovalDTO request) {
         log.debug("Get all images by approval status: {}", request);
         List<Image> images = imageService.getImagesByApprovalStatus(request);
         log.info("Images by status approval: {}", images);
@@ -33,12 +31,14 @@ public class ImageController {
     }
 
     @PostMapping
-    public CreateImageResponse createImage(@RequestBody CreateImageRequest request) {
+    public CreateImageResponseDTO createImage(@RequestBody CreateImageRequestDTO request) {
         log.debug("Creating category: {}", request);
         Image savedImage = imageService.createImage(request);
         log.info("Category created: {}", savedImage);
         return map(savedImage);
     }
+
+
 
 //    @GetMapping("/categories/{id}/city")
 //    public List<GetImagesByCategoryAndCityResponse> getImagesByCategoryAndCity(
@@ -54,4 +54,9 @@ public class ImageController {
 //        }
 //        return imagesByCategoryAndCity;
 //    }
+
+    @GetMapping("/all")
+    public List<GetAllImagesResponseDTO> getAllImages(){
+      return imageService.getAllImages();
+    }
 }

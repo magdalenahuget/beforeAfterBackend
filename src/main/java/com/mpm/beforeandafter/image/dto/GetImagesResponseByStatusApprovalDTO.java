@@ -10,16 +10,16 @@ import java.util.List;
 
 @Data
 @Builder
-public class GetImagesResponseByStatusApproval {
+public class GetImagesResponseByStatusApprovalDTO {
     private long id;
     private String file;
     private StatusType status;
 
-    public static List<GetImagesResponseByStatusApproval> mapByStatusApproval(List<Image> images) {
-        List<GetImagesResponseByStatusApproval> result = new ArrayList<>();
+    public static List<GetImagesResponseByStatusApprovalDTO> mapByStatusApproval(List<Image> images) {
+        List<GetImagesResponseByStatusApprovalDTO> result = new ArrayList<>();
 
         for (Image image : images) {
-            GetImagesResponseByStatusApproval mappedImage = GetImagesResponseByStatusApproval.builder()
+            GetImagesResponseByStatusApprovalDTO mappedImage = GetImagesResponseByStatusApprovalDTO.builder()
                     .id(image.getId())
                     .file(image.getFile())
                     .status(image.getStatus())

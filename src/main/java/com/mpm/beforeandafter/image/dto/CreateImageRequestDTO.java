@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class CreateImageRequest {
+public class CreateImageRequestDTO {
 
     @NotNull(message = "File is mandatory")
     private String file;

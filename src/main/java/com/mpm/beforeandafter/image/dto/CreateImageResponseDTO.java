@@ -6,15 +6,15 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CreateImageResponse {
+public class CreateImageResponseDTO {
     private long imageId;
     private String file;
     private Long categoryId;
     private String description;
     private Long userId;
 
-    public static CreateImageResponse map(Image image) {
-        return CreateImageResponse.builder()
+    public static CreateImageResponseDTO map(Image image) {
+        return CreateImageResponseDTO.builder()
                 .imageId(image.getId())
                 .file(image.getFile())
                 .categoryId(image.getCategory().getId())

@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class GetImagesByCategoryAndCityResponse {
+public class GetImagesByCategoryAndCityResponseDTO {
 
     private Long id;
     private String file;
@@ -17,8 +17,8 @@ public class GetImagesByCategoryAndCityResponse {
     private String cityName;
     private GetUserResponse user;
 
-    public static GetImagesByCategoryAndCityResponse map(Image image){
-        return GetImagesByCategoryAndCityResponse.builder()
+    public static GetImagesByCategoryAndCityResponseDTO map(Image image){
+        return GetImagesByCategoryAndCityResponseDTO.builder()
                 .id(image.getId())
                 .file(image.getFile())
                 .category(GetCategoryResponse.map(image.getCategory()))

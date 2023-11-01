@@ -18,6 +18,11 @@ import java.util.List;
 @Service
 public class ImageServiceImpl implements ImageService {
 
+    private static final String IMAGE_NOT_FOUND_LOG_ERROR_MSG = "There is no user with the given " +
+            "ID: {}";
+    private static final String IMAGE_NOT_FOUND_EXCEPTION_MSG = "There is no user with the given " +
+            "id";
+
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;

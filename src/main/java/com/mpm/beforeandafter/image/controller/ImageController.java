@@ -4,6 +4,7 @@ import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.service.ImageService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class ImageController {
     //TO DO : usunięcie userId ze ścieżki - implementacja wyciągania userId z sesji lub tokena jwt.
     //SKONSULTOWAĆ: przekazywanie imageId w kontekście JWT? Które podejście PathVariable/DTO?
     @PostMapping("/{imageId}/users/{userId}/favourites")
+    @ResponseStatus(HttpStatus.CREATED)
     public AddToFavouritesResponseDTO addImageToFavourites(
             @PathVariable Long imageId, @PathVariable Long userId) {
         return imageService.addImageToFavourites(imageId, userId);

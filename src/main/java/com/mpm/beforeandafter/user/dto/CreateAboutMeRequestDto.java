@@ -3,7 +3,7 @@ package com.mpm.beforeandafter.user.dto;
 import lombok.*;
 
 @Data
-public class CreateAboutMeRequest {
+public class CreateAboutMeRequestDto {
 
     private String aboutMe;
 }

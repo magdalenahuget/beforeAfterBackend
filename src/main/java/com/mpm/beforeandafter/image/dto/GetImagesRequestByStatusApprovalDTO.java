@@ -1,8 +1,10 @@
 package com.mpm.beforeandafter.image.dto;
 
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
+@Data
+@Builder
 public class GetImagesRequestByStatusApprovalDTO {
     private boolean approvalStatus;
 

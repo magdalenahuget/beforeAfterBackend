@@ -2,10 +2,9 @@ package com.mpm.beforeandafter.user.service;
 
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.role.model.Role;
-import com.mpm.beforeandafter.role.repository.RoleDAO;
+import com.mpm.beforeandafter.role.repository.RoleRepository;
 import com.mpm.beforeandafter.role.type.RolesType;
-import com.mpm.beforeandafter.user.dto.CreateAboutMeRequest;
-import com.mpm.beforeandafter.user.dto.CreateUserRequest;
+import com.mpm.beforeandafter.user.dto.*;
 import com.mpm.beforeandafter.user.model.StatusType;
 import com.mpm.beforeandafter.user.model.User;
 import com.mpm.beforeandafter.user.repository.UserRepository;
@@ -25,74 +24,80 @@ public class UserServiceImpl implements UserService {
             "There isn't user with the given ID: ";
 
     private final UserRepository userRepository;
-    private final RoleDAO roleDAO;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleDAO roleDAO) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
-        this.roleDAO = roleDAO;
+        this.roleRepository = roleRepository;
     }
 
     @Override
-    public List<User> getUsers(RolesType roleType) {
+    public List<GetUserResponseDto> getUsers(RolesType roleType) {
+        log.debug("Fetching all users");
         List<User> users;
         if (roleType == null) {
             users = userRepository.findAll();
         } else {
             users = userRepository.findByRoleName(roleType.getRoleName());
         }
-        return users;
+        log.info("Getting all users (count): {}", users.size());
+        return users.stream()
+                .map(GetUserResponseDto::map)
+                .toList();
     }
 
     @Override
-    public User createUser(CreateUserRequest userDto, RolesType roleType) {
+    public CreateUserResponseDto createUser(CreateUserRequestDto userDto, RolesType roleType) {
         User user = new User();
         user.setName(userDto.getUserName());
         user.setEmail(userDto.getUserEmail());
         user.setPassword(userDto.getUserPassword());
-        Role role = roleDAO.findByName(roleType.getRoleName());
+        Role role = roleRepository.findByName(roleType.getRoleName());
         user.setRole(role);
         user.setStatus(StatusType.TO_REVIEW);
-        return userRepository.save(user);
+        userRepository.save(user);
+        return CreateUserResponseDto.map(user);
     }
 
     @Override
-    public User getUserById(Long userId) {
+    public GetUserResponseDto getUserById(Long userId) {
         log.debug("Getting user by id: {}", userId);
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> {
-                    log.error("There is no user with the given ID: {}", userId);
+                    log.error("There is no user with the given id: {}", userId);
                     return new RuntimeException(
-                            "There is no user with the given ID: {}" + userId);
+                            "User not found with id: {}" + userId);
                 });
-        return user;
+        return GetUserResponseDto.map(user);
     }
 
     @Override
-    public User getAboutMeByUserId(Long userId) {
+    public GetAboutMeResponseDto getAboutMeByUserId(Long userId) {
         log.debug("Getting user about me by id: {}", userId);
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> {
-                    log.error("There is no user with the given ID: {}", userId);
+                    log.error("There is no user with the given id: {}", userId);
                     return new RuntimeException(
-                            "There is no user with the given ID: {}" + userId);
+                            "User not found with id: {}" + userId);
                 });
-        return user;
+        return GetAboutMeResponseDto.map(user);
     }
 
     @Override
-    public User updateUserByAboutMe(Long userId, CreateAboutMeRequest aboutMe) {
+    public CreateAboutMeResponseDto updateUserByAboutMe(Long userId, CreateAboutMeRequestDto aboutMe) {
         log.debug("Getting user by id: {}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> {
-                    log.error("There is no user with the given ID: {}", userId);
+                    log.error("There is no user with the given id: {}", userId);
                     return new RuntimeException(
-                            "There is no user with the given ID: {}" + userId);
+                            "User not found with id: {}" + userId);
                 });
         user.setAboutMe(aboutMe.getAboutMe());
-        return userRepository.save(user);
+        userRepository.save(user);
+        return CreateAboutMeResponseDto.map(user);
     }
 
     @Override

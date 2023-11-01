@@ -50,8 +50,6 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
         log.info("Getting contact details by user with id: {}", userId);
         ContactDetails contactDetails = contactDetailsRepository
                 .findContactDetailsByUser(user);
-        //TODO: remove sout
-        System.out.println(contactDetails);
         if(contactDetails == null){
             log.error("Contact details not found for user with given id: " + userId);
             throw new ResourceNotFoundException("Contact details not found for user with given id: " + userId);

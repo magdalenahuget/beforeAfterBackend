@@ -4,7 +4,7 @@ import com.mpm.beforeandafter.category.dto.CategoryNameRequest;
 import com.mpm.beforeandafter.category.dto.CategoryResponse;
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
-import com.mpm.beforeandafter.exception.CategoryNotFoundException;
+import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .findById(categoryId)
                 .orElseThrow(() -> {
                     log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
-                    return new CategoryNotFoundException(CATEGORY_NOT_FOUND_MSG + categoryId);
+                    return new ResourceNotFoundException(CATEGORY_NOT_FOUND_MSG + categoryId);
                 });
         log.info("Successfully fetched category with ID: {}", categoryId);
         return CategoryResponse.map(category);
@@ -69,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .findById(categoryId)
                 .orElseThrow(() -> {
                     log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
-                    return new CategoryNotFoundException(
+                    return new ResourceNotFoundException(
                             CATEGORY_NOT_FOUND_MSG + categoryId);
                 });
         category.setName(request.categoryName());
@@ -89,7 +89,7 @@ public class CategoryServiceImpl implements CategoryService {
                         },
                         () -> {
                             log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
-                            throw new CategoryNotFoundException(
+                            throw new ResourceNotFoundException(
                                     CATEGORY_NOT_FOUND_MSG + categoryId);
                         });
     }

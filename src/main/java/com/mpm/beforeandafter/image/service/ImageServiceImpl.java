@@ -7,6 +7,7 @@ import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.repository.ImageRepository;
 import com.mpm.beforeandafter.user.model.StatusType;
+import com.mpm.beforeandafter.user.model.User;
 import com.mpm.beforeandafter.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,15 @@ import java.util.List;
 @Slf4j
 @Service
 public class ImageServiceImpl implements ImageService {
-    private static final String IMAGE_NOT_FOUND_LOG_ERROR_MSG = "There is no user with the given " +
-            "ID: {}";
-    private static final String IMAGE_NOT_FOUND_EXCEPTION_MSG = "There is no user with the given " +
-            "id";
+    private static final String IMAGE_NOT_FOUND_LOG_ERROR_MSG =
+            "There is no image found with the given ID: {}";
+    private static final String IMAGE_NOT_FOUND_EXCEPTION_MSG =
+            "There is no image found with the given ID: ";
+
+    private static final String USER_NOT_FOUND_LOG_ERROR_MSG =
+            "There is no user with the given ID: {}";
+    private static final String USER_NOT_FOUND_EXCEPTION_MSG =
+            "There is no user with the given ID: ";
 
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
@@ -65,6 +71,40 @@ public class ImageServiceImpl implements ImageService {
 
         return CreateImageResponseDTO.map(image);
     }
+
+
+    @Override
+    public AddToFavouritesResponseDTO addImageToFavourites(AddToFavouritesRequestDTO request) {
+        log.debug("Adding image to favourites: {}", request);
+
+        Long imageId = request.imageId();
+        Long userId = request.userId();
+
+        Image image = imageRepository.findById(imageId)
+                .orElseThrow(() -> {
+                    log.error(IMAGE_NOT_FOUND_LOG_ERROR_MSG, imageId);
+                    return new ResourceNotFoundException(IMAGE_NOT_FOUND_EXCEPTION_MSG + imageId);
+                });
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.error(USER_NOT_FOUND_LOG_ERROR_MSG, userId);
+                    return new ResourceNotFoundException(USER_NOT_FOUND_EXCEPTION_MSG + userId);
+                });
+
+        if (image.getUsers().contains(user)) {
+            log.info("Image with id: {} is already in the favourites of user with id: {}", imageId,
+                    userId);
+            return new AddToFavouritesResponseDTO(userId, imageId, "Already in favourites");
+        }
+
+        image.getUsers().add(user);
+        imageRepository.save(image);
+
+        log.info("Image with id: {} added to the favourites of user with id: {}", imageId, userId);
+        return new AddToFavouritesResponseDTO(userId, imageId, "Added to favourites");
+    }
+
 
     @Override
     public List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName) {

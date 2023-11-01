@@ -28,12 +28,15 @@ public class ImageServiceImpl implements ImageService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
+    private final ImageMapper imageMapper;
+
     @Autowired
     public ImageServiceImpl(ImageRepository imageRepository, CategoryRepository categoryRepository,
-                            UserRepository userRepository) {
+                            UserRepository userRepository, ImageMapper imageMapper) {
         this.imageRepository = imageRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
+        this.imageMapper = imageMapper;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class ImageServiceImpl implements ImageService {
                 .toList();
         log.info("Images by status approval: {}", allImagesByApprovalStatus);
 
-        return GetImagesResponseByStatusApprovalDTO.map(allImagesByApprovalStatus);
+        return imageMapper.mapToGetImagesByStatusApprovalDTO(allImagesByApprovalStatus);
     }
 
     @Override
@@ -64,7 +67,7 @@ public class ImageServiceImpl implements ImageService {
         imageRepository.save(image);
         log.info("New Image created: {}", image);
 
-        return CreateImageResponseDTO.map(image);
+        return imageMapper.mapToCreateImageDTO(image);
     }
 
     @Override
@@ -78,7 +81,7 @@ public class ImageServiceImpl implements ImageService {
         log.debug("Get all images");
         List<Image> images = imageRepository.findAll();
         log.info("All images: {}", images);
-        return GetAllImagesResponseDTO.map(images);
+        return imageMapper.mapToGetAllImagesDTO(images);
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.mpm.beforeandafter.image.dto;
 import com.mpm.beforeandafter.category.dto.CategoryResponse;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.user.dto.GetUserResponseDto;
+import com.mpm.beforeandafter.category.dto.GetCategoryResponse;
+import com.mpm.beforeandafter.user.dto.GetUserResponse;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,16 +17,5 @@ public class GetImagesByCategoryAndCityResponseDTO {
     private CategoryResponse category;
     private String description;
     private String cityName;
-    private GetUserResponseDto user;
-
-    public static GetImagesByCategoryAndCityResponseDTO map(Image image){
-        return GetImagesByCategoryAndCityResponseDTO.builder()
-                .id(image.getId())
-                .file(image.getFile())
-                .category(CategoryResponse.map(image.getCategory()))
-                .description(image.getDescription())
-                .cityName(image.getCityName())
-                .user(GetUserResponseDto.map(image.getUser()))
-                .build();
-    }
+    private GetUserResponse user;
 }

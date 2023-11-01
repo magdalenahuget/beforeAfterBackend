@@ -1,6 +1,6 @@
 package com.mpm.beforeandafter;
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequest;
+import com.mpm.beforeandafter.category.dto.CategoryNameRequestDTO;
 import com.mpm.beforeandafter.category.service.CategoryService;
 import com.mpm.beforeandafter.role.service.RoleServiceImpl;
 import com.mpm.beforeandafter.role.type.RolesType;
@@ -34,7 +34,7 @@ public class BeforeAndAfterApplication {
             user.setUserEmail("exampleUserEmail");
             user.setUserPassword("exampleUserPassword");
             userService.createUser(user, RolesType.USER);
-            CategoryNameRequest categoryBeauty = new CategoryNameRequest("Beauty");
+            CategoryNameRequestDTO categoryBeauty = new CategoryNameRequestDTO("Beauty");
             categoryService.createCategory(categoryBeauty);
         };
     }

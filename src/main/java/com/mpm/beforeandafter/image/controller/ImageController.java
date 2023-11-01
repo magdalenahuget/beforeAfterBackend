@@ -3,12 +3,11 @@ package com.mpm.beforeandafter.image.controller;
 import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.service.ImageService;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/images")
 public class ImageController {

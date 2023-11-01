@@ -1,4 +1,12 @@
 package com.mpm.beforeandafter.favourites.dto;
 
-public record AddToFavouritesResponseDTO(Long userId, Long imageId, String status) {
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class AddToFavouritesResponseDTO {
+    private Long userId;
+    private Long imageId;
+    private String status;
 }

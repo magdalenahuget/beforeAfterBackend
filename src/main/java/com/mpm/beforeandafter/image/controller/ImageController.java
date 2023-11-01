@@ -51,6 +51,6 @@ public class ImageController {
 
     @DeleteMapping("/{id}")
     public void deleteImage(@PathVariable("id") Long imageId) {
-        return imageService.deleteImage(imageId);
+        imageService.deleteImage(imageId);
     }
 }

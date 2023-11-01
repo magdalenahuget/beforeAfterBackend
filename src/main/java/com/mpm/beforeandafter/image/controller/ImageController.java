@@ -29,6 +29,12 @@ public class ImageController {
         return imageService.createImage(request);
     }
 
+    @PostMapping("/{imageId}/users/{userId}/favourites")
+    public AddToFavouritesResponseDTO addImageToFavourites(
+            @RequestBody AddToFavouritesRequestDTO request) {
+        return imageService.addImageToFavourites(request);
+    }
+
 
 //    @GetMapping("/categories/{id}/city")
 //    public List<GetImagesByCategoryAndCityResponse> getImagesByCategoryAndCity(

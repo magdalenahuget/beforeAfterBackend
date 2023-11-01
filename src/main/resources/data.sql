@@ -3,7 +3,7 @@ VALUES ('admin'),
        ('user');
 
 INSERT INTO categories (name)
-VALUES ('Beauty&Beauty'),
+VALUES ('Beauty'),
        ('House renovation'),
        ('Car Restoration'),
        ('Cleaning');

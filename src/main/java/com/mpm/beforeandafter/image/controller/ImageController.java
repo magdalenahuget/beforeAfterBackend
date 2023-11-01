@@ -25,8 +25,16 @@ public class ImageController {
     }
 
     @PostMapping
-    public CreateImageResponseDTO createImage(@RequestBody CreateImageRequestDTO request) {
+    public CreateImageResponseDTO createImage(@Valid @RequestBody CreateImageRequestDTO request) {
         return imageService.createImage(request);
+    }
+
+    //TO DO : usunięcie userId ze ścieżki - implementacja wyciągania userId z sesji lub tokena jwt.
+    //SKONSULTOWAĆ: przekazywanie imageId w kontekście JWT? Które podejście PathVariable/DTO?
+    @PostMapping("/{imageId}/users/{userId}/favourites")
+    public AddToFavouritesResponseDTO addImageToFavourites(
+            @PathVariable Long imageId, @PathVariable Long userId) {
+        return imageService.addImageToFavourites(imageId, userId);
     }
 
 

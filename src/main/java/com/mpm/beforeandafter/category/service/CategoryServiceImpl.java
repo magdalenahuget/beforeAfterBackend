@@ -37,10 +37,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDTO createCategory(CategoryNameRequestDTO request) {
         log.debug("Creating category: {}", request);
-        Category category = categoryMapper.mapToEntity(request);
+        Category category = categoryMapper.mapToCategoryEntity(request);
         category = categoryRepository.save(category);
         log.info("Category created: {}", category);
-        return categoryMapper.mapToResponseDTO(category);
+        return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryRepository.findAll();
         log.info("Getting all categories (count): {}", categories.size());
         return categories.stream()
-                .map(categoryMapper::mapToResponseDTO)
+                .map(categoryMapper::mapToCategoryResponseDto)
                 .toList();
     }
 
@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
                             CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                 });
         log.info("Successfully fetched category with ID: {}", categoryId);
-        return categoryMapper.mapToResponseDTO(category);
+        return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(request.categoryName());
         category = categoryRepository.save(category);
         log.info("Category updated: {}", category.getName());
-        return categoryMapper.mapToResponseDTO(category);
+        return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override

@@ -25,9 +25,13 @@ public class FavouritesServiceImpl implements FavouritesService {
     private final ImageRepository imageRepository;
     private final UserRepository userRepository;
 
-    public FavouritesServiceImpl(ImageRepository imageRepository, UserRepository userRepository) {
+    private final FavouritesMapper favouritesMapper;
+
+    public FavouritesServiceImpl(ImageRepository imageRepository, UserRepository userRepository,
+                                 FavouritesMapper favouritesMapper) {
         this.imageRepository = imageRepository;
         this.userRepository = userRepository;
+        this.favouritesMapper = favouritesMapper;
     }
 
     @Override
@@ -49,8 +53,9 @@ public class FavouritesServiceImpl implements FavouritesService {
         image.getUsers().remove(user);
         imageRepository.save(image);
 
-        log.info("Image with ID: {} removed from the favourites of user with ID: {}", imageId, userId);
-        return new DeleteFavouriteResponseDTO("Image removed from favourites.");
+        log.info("Image with ID: {} removed from the favourites of user with ID: {}", imageId,
+                userId);
+        return favouritesMapper.mapToDeleteFavouriteDTO("Image removed from favourites.");
     }
 
     private Image findImageById(Long imageId) {
@@ -76,7 +81,7 @@ public class FavouritesServiceImpl implements FavouritesService {
         if (image.getUsers().contains(user)) {
             log.info("Image with ID: {} is already in the favourites of user with ID: {}", imageId,
                     userId);
-            return new AddToFavouritesResponseDTO(userId, imageId,
+            return favouritesMapper.mapToAddedToFavouritesDTO(userId, imageId,
                     "Image is already in favourites");
         }
 
@@ -84,6 +89,7 @@ public class FavouritesServiceImpl implements FavouritesService {
         imageRepository.save(image);
 
         log.info("Image with ID: {} added to the favourites of user with ID: {}", imageId, userId);
-        return new AddToFavouritesResponseDTO(userId, imageId, "Image added to favourites");
+        return favouritesMapper.mapToAddedToFavouritesDTO(userId, imageId,
+                "Image added to favourites");
     }
 }

@@ -15,7 +15,7 @@ public class GetImagesResponseByStatusApprovalDTO {
     private String file;
     private StatusType status;
 
-    public static List<GetImagesResponseByStatusApprovalDTO> mapByStatusApproval(List<Image> images) {
+    public static List<GetImagesResponseByStatusApprovalDTO> map(List<Image> images) {
         List<GetImagesResponseByStatusApprovalDTO> result = new ArrayList<>();
 
         for (Image image : images) {

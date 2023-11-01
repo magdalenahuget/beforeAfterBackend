@@ -1,6 +1,8 @@
 package com.mpm.beforeandafter.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mpm.beforeandafter.contactdetails.model.ContactDetails;
+import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.role.model.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +12,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -77,6 +82,12 @@ public class User {
 
     @Column(name = "approved_date")
     private String approvedDate;
-    // api/contact_details?user={id}
-    // api/contact_details/user_id/{id}
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ContactDetails contactDetails;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Image>images = new ArrayList<>();
+
+
 }

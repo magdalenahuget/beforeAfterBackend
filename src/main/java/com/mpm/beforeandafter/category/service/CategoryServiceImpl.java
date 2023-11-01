@@ -20,23 +20,27 @@ public class CategoryServiceImpl implements CategoryService {
 
     private static final String CATEGORY_NOT_FOUND_LOG_ERROR_MSG =
             "There is no category with the given ID: {}";
-    private static final String CATEGORY_NOT_FOUND_EXCEPTION_MSG = "There is no category with the given ID: ";
+    private static final String CATEGORY_NOT_FOUND_EXCEPTION_MSG =
+            "There is no category with the given ID: ";
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
+
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository,
+                               CategoryMapper categoryMapper) {
         this.categoryRepository = categoryRepository;
+        this.categoryMapper = categoryMapper;
     }
 
     @Override
     public CategoryResponseDTO createCategory(CategoryNameRequestDTO request) {
         log.debug("Creating category: {}", request);
-        Category category = new Category();
-        category.setName(request.categoryName());
+        Category category = categoryMapper.mapToEntity(request);
         category = categoryRepository.save(category);
         log.info("Category created: {}", category);
-        return CategoryResponseDTO.map(category);
+        return categoryMapper.mapToResponseDTO(category);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryRepository.findAll();
         log.info("Getting all categories (count): {}", categories.size());
         return categories.stream()
-                .map(CategoryResponseDTO::map)
+                .map(categoryMapper::mapToResponseDTO)
                 .toList();
     }
 
@@ -60,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
                             CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                 });
         log.info("Successfully fetched category with ID: {}", categoryId);
-        return CategoryResponseDTO.map(category);
+        return categoryMapper.mapToResponseDTO(category);
     }
 
     @Override
@@ -76,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(request.categoryName());
         category = categoryRepository.save(category);
         log.info("Category updated: {}", category.getName());
-        return CategoryResponseDTO.map(category);
+        return categoryMapper.mapToResponseDTO(category);
     }
 
     @Override

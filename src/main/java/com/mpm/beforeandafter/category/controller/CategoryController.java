@@ -1,8 +1,8 @@
 package com.mpm.beforeandafter.category.controller;
 
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequest;
-import com.mpm.beforeandafter.category.dto.CategoryResponse;
+import com.mpm.beforeandafter.category.dto.CategoryNameRequestDTO;
+import com.mpm.beforeandafter.category.dto.CategoryResponseDTO;
 import com.mpm.beforeandafter.category.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("api/v1/categories")
-@CrossOrigin(origins = "http://localhost:3000")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -25,23 +25,23 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryResponse createCategory(@Valid @RequestBody CategoryNameRequest request) {
+    public CategoryResponseDTO createCategory(@Valid @RequestBody CategoryNameRequestDTO request) {
         return categoryService.createCategory(request);
     }
 
     @GetMapping
-    public List<CategoryResponse> getCategories() {
+    public List<CategoryResponseDTO> getCategories() {
         return categoryService.getCategories();
     }
 
     @GetMapping("/{id}")
-    public CategoryResponse getCategoryById(@PathVariable("id") Long categoryId) {
+    public CategoryResponseDTO getCategoryById(@PathVariable("id") Long categoryId) {
         return categoryService.getCategoryById(categoryId);
     }
 
     @PatchMapping("/{id}")
-    public CategoryResponse updateCategoryName(@PathVariable("id") Long categoryId,
-                                               @Valid @RequestBody CategoryNameRequest request) {
+    public CategoryResponseDTO updateCategoryName(@PathVariable("id") Long categoryId,
+                                                  @Valid @RequestBody CategoryNameRequestDTO request) {
         return categoryService.updateCategoryName(categoryId, request);
     }
 

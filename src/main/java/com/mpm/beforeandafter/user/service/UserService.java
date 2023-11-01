@@ -18,4 +18,6 @@ public interface UserService {
     User getAboutMeByUserId(Long userId);
 
     User updateUserByAboutMe(Long userId, CreateAboutMeRequest aboutMe);
+
+    void deleteUser(Long userId);
 }

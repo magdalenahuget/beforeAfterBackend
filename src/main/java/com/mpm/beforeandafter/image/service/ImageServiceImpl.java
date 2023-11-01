@@ -18,6 +18,12 @@ import java.util.List;
 @Slf4j
 @Service
 public class ImageServiceImpl implements ImageService {
+
+    private static final String IMAGE_NOT_FOUND_LOG_ERROR_MSG =
+            "There is no image found with the given ID: {}";
+    private static final String IMAGE_NOT_FOUND_EXCEPTION_MSG =
+            "There is no image found with the given ID: ";
+
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
@@ -86,7 +92,7 @@ public class ImageServiceImpl implements ImageService {
                     log.info("Category with id: {} deleted successfully", imageId);
                 }, () -> {
                     log.error(IMAGE_NOT_FOUND_LOG_ERROR_MSG, imageId);
-                    throw new ResourceNotFoundException((IMAGE_NOT_FOUND_EXCEPTION_MSG + imageId));
+                    throw new ResourceNotFoundException(IMAGE_NOT_FOUND_EXCEPTION_MSG + imageId);
                 });
     }
 }

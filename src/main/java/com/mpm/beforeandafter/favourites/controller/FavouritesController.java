@@ -1,5 +1,6 @@
 package com.mpm.beforeandafter.favourites.controller;
 
+import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDTO;
 import com.mpm.beforeandafter.favourites.dto.DeleteFavouriteResponseDTO;
 import com.mpm.beforeandafter.favourites.service.FavouritesService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,15 @@ public class FavouritesController {
 
     public FavouritesController(FavouritesService favouritesService) {
         this.favouritesService = favouritesService;
+    }
+
+    //TO DO : usunięcie userId ze ścieżki - implementacja wyciągania userId z sesji lub tokena jwt.
+    //SKONSULTOWAĆ: przekazywanie imageId w kontekście JWT? Które podejście PathVariable/DTO?
+    @PostMapping("/images/{imageId}/users/{userId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AddToFavouritesResponseDTO addImageToFavourites(
+            @PathVariable Long imageId, @PathVariable Long userId) {
+        return favouritesService.addImageToFavourites(imageId, userId);
     }
 
     @DeleteMapping("images/{imageId}/users/{userId}")

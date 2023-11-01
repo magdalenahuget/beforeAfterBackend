@@ -1,5 +1,6 @@
 package com.mpm.beforeandafter.image.controller;
 
+import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDTO;
 import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.service.ImageService;
 import jakarta.validation.Valid;

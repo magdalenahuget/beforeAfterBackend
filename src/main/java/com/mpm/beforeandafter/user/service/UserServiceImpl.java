@@ -1,5 +1,6 @@
 package com.mpm.beforeandafter.user.service;
 
+import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.role.model.Role;
 import com.mpm.beforeandafter.role.repository.RoleDAO;
 import com.mpm.beforeandafter.role.type.RolesType;
@@ -17,6 +18,12 @@ import java.util.List;
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
+
+    private final String USER_NOT_FOUND_MSG_TEMPLATE_LOG_ERROR =
+            "There isn't user with the given ID: {}";
+    private final String USER_NOT_FOUND_MSG_TEMPLATE_EXCEPTION =
+            "There isn't user with the given ID: ";
+
     private final UserRepository userRepository;
     private final RoleDAO roleDAO;
 
@@ -86,5 +93,21 @@ public class UserServiceImpl implements UserService {
                 });
         user.setAboutMe(aboutMe.getAboutMe());
         return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+
+        log.debug("User with id:{}", userId);
+        userRepository
+                .findById(userId)
+                .ifPresentOrElse(user -> {
+                            userRepository.delete(user);
+                            log.info("User with id: {} deleted successfully", userId);
+                        },
+                        () -> {
+                            log.error(USER_NOT_FOUND_MSG_TEMPLATE_LOG_ERROR, userId);
+                            throw new ResourceNotFoundException(USER_NOT_FOUND_MSG_TEMPLATE_EXCEPTION + userId);
+                        });
     }
 }

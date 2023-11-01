@@ -67,4 +67,9 @@ public class UserController {
         return CreateAboutMeResponse.map(userWithUpdatedAboutMe);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable("id") Long userId){
+        userService.deleteUser(userId);
+    }
+
 }

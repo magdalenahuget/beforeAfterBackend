@@ -2,9 +2,7 @@ package com.mpm.beforeandafter.image.service;
 
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
-import com.mpm.beforeandafter.image.dto.CreateImageRequestDTO;
-import com.mpm.beforeandafter.image.dto.GetAllImagesResponseDTO;
-import com.mpm.beforeandafter.image.dto.GetImagesRequestByStatusApprovalDTO;
+import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.repository.ImageRepository;
 import com.mpm.beforeandafter.user.model.StatusType;
@@ -13,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -31,26 +30,33 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<Image> getImagesByApprovalStatus(GetImagesRequestByStatusApprovalDTO request) {
+    public List<GetImagesResponseByStatusApprovalDTO> getImagesByApprovalStatus(GetImagesRequestByStatusApprovalDTO request) {
+        log.debug("Get all images by approval status: {}", request);
+        List<Image> allImagesByApprovalStatus = new ArrayList<>();
         boolean approvalStatus = request.isApprovalStatus();
-        return imageRepository.findAll().stream()
+        allImagesByApprovalStatus = imageRepository.findAll().stream()
                 .toList()
                 .stream()
                 .filter(image -> image.isApproved() == approvalStatus)
                 .toList();
+        log.info("Images by status approval: {}", allImagesByApprovalStatus);
+
+        return GetImagesResponseByStatusApprovalDTO.map(allImagesByApprovalStatus);
     }
 
     @Override
-    public Image createImage(CreateImageRequestDTO request) {
+    public CreateImageResponseDTO createImage(CreateImageRequestDTO request) {
+        log.debug("Creating new Image: {}", request);
         Image image = new Image();
         image.setFile(request.getFile());
         image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
         image.setDescription(request.getDescription());
         image.setUser(userRepository.getReferenceById(request.getUserId()));
         image.setStatus(StatusType.TO_REVIEW);
-        log.info(image.toString());
+        imageRepository.save(image);
+        log.info("New Image created: {}", image);
 
-        return imageRepository.save(image);
+        return CreateImageResponseDTO.map(image);
     }
 
     @Override

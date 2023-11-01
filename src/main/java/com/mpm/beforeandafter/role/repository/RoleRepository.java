@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Repository for accessing role data.
  */
 @Repository
-public interface RoleDAO extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Role findByName(String user);
 }

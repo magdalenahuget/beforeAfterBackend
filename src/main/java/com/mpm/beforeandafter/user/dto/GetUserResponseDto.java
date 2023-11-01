@@ -6,14 +6,14 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CreateUserResponse {
+public class GetUserResponseDto {
 
     private String userName;
     private String email;
     private String roleName;
 
-    public static CreateUserResponse map(User user){
-        return CreateUserResponse.builder()
+    public static GetUserResponseDto map(User user){
+        return GetUserResponseDto.builder()
                 .userName(user.getName())
                 .email(user.getEmail())
                 .roleName(user.getRole().getName())

@@ -89,7 +89,7 @@ public class ImageServiceImpl implements ImageService {
                 .findById(imageId)
                 .ifPresentOrElse(image -> {
                     imageRepository.delete(image);
-                    log.info("Category with id: {} deleted successfully", imageId);
+                    log.info("Image with id: {} deleted successfully", imageId);
                 }, () -> {
                     log.error(IMAGE_NOT_FOUND_LOG_ERROR_MSG, imageId);
                     throw new ResourceNotFoundException(IMAGE_NOT_FOUND_EXCEPTION_MSG + imageId);

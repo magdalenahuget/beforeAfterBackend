@@ -29,6 +29,7 @@ public class ImageController {
         return imageService.createImage(request);
     }
 
+
 //    @GetMapping("/categories/{id}/city")
 //    public List<GetImagesByCategoryAndCityResponse> getImagesByCategoryAndCity(
 //            @PathVariable("id") Long categoryId,

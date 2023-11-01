@@ -72,37 +72,15 @@ public class ImageServiceImpl implements ImageService {
         return CreateImageResponseDTO.map(image);
     }
 
-
     @Override
     public AddToFavouritesResponseDTO addImageToFavourites(Long imageId, Long userId) {
         log.debug("Adding image with ID: {} to the favourites of user with ID: {}", imageId,
                 userId);
 
+        Image image = findImageById(imageId);
+        User user = findUserById(userId);
 
-        Image image = imageRepository.findById(imageId)
-                .orElseThrow(() -> {
-                    log.error(IMAGE_NOT_FOUND_LOG_ERROR_MSG, imageId);
-                    return new ResourceNotFoundException(IMAGE_NOT_FOUND_EXCEPTION_MSG + imageId);
-                });
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> {
-                    log.error(USER_NOT_FOUND_LOG_ERROR_MSG, userId);
-                    return new ResourceNotFoundException(USER_NOT_FOUND_EXCEPTION_MSG + userId);
-                });
-
-        if (image.getUsers().contains(user)) {
-            log.info("Image with ID: {} is already in the favourites of user with ID: {}", imageId,
-                    userId);
-            return new AddToFavouritesResponseDTO(userId, imageId,
-                    "Image is already in favourites");
-        }
-
-        image.getUsers().add(user);
-        imageRepository.save(image);
-
-        log.info("Image with ID: {} added to the favourites of user with ID: {}", imageId, userId);
-        return new AddToFavouritesResponseDTO(userId, imageId, "Image added to favourites");
+        return addImageToFavouritesForUser(image, user);
     }
 
 
@@ -133,5 +111,39 @@ public class ImageServiceImpl implements ImageService {
                     log.error(IMAGE_NOT_FOUND_LOG_ERROR_MSG, imageId);
                     throw new ResourceNotFoundException((IMAGE_NOT_FOUND_EXCEPTION_MSG + imageId));
                 });
+    }
+
+    private Image findImageById(Long imageId) {
+        return imageRepository.findById(imageId)
+                .orElseThrow(() -> {
+                    log.error(IMAGE_NOT_FOUND_LOG_ERROR_MSG, imageId);
+                    return new ResourceNotFoundException(IMAGE_NOT_FOUND_EXCEPTION_MSG + imageId);
+                });
+    }
+
+    private User findUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.error(USER_NOT_FOUND_LOG_ERROR_MSG, userId);
+                    return new ResourceNotFoundException(USER_NOT_FOUND_EXCEPTION_MSG + userId);
+                });
+    }
+
+    private AddToFavouritesResponseDTO addImageToFavouritesForUser(Image image, User user) {
+        Long imageId = image.getId();
+        Long userId = user.getId();
+
+        if (image.getUsers().contains(user)) {
+            log.info("Image with ID: {} is already in the favourites of user with ID: {}", imageId,
+                    userId);
+            return new AddToFavouritesResponseDTO(userId, imageId,
+                    "Image is already in favourites");
+        }
+
+        image.getUsers().add(user);
+        imageRepository.save(image);
+
+        log.info("Image with ID: {} added to the favourites of user with ID: {}", imageId, userId);
+        return new AddToFavouritesResponseDTO(userId, imageId, "Image added to favourites");
     }
 }

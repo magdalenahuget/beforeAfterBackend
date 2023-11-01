@@ -74,11 +74,10 @@ public class ImageServiceImpl implements ImageService {
 
 
     @Override
-    public AddToFavouritesResponseDTO addImageToFavourites(AddToFavouritesRequestDTO request) {
-        log.debug("Adding image to favourites: {}", request);
+    public AddToFavouritesResponseDTO addImageToFavourites(Long imageId, Long userId) {
+        log.debug("Adding image with ID: {} to the favourites of user with ID: {}", imageId,
+                userId);
 
-        Long imageId = request.imageId();
-        Long userId = request.userId();
 
         Image image = imageRepository.findById(imageId)
                 .orElseThrow(() -> {
@@ -93,16 +92,17 @@ public class ImageServiceImpl implements ImageService {
                 });
 
         if (image.getUsers().contains(user)) {
-            log.info("Image with id: {} is already in the favourites of user with id: {}", imageId,
+            log.info("Image with ID: {} is already in the favourites of user with ID: {}", imageId,
                     userId);
-            return new AddToFavouritesResponseDTO(userId, imageId, "Already in favourites");
+            return new AddToFavouritesResponseDTO(userId, imageId,
+                    "Image is already in favourites");
         }
 
         image.getUsers().add(user);
         imageRepository.save(image);
 
-        log.info("Image with id: {} added to the favourites of user with id: {}", imageId, userId);
-        return new AddToFavouritesResponseDTO(userId, imageId, "Added to favourites");
+        log.info("Image with ID: {} added to the favourites of user with ID: {}", imageId, userId);
+        return new AddToFavouritesResponseDTO(userId, imageId, "Image added to favourites");
     }
 
 

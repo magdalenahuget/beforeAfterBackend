@@ -3,12 +3,12 @@ package com.mpm.beforeandafter.favourites.controller;
 import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDTO;
 import com.mpm.beforeandafter.favourites.dto.DeleteFavouriteResponseDTO;
 import com.mpm.beforeandafter.favourites.service.FavouritesService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/favourites")
+@CrossOrigin(origins = "http://localhost:3000")
 public class FavouritesController {
 
     private final FavouritesService favouritesService;

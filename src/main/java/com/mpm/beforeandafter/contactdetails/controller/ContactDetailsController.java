@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/contact_details")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ContactDetailsController {
 
     private final ContactDetailsService contactDetailsService;

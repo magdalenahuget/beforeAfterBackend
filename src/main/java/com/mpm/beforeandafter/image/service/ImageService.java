@@ -11,6 +11,8 @@ public interface ImageService {
 
     CreateImageResponseDTO createImage(CreateImageRequestDTO request);
 
+    AddToFavouritesResponseDTO addImageToFavourites(AddToFavouritesRequestDTO request);
+
     List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName);
 
     List<GetAllImagesResponseDTO> getAllImages();

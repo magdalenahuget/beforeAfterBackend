@@ -1,7 +1,7 @@
 package com.mpm.beforeandafter.category.service;
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequest;
-import com.mpm.beforeandafter.category.dto.CategoryResponse;
+import com.mpm.beforeandafter.category.dto.CategoryNameRequestDTO;
+import com.mpm.beforeandafter.category.dto.CategoryResponseDTO;
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
@@ -30,27 +30,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse createCategory(CategoryNameRequest request) {
+    public CategoryResponseDTO createCategory(CategoryNameRequestDTO request) {
         log.debug("Creating category: {}", request);
         Category category = new Category();
         category.setName(request.categoryName());
         category = categoryRepository.save(category);
         log.info("Category created: {}", category);
-        return CategoryResponse.map(category);
+        return CategoryResponseDTO.map(category);
     }
 
     @Override
-    public List<CategoryResponse> getCategories() {
+    public List<CategoryResponseDTO> getCategories() {
         log.debug("Fetching all categories");
         List<Category> categories = categoryRepository.findAll();
         log.info("Getting all categories (count): {}", categories.size());
         return categories.stream()
-                .map(CategoryResponse::map)
+                .map(CategoryResponseDTO::map)
                 .toList();
     }
 
     @Override
-    public CategoryResponse getCategoryById(Long categoryId) {
+    public CategoryResponseDTO getCategoryById(Long categoryId) {
         log.debug("Getting category by id: {}", categoryId);
         Category category = categoryRepository
                 .findById(categoryId)
@@ -60,11 +60,11 @@ public class CategoryServiceImpl implements CategoryService {
                             CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                 });
         log.info("Successfully fetched category with ID: {}", categoryId);
-        return CategoryResponse.map(category);
+        return CategoryResponseDTO.map(category);
     }
 
     @Override
-    public CategoryResponse updateCategoryName(Long categoryId, CategoryNameRequest request) {
+    public CategoryResponseDTO updateCategoryName(Long categoryId, CategoryNameRequestDTO request) {
         log.debug("Updating category with ID: {} with data: {}", categoryId, request);
         Category category = categoryRepository
                 .findById(categoryId)
@@ -76,7 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(request.categoryName());
         category = categoryRepository.save(category);
         log.info("Category updated: {}", category.getName());
-        return CategoryResponse.map(category);
+        return CategoryResponseDTO.map(category);
     }
 
     @Override

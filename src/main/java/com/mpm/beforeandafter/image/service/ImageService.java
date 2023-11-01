@@ -15,4 +15,5 @@ public interface ImageService {
 
     List<GetAllImagesResponseDTO> getAllImages();
 
+    void deleteImage(Long imageId);
 }

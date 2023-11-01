@@ -19,7 +19,8 @@ public class ImageController {
     }
 
     @GetMapping
-    public List<GetImagesResponseByStatusApprovalDTO> getImages(@Valid @RequestBody GetImagesRequestByStatusApprovalDTO request) {
+    public List<GetImagesResponseByStatusApprovalDTO> getImages(
+            @Valid @RequestBody GetImagesRequestByStatusApprovalDTO request) {
         return imageService.getImagesByApprovalStatus(request);
     }
 
@@ -27,6 +28,7 @@ public class ImageController {
     public CreateImageResponseDTO createImage(@RequestBody CreateImageRequestDTO request) {
         return imageService.createImage(request);
     }
+
 
 //    @GetMapping("/categories/{id}/city")
 //    public List<GetImagesByCategoryAndCityResponse> getImagesByCategoryAndCity(
@@ -46,5 +48,10 @@ public class ImageController {
     @GetMapping("/all")
     public List<GetAllImagesResponseDTO> getAllImages() {
         return imageService.getAllImages();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteImage(@PathVariable("id") Long imageId) {
+        imageService.deleteImage(imageId);
     }
 }

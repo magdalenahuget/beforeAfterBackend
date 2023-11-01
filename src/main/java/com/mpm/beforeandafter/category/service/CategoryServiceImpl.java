@@ -4,7 +4,7 @@ import com.mpm.beforeandafter.category.dto.CategoryNameRequest;
 import com.mpm.beforeandafter.category.dto.CategoryResponse;
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
-import com.mpm.beforeandafter.exception.CategoryNotFoundException;
+import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +18,9 @@ import java.util.List;
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
-    private static final String CATEGORY_NOT_FOUND_MSG_TEMPLATE =
+    private static final String CATEGORY_NOT_FOUND_LOG_ERROR_MSG =
             "There is no category with the given ID: {}";
-    private static final String CATEGORY_NOT_FOUND_MSG = "There is no category with the given ID: ";
+    private static final String CATEGORY_NOT_FOUND_EXCEPTION_MSG = "There is no category with the given ID: ";
 
     private final CategoryRepository categoryRepository;
 
@@ -55,8 +55,9 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
-                    log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
-                    return new CategoryNotFoundException(CATEGORY_NOT_FOUND_MSG + categoryId);
+                    log.error(CATEGORY_NOT_FOUND_LOG_ERROR_MSG, categoryId);
+                    return new ResourceNotFoundException(
+                            CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                 });
         log.info("Successfully fetched category with ID: {}", categoryId);
         return CategoryResponse.map(category);
@@ -68,9 +69,9 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
-                    log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
-                    return new CategoryNotFoundException(
-                            CATEGORY_NOT_FOUND_MSG + categoryId);
+                    log.error(CATEGORY_NOT_FOUND_LOG_ERROR_MSG, categoryId);
+                    return new ResourceNotFoundException(
+                            CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                 });
         category.setName(request.categoryName());
         category = categoryRepository.save(category);
@@ -88,9 +89,9 @@ public class CategoryServiceImpl implements CategoryService {
                             log.info("Category with id: {} deleted successfully", categoryId);
                         },
                         () -> {
-                            log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
-                            throw new CategoryNotFoundException(
-                                    CATEGORY_NOT_FOUND_MSG + categoryId);
+                            log.error(CATEGORY_NOT_FOUND_LOG_ERROR_MSG, categoryId);
+                            throw new ResourceNotFoundException(
+                                    CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                         });
     }
 }

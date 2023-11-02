@@ -1,11 +1,10 @@
 package com.mpm.beforeandafter;
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequest;
-import com.mpm.beforeandafter.category.model.Category;
+import com.mpm.beforeandafter.category.dto.CategoryNameRequestDto;
 import com.mpm.beforeandafter.category.service.CategoryService;
-import com.mpm.beforeandafter.role.service.RoleService;
-import com.mpm.beforeandafter.role.type.RolesType;
-import com.mpm.beforeandafter.user.dto.CreateUserRequest;
+import com.mpm.beforeandafter.role.service.RoleServiceImpl;
+import com.mpm.beforeandafter.role.type.RoleType;
+import com.mpm.beforeandafter.user.dto.CreateUserRequestDto;
 import com.mpm.beforeandafter.user.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,22 +19,22 @@ public class BeforeAndAfterApplication {
     }
     @Bean
     CommandLineRunner commandLineRunner(
-            RoleService roleService,
+            RoleServiceImpl roleServiceImpl,
             UserService userService,
             CategoryService categoryService) {
         return runner -> {
-            roleService.createRoles();
-            CreateUserRequest admin = new CreateUserRequest();
+            roleServiceImpl.createRoles();
+            CreateUserRequestDto admin = new CreateUserRequestDto();
             admin.setUserName("exampleAdminName");
             admin.setUserEmail("exampleAdminEmail");
             admin.setUserPassword("exampleAdminPassword");
-            userService.createUser(admin, RolesType.ADMIN);
-            CreateUserRequest user = new CreateUserRequest();
+            userService.createUser(admin, RoleType.ADMIN);
+            CreateUserRequestDto user = new CreateUserRequestDto();
             user.setUserName("exampleUserName");
             user.setUserEmail("exampleUserEmail");
             user.setUserPassword("exampleUserPassword");
-            userService.createUser(user, RolesType.USER);
-            CategoryNameRequest categoryBeauty = new CategoryNameRequest("Beauty");
+            userService.createUser(user, RoleType.USER);
+            CategoryNameRequestDto categoryBeauty = new CategoryNameRequestDto("Beauty");
             categoryService.createCategory(categoryBeauty);
         };
     }

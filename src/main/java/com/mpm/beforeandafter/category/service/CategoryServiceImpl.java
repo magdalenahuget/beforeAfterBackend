@@ -1,10 +1,10 @@
 package com.mpm.beforeandafter.category.service;
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequest;
-import com.mpm.beforeandafter.category.dto.CategoryResponse;
+import com.mpm.beforeandafter.category.dto.CategoryNameRequestDto;
+import com.mpm.beforeandafter.category.dto.CategoryResponseDto;
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
-import com.mpm.beforeandafter.exception.CategoryNotFoundException;
+import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,64 +18,69 @@ import java.util.List;
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
-    private static final String CATEGORY_NOT_FOUND_MSG_TEMPLATE =
+    private static final String CATEGORY_NOT_FOUND_LOG_ERROR_MSG =
             "There is no category with the given ID: {}";
-    private static final String CATEGORY_NOT_FOUND_MSG = "There is no category with the given ID: ";
+    private static final String CATEGORY_NOT_FOUND_EXCEPTION_MSG =
+            "There is no category with the given ID: ";
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
+
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository,
+                               CategoryMapper categoryMapper) {
         this.categoryRepository = categoryRepository;
+        this.categoryMapper = categoryMapper;
     }
 
     @Override
-    public CategoryResponse createCategory(CategoryNameRequest request) {
+    public CategoryResponseDto createCategory(CategoryNameRequestDto request) {
         log.debug("Creating category: {}", request);
-        Category category = new Category();
-        category.setName(request.categoryName());
+        Category category = categoryMapper.mapToCategoryEntity(request);
         category = categoryRepository.save(category);
         log.info("Category created: {}", category);
-        return CategoryResponse.map(category);
+        return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
-    public List<CategoryResponse> getCategories() {
+    public List<CategoryResponseDto> getCategories() {
         log.debug("Fetching all categories");
         List<Category> categories = categoryRepository.findAll();
         log.info("Getting all categories (count): {}", categories.size());
         return categories.stream()
-                .map(CategoryResponse::map)
+                .map(categoryMapper::mapToCategoryResponseDto)
                 .toList();
     }
 
     @Override
-    public CategoryResponse getCategoryById(Long categoryId) {
+    public CategoryResponseDto getCategoryById(Long categoryId) {
         log.debug("Getting category by id: {}", categoryId);
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
-                    log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
-                    return new CategoryNotFoundException(CATEGORY_NOT_FOUND_MSG + categoryId);
+                    log.error(CATEGORY_NOT_FOUND_LOG_ERROR_MSG, categoryId);
+                    return new ResourceNotFoundException(
+                            CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                 });
         log.info("Successfully fetched category with ID: {}", categoryId);
-        return CategoryResponse.map(category);
+        return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
-    public CategoryResponse updateCategoryName(Long categoryId, CategoryNameRequest request) {
+    public CategoryResponseDto updateCategoryName(Long categoryId, CategoryNameRequestDto request) {
         log.debug("Updating category with ID: {} with data: {}", categoryId, request);
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
-                    log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
-                    return new CategoryNotFoundException(
-                            CATEGORY_NOT_FOUND_MSG + categoryId);
+                    log.error(CATEGORY_NOT_FOUND_LOG_ERROR_MSG, categoryId);
+                    return new ResourceNotFoundException(
+                            CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                 });
         category.setName(request.categoryName());
         category = categoryRepository.save(category);
         log.info("Category updated: {}", category.getName());
-        return CategoryResponse.map(category);
+        return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
@@ -88,9 +93,9 @@ public class CategoryServiceImpl implements CategoryService {
                             log.info("Category with id: {} deleted successfully", categoryId);
                         },
                         () -> {
-                            log.error(CATEGORY_NOT_FOUND_MSG_TEMPLATE, categoryId);
-                            throw new CategoryNotFoundException(
-                                    CATEGORY_NOT_FOUND_MSG + categoryId);
+                            log.error(CATEGORY_NOT_FOUND_LOG_ERROR_MSG, categoryId);
+                            throw new ResourceNotFoundException(
+                                    CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                         });
     }
 }

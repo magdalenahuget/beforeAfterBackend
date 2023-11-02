@@ -15,4 +15,5 @@ public interface ImageService {
     Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request);
 
 
+    void deleteImage(Long imageId);
 }

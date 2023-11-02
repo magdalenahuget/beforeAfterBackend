@@ -2,6 +2,7 @@ package com.mpm.beforeandafter.image.service;
 
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
+import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.repository.ImageRepository;
@@ -18,15 +19,24 @@ import java.util.stream.Collectors;
 @Service
 public class ImageServiceImpl implements ImageService {
 
+    private static final String IMAGE_NOT_FOUND_LOG_ERROR_MSG =
+            "There is no image found with the given ID: {}";
+    private static final String IMAGE_NOT_FOUND_EXCEPTION_MSG =
+            "There is no image found with the given ID: ";
+
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
+    private final ImageMapper imageMapper;
+
     @Autowired
-    public ImageServiceImpl(ImageRepository imageRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
+    public ImageServiceImpl(ImageRepository imageRepository, CategoryRepository categoryRepository,
+                            UserRepository userRepository, ImageMapper imageMapper) {
         this.imageRepository = imageRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
+        this.imageMapper = imageMapper;
     }
 
     @Override
@@ -42,7 +52,7 @@ public class ImageServiceImpl implements ImageService {
         imageRepository.save(image);
         log.info("New Image created: {}", image);
 
-        return CreateImageResponseDTO.map(image);
+        return imageMapper.mapToCreateImageDTO(image);
     }
 
     @Override
@@ -67,5 +77,20 @@ public class ImageServiceImpl implements ImageService {
         System.out.println(images);
 
         return ImageFilterResponseDTO.map(images);
+    }
+
+    @Override
+    public void deleteImage(Long imageId) {
+        log.debug("Deleting image with id: {}", imageId);
+
+        imageRepository
+                .findById(imageId)
+                .ifPresentOrElse(image -> {
+                    imageRepository.delete(image);
+                    log.info("Image with id: {} deleted successfully", imageId);
+                }, () -> {
+                    log.error(IMAGE_NOT_FOUND_LOG_ERROR_MSG, imageId);
+                    throw new ResourceNotFoundException(IMAGE_NOT_FOUND_EXCEPTION_MSG + imageId);
+                });
     }
 }

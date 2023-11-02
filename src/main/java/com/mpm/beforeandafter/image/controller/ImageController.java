@@ -1,16 +1,13 @@
 package com.mpm.beforeandafter.image.controller;
 
-import com.mpm.beforeandafter.image.dto.CreateImageRequestDTO;
-import com.mpm.beforeandafter.image.dto.CreateImageResponseDTO;
-import com.mpm.beforeandafter.image.dto.ImageFilterRequestDTO;
-import com.mpm.beforeandafter.image.dto.ImageFilterResponseDTO;
+import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.service.ImageService;
-import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-@Slf4j
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/images")
 public class ImageController {
@@ -21,7 +18,7 @@ public class ImageController {
     }
 
     @PostMapping
-    public CreateImageResponseDTO createImage(@RequestBody CreateImageRequestDTO request) {
+    public CreateImageResponseDTO createImage(@Valid @RequestBody CreateImageRequestDTO request) {
         return imageService.createImage(request);
     }
 
@@ -43,5 +40,10 @@ public class ImageController {
     @GetMapping
     public Set<ImageFilterResponseDTO> getAllImagesByDynamicFilter(@RequestBody ImageFilterRequestDTO request){
         return imageService.getImagesByDynamicFilter(request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteImage(@PathVariable("id") Long imageId) {
+        imageService.deleteImage(imageId);
     }
 }

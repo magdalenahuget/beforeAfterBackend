@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateContactDetailsRequestDTO {
+public class CreateContactDetailsRequestDto {
     private String streetName;
     private String streetNumber;
     private String apartNumber;

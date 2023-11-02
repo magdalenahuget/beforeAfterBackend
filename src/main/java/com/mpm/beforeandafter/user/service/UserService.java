@@ -1,23 +1,21 @@
 package com.mpm.beforeandafter.user.service;
 
-import com.mpm.beforeandafter.role.type.RolesType;
-import com.mpm.beforeandafter.user.dto.CreateAboutMeRequest;
-import com.mpm.beforeandafter.user.dto.CreateUserRequest;
-import com.mpm.beforeandafter.user.model.User;
+import com.mpm.beforeandafter.role.type.RoleType;
+import com.mpm.beforeandafter.user.dto.*;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> getUsers(RolesType roleType);
+    List<GetUserResponseDto> getUsers(RoleType roleType);
 
-    User createUser(CreateUserRequest userDto, RolesType roleType);
+    CreateUserResponseDto createUser(CreateUserRequestDto userDto, RoleType roleType);
 
-    User getUserById(Long userId);
+    GetUserResponseDto getUserById(Long userId);
 
-    User getAboutMeByUserId(Long userId);
+    GetAboutMeResponseDto getAboutMeByUserId(Long userId);
 
-    User updateUserByAboutMe(Long userId, CreateAboutMeRequest aboutMe);
+    CreateAboutMeResponseDto updateUserByAboutMe(Long userId, CreateAboutMeRequestDto aboutMe);
 
     void deleteUser(Long userId);
 }

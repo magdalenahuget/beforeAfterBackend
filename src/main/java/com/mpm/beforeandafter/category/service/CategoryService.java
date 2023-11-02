@@ -1,19 +1,19 @@
 package com.mpm.beforeandafter.category.service;
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequest;
-import com.mpm.beforeandafter.category.dto.CategoryResponse;
+import com.mpm.beforeandafter.category.dto.CategoryNameRequestDto;
+import com.mpm.beforeandafter.category.dto.CategoryResponseDto;
 
 import java.util.List;
 
 public interface CategoryService {
 
-    CategoryResponse createCategory(CategoryNameRequest request);
+    CategoryResponseDto createCategory(CategoryNameRequestDto request);
 
-    List<CategoryResponse> getCategories();
+    List<CategoryResponseDto> getCategories();
 
-    CategoryResponse getCategoryById(Long categoryId);
+    CategoryResponseDto getCategoryById(Long categoryId);
 
-    CategoryResponse updateCategoryName(Long categoryId, CategoryNameRequest request);
+    CategoryResponseDto updateCategoryName(Long categoryId, CategoryNameRequestDto request);
 
     void deleteCategory(Long categoryId);
 }

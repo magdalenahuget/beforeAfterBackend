@@ -1,26 +1,22 @@
 package com.mpm.beforeandafter.user.controller;
 
-import com.mpm.beforeandafter.role.type.RolesType;
-import com.mpm.beforeandafter.user.dto.CreateUserResponse;
-import com.mpm.beforeandafter.user.dto.CreateAboutMeRequest;
-import com.mpm.beforeandafter.user.dto.CreateAboutMeResponse;
-import com.mpm.beforeandafter.user.model.User;
-import com.mpm.beforeandafter.user.dto.CreateUserRequest;
+import com.mpm.beforeandafter.role.type.RoleType;
+import com.mpm.beforeandafter.user.dto.*;
 import com.mpm.beforeandafter.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 @RestController
 @RequestMapping("api/v1/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -28,48 +24,40 @@ public class UserController {
     }
 
     @GetMapping
-    public List<CreateUserResponse> getAllUsers(@RequestParam(required = false) RolesType roleType) {
-        List<User> users = userService.getUsers(roleType);
-        List<CreateUserResponse> createUserResponses = new ArrayList<>();
-        for (User user : users) {
-            CreateUserResponse createUserResponse = CreateUserResponse.map(user);
-            createUserResponses.add(createUserResponse);
-        }
-        return createUserResponses;
+    public List<GetUserResponseDto> getAllUsers(@RequestParam(required = false) RoleType roleType) {
+        return userService.getUsers(roleType);
     }
 
     @PostMapping
-    public CreateUserResponse createUser(@RequestBody CreateUserRequest user) {
-        User createdUser = userService.createUser(user, RolesType.USER);
-        return CreateUserResponse.map(createdUser);
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreateUserResponseDto createUser(@RequestBody CreateUserRequestDto user) {
+        return userService.createUser(user, RoleType.USER);
     }
 
     @GetMapping("{id}")
-    public CreateUserResponse getUserById(@PathVariable("id") Long userId){
+    public GetUserResponseDto getUserById(@PathVariable("id") Long userId){
         log.debug("Getting user by id: {}", userId);
-        User userById = userService.getUserById(userId);
-        return CreateUserResponse.map(userById);
+        return userService.getUserById(userId);
     }
 
     @GetMapping("/{id}/about_me")
-    public CreateAboutMeResponse getUserAboutMe(@PathVariable("id") Long userId){
+    public GetAboutMeResponseDto getUserAboutMe(@PathVariable("id") Long userId){
         log.debug("Getting user about me by id: {}", userId);
-        User userWithAboutMe = userService.getAboutMeByUserId(userId);
-        return CreateAboutMeResponse.map(userWithAboutMe);
+        return userService.getAboutMeByUserId(userId);
     }
 
     @PatchMapping("/{id}/about_me")
-    public CreateAboutMeResponse updateUserAboutMe(@PathVariable("id") Long userId,
-                                                       @RequestBody CreateAboutMeRequest aboutMe) {
+    public CreateAboutMeResponseDto updateUserAboutMe(@PathVariable("id") Long userId,
+                                                      @RequestBody CreateAboutMeRequestDto aboutMe) {
         log.debug("Updating about me of user with id: {} with data: {}", userId, aboutMe);
-        User userWithUpdatedAboutMe = userService.updateUserByAboutMe(userId, aboutMe);
+        CreateAboutMeResponseDto userWithUpdatedAboutMe = userService.updateUserByAboutMe(userId, aboutMe);
         log.info("User about me updated: {}", userId);
-        return CreateAboutMeResponse.map(userWithUpdatedAboutMe);
+        return userWithUpdatedAboutMe;
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("id") Long userId){
         userService.deleteUser(userId);
     }
-
 }

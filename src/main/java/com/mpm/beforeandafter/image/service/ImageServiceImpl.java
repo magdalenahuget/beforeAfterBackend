@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -60,19 +59,26 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {
-        Set<Image> images = new HashSet<>();
         Set<String> validCategories = request.getCategories() != null ? request.getCategories() : Collections.emptySet();
         Set<String> validCities = request.getCities() != null ? request.getCities() : Collections.emptySet();
+        Set<Long> validUsers = request.getUsersID() != null ? request.getUsersID() : Collections.emptySet();
         Boolean isApproved = request.getApprovalStatus();
 
+        return imageMapper.mapGetImageByFilter(filterImages(validCategories, validCities, validUsers, isApproved));
+    }
+
+    private Set<Image> filterImages(Set<String> validCategories, Set<String> validCities, Set<Long> validUsers, Boolean isApproved) {
+        log.debug("Filtering images by criteria...");
+        Set<Image> images;
         images = imageRepository.findAll().stream()
                 .filter(image ->
-                        (validCategories.isEmpty() || validCategories.contains(image.getCategory().getName())) && (validCities.isEmpty() ||
-                                validCities.contains(image.getCityName()))&& (isApproved == null || image.isApproved() == isApproved))
+                        (validCategories.isEmpty() || validCategories.contains(image.getCategory().getName())) &&
+                                (validCities.isEmpty() || validCities.contains(image.getCityName())) &&
+                                (validUsers.isEmpty() || validUsers.contains(image.getUser().getId())) &&
+                                (isApproved == null || image.isApproved() == isApproved))
                 .collect(Collectors.toSet());
-        System.out.println(images);
-
-        return imageMapper.mapGetImageByFilter(images);
+        log.info("Filtering completed");
+        return images;
     }
 
     @Override

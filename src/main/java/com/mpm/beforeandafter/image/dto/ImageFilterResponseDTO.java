@@ -1,6 +1,5 @@
 package com.mpm.beforeandafter.image.dto;
 
-import com.mpm.beforeandafter.category.dto.CategoryResponseDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,6 +10,7 @@ public class ImageFilterResponseDTO {
     private long id;
     private String file;
     private String cityName;
-    private CategoryResponseDto category;
+    private Long categoryId;
+    private Long userId;
     private boolean approvalStatus;
 }

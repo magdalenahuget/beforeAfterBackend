@@ -1,13 +1,14 @@
 package com.mpm.beforeandafter.contactdetails.service;
 
-import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsRequestDto;
-import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsResponseDto;
+import com.mpm.beforeandafter.contactdetails.dto.ContactDetailsRequestDto;
+import com.mpm.beforeandafter.contactdetails.dto.ContactDetailsResponseDto;
 import com.mpm.beforeandafter.contactdetails.dto.GetContactDetailsResponseDto;
 
 public interface ContactDetailsService {
 
-    CreateContactDetailsResponseDto createContactDetails(CreateContactDetailsRequestDto request);
-//    CreateContactDetailsResponseDto modifiedContactDetails(CreateContactDetailsRequestDto request);
+    ContactDetailsResponseDto modifiedContactDetails(Long userId, ContactDetailsRequestDto request);
+
+    ContactDetailsResponseDto createContactDetails(ContactDetailsRequestDto request);
 
     GetContactDetailsResponseDto getContactDetailsByUserId(Long userId);
 }

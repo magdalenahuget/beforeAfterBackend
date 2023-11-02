@@ -3,7 +3,7 @@ package com.mpm.beforeandafter.user.service;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.role.model.Role;
 import com.mpm.beforeandafter.role.repository.RoleRepository;
-import com.mpm.beforeandafter.role.type.RolesType;
+import com.mpm.beforeandafter.role.type.RoleType;
 import com.mpm.beforeandafter.user.dto.*;
 import com.mpm.beforeandafter.user.model.StatusType;
 import com.mpm.beforeandafter.user.model.User;
@@ -25,15 +25,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public List<GetUserResponseDto> getUsers(RolesType roleType) {
+    public List<GetUserResponseDto> getUsers(RoleType roleType) {
         log.debug("Fetching all users");
         List<User> users;
         if (roleType == null) {
@@ -43,12 +45,12 @@ public class UserServiceImpl implements UserService {
         }
         log.info("Getting all users (count): {}", users.size());
         return users.stream()
-                .map(GetUserResponseDto::map)
+                .map(userMapper::mapToGetUserResponseDto)
                 .toList();
     }
 
     @Override
-    public CreateUserResponseDto createUser(CreateUserRequestDto userDto, RolesType roleType) {
+    public CreateUserResponseDto createUser(CreateUserRequestDto userDto, RoleType roleType) {
         User user = new User();
         user.setName(userDto.getUserName());
         user.setEmail(userDto.getUserEmail());
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
         user.setStatus(StatusType.TO_REVIEW);
         userRepository.save(user);
-        return CreateUserResponseDto.map(user);
+        return userMapper.mapToCreateUserResponseDto(user);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class UserServiceImpl implements UserService {
                     return new RuntimeException(
                             "User not found with id: {}" + userId);
                 });
-        return GetUserResponseDto.map(user);
+        return userMapper.mapToGetUserResponseDto(user);
     }
 
     @Override
@@ -83,7 +85,7 @@ public class UserServiceImpl implements UserService {
                     return new RuntimeException(
                             "User not found with id: {}" + userId);
                 });
-        return GetAboutMeResponseDto.map(user);
+        return userMapper.mapToGetAboutMeResponseDto(user);
     }
 
     @Override
@@ -97,7 +99,7 @@ public class UserServiceImpl implements UserService {
                 });
         user.setAboutMe(aboutMe.getAboutMe());
         userRepository.save(user);
-        return CreateAboutMeResponseDto.map(user);
+        return userMapper.mapToCreateAboutMeResponseDto(user);
     }
 
     @Override

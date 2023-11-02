@@ -5,11 +5,11 @@ import lombok.Data;
 
 @Data
 @Builder
-public class DeleteFavouriteResponseDTO {
+public class DeleteFavouriteResponseDto {
 
     public String message;
 
-    public DeleteFavouriteResponseDTO(String message) {
+    public DeleteFavouriteResponseDto(String message) {
         this.message = message;
     }
 }

@@ -1,9 +1,9 @@
 package com.mpm.beforeandafter;
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequestDTO;
+import com.mpm.beforeandafter.category.dto.CategoryNameRequestDto;
 import com.mpm.beforeandafter.category.service.CategoryService;
 import com.mpm.beforeandafter.role.service.RoleServiceImpl;
-import com.mpm.beforeandafter.role.type.RolesType;
+import com.mpm.beforeandafter.role.type.RoleType;
 import com.mpm.beforeandafter.user.dto.CreateUserRequestDto;
 import com.mpm.beforeandafter.user.service.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -28,13 +28,13 @@ public class BeforeAndAfterApplication {
             admin.setUserName("exampleAdminName");
             admin.setUserEmail("exampleAdminEmail");
             admin.setUserPassword("exampleAdminPassword");
-            userService.createUser(admin, RolesType.ADMIN);
+            userService.createUser(admin, RoleType.ADMIN);
             CreateUserRequestDto user = new CreateUserRequestDto();
             user.setUserName("exampleUserName");
             user.setUserEmail("exampleUserEmail");
             user.setUserPassword("exampleUserPassword");
-            userService.createUser(user, RolesType.USER);
-            CategoryNameRequestDTO categoryBeauty = new CategoryNameRequestDTO("Beauty");
+            userService.createUser(user, RoleType.USER);
+            CategoryNameRequestDto categoryBeauty = new CategoryNameRequestDto("Beauty");
             categoryService.createCategory(categoryBeauty);
         };
     }

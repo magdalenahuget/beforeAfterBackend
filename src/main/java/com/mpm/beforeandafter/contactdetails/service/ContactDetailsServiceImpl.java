@@ -1,8 +1,8 @@
 package com.mpm.beforeandafter.contactdetails.service;
 
-import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsRequestDTO;
-import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsResponseDTO;
-import com.mpm.beforeandafter.contactdetails.dto.GetContactDetailsResponseDTO;
+import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsRequestDto;
+import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsResponseDto;
+import com.mpm.beforeandafter.contactdetails.dto.GetContactDetailsResponseDto;
 import com.mpm.beforeandafter.contactdetails.model.ContactDetails;
 import com.mpm.beforeandafter.contactdetails.repository.ContactDetailsRepository;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
@@ -17,14 +17,16 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
 
     private final ContactDetailsRepository contactDetailsRepository;
     private final UserRepository userRepository;
+    private final ContactDetailsMapper contactDetailsMapper;
 
-    public ContactDetailsServiceImpl(ContactDetailsRepository contactDetailsRepository, UserRepository userRepository) {
+    public ContactDetailsServiceImpl(ContactDetailsRepository contactDetailsRepository, UserRepository userRepository, ContactDetailsMapper contactDetailsMapper) {
         this.contactDetailsRepository = contactDetailsRepository;
         this.userRepository = userRepository;
+        this.contactDetailsMapper = contactDetailsMapper;
     }
 
     @Override
-    public CreateContactDetailsResponseDTO createContactDetails(CreateContactDetailsRequestDTO request) {
+    public CreateContactDetailsResponseDto createContactDetails(CreateContactDetailsRequestDto request) {
         ContactDetails contactDetails = new ContactDetails();
         contactDetails.setUser(userRepository.getReferenceById(request.getUserId()));
         contactDetails.setStreetName(request.getStreetName());
@@ -35,11 +37,11 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
         contactDetails.setWebpage(request.getWebpage());
         contactDetailsRepository.save(contactDetails);
 
-        return CreateContactDetailsResponseDTO.map(contactDetails);
+        return contactDetailsMapper.mapToCreateContactDetailsResponseDto(contactDetails);
     }
 
     @Override
-    public GetContactDetailsResponseDTO getContactDetailsByUserId(Long userId) {
+    public GetContactDetailsResponseDto getContactDetailsByUserId(Long userId) {
         log.info("Getting user with id: {}", userId);
         User user = userRepository.findById(userId).orElseThrow(() -> {
             log.error("User not found with given id: " + userId);
@@ -55,6 +57,6 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
             throw new ResourceNotFoundException("Contact details not found for user with given id: " + userId);
         }
         log.info("Successfully fetched contact details for user with given id: {}", userId);
-        return GetContactDetailsResponseDTO.map(contactDetails);
+        return contactDetailsMapper.mapToGetContactDetailsResponseDto(contactDetails);
     }
 }

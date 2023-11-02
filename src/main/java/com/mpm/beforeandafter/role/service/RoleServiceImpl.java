@@ -2,7 +2,7 @@ package com.mpm.beforeandafter.role.service;
 
 import com.mpm.beforeandafter.role.model.Role;
 import com.mpm.beforeandafter.role.repository.RoleRepository;
-import com.mpm.beforeandafter.role.type.RolesType;
+import com.mpm.beforeandafter.role.type.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService{
      */
     @Override
     public void createRoles() {
-        for (RolesType roleType: RolesType.values()) {
+        for (RoleType roleType: RoleType.values()) {
             Role role = new Role(roleType.getRoleName());
             roleRepository.save(role);
         }

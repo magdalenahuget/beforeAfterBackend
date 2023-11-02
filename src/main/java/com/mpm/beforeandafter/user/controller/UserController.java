@@ -1,6 +1,6 @@
 package com.mpm.beforeandafter.user.controller;
 
-import com.mpm.beforeandafter.role.type.RolesType;
+import com.mpm.beforeandafter.role.type.RoleType;
 import com.mpm.beforeandafter.user.dto.*;
 import com.mpm.beforeandafter.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +24,14 @@ public class UserController {
     }
 
     @GetMapping
-    public List<GetUserResponseDto> getAllUsers(@RequestParam(required = false) RolesType roleType) {
+    public List<GetUserResponseDto> getAllUsers(@RequestParam(required = false) RoleType roleType) {
         return userService.getUsers(roleType);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreateUserResponseDto createUser(@RequestBody CreateUserRequestDto user) {
-        return userService.createUser(user, RolesType.USER);
+        return userService.createUser(user, RoleType.USER);
     }
 
     @GetMapping("{id}")

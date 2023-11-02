@@ -1,13 +1,13 @@
 package com.mpm.beforeandafter.image.service;
 
-
-import com.mpm.beforeandafter.category.dto.GetCategoryResponse;
+import com.mpm.beforeandafter.category.service.CategoryMapper;
 import com.mpm.beforeandafter.image.dto.CreateImageResponseDTO;
 import com.mpm.beforeandafter.image.dto.GetAllImagesResponseDTO;
 import com.mpm.beforeandafter.image.dto.GetImagesByCategoryAndCityResponseDTO;
 import com.mpm.beforeandafter.image.dto.GetImagesResponseByStatusApprovalDTO;
 import com.mpm.beforeandafter.image.model.Image;
-import com.mpm.beforeandafter.user.dto.GetUserResponse;
+import com.mpm.beforeandafter.user.service.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,6 +15,16 @@ import java.util.List;
 
 @Component
 class ImageMapper {
+
+    private CategoryMapper categoryMapper;
+    private UserMapper userMapper;
+
+    @Autowired
+    ImageMapper(CategoryMapper categoryMapper, UserMapper userMapper) {
+        this.categoryMapper = categoryMapper;
+        this.userMapper = userMapper;
+    }
+
     CreateImageResponseDTO mapToCreateImageDTO(Image image) {
         return CreateImageResponseDTO.builder()
                 .imageId(image.getId())
@@ -46,10 +56,10 @@ class ImageMapper {
         return GetImagesByCategoryAndCityResponseDTO.builder()
                 .id(image.getId())
                 .file(image.getFile())
-                .category(GetCategoryResponse.map(image.getCategory()))
+                .category(categoryMapper.mapToCategoryResponseDto(image.getCategory()))
                 .description(image.getDescription())
                 .cityName(image.getCityName())
-                .user(GetUserResponse.map(image.getUser()))
+                .user(userMapper.mapToGetUserResponseDto(image.getUser()))
                 .build();
     }
 

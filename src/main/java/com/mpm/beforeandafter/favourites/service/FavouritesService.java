@@ -1,11 +1,11 @@
 package com.mpm.beforeandafter.favourites.service;
 
-import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDTO;
-import com.mpm.beforeandafter.favourites.dto.DeleteFavouriteResponseDTO;
+import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDto;
+import com.mpm.beforeandafter.favourites.dto.DeleteFavouriteResponseDto;
 
 public interface FavouritesService {
 
-    AddToFavouritesResponseDTO addImageToFavourites(Long imageId, Long userId);
+    AddToFavouritesResponseDto addImageToFavourites(Long imageId, Long userId);
 
-    DeleteFavouriteResponseDTO deleteFavourite(Long imageId, Long userId);
+    DeleteFavouriteResponseDto deleteFavourite(Long imageId, Long userId);
 }

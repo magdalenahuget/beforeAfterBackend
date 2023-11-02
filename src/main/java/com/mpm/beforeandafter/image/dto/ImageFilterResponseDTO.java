@@ -1,6 +1,5 @@
 package com.mpm.beforeandafter.image.dto;
 
-import com.mpm.beforeandafter.category.dto.GetCategoryResponse;
 import com.mpm.beforeandafter.image.model.Image;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +14,7 @@ public class ImageFilterResponseDTO {
     private long id;
     private String file;
     private String cityName;
-    private GetCategoryResponse category;
+//    private GetCategoryResponse category;
     private boolean approvalStatus;
 
     public static Set<ImageFilterResponseDTO> map(Set<Image>images){
@@ -26,7 +25,7 @@ public class ImageFilterResponseDTO {
                     .id(image.getId())
                     .file(image.getFile())
                     .cityName(image.getCityName())
-                    .category(GetCategoryResponse.map(image.getCategory()))
+//                    .category(GetCategoryResponse.map(image.getCategory()))
                     .approvalStatus(image.isApproved())
                     .build();
             result.add(mappedImage);

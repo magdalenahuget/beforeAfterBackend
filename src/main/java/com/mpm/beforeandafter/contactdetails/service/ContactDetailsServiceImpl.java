@@ -35,12 +35,12 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
         ContactDetails contactDetails = new ContactDetails();
         if(contact.isPresent()){
             contactDetails = contact.get();
-            isRequestNull(request, contactDetails);
+            updateContactDetailsWithNonNullFields(request, contactDetails);
             contactDetailsRepository.save(contactDetails);
         }
         return contactDetailsMapper.mapToCreateContactDetailsResponseDto(contactDetails);
     }
-    private static void isRequestNull(ContactDetailsRequestDto request, ContactDetails contactDetails) {
+    private static void updateContactDetailsWithNonNullFields(ContactDetailsRequestDto request, ContactDetails contactDetails) {
         if(request.getStreetName() != null){
         contactDetails.setStreetName(request.getStreetName());
         }

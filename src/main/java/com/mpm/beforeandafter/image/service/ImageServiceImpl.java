@@ -1,9 +1,11 @@
 package com.mpm.beforeandafter.image.service;
 
-import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
-import com.mpm.beforeandafter.image.dto.*;
+import com.mpm.beforeandafter.image.dto.CreateImageRequestDTO;
+import com.mpm.beforeandafter.image.dto.CreateImageResponseDTO;
+import com.mpm.beforeandafter.image.dto.ImageFilterRequestDTO;
+import com.mpm.beforeandafter.image.dto.ImageFilterResponseDTO;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.repository.ImageRepository;
 import com.mpm.beforeandafter.user.model.StatusType;
@@ -12,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,7 +31,6 @@ public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
-
     private final ImageMapper imageMapper;
 
     @Autowired
@@ -56,13 +59,6 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName) {
-        Category category = categoryRepository.getReferenceById(categoryId);
-        return imageRepository.findImagesByCategoryAndCityName(category, cityName);
-    }
-
-
-    @Override
     public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {
         Set<Image> images = new HashSet<>();
         Set<String> validCategories = request.getCategories() != null ? request.getCategories() : Collections.emptySet();
@@ -76,7 +72,7 @@ public class ImageServiceImpl implements ImageService {
                 .collect(Collectors.toSet());
         System.out.println(images);
 
-        return ImageFilterResponseDTO.map(images);
+        return imageMapper.mapGetImageByFilter(images);
     }
 
     @Override

@@ -22,21 +22,6 @@ public class ImageController {
         return imageService.createImage(request);
     }
 
-//    @GetMapping("/categories/{id}/city")
-//    public List<GetImagesByCategoryAndCityResponse> getImagesByCategoryAndCity(
-//            @PathVariable("id") Long categoryId,
-//            @RequestParam(name = "cityName", required = false) String cityName) {
-//        log.debug("Get all images by category: {} and city name: {}", categoryId, cityName);
-//        List<Image> images = imageService.getImagesByCategoryAndCity(categoryId, cityName);
-//        log.info("Images by category and city: {}", images);
-//        List<GetImagesByCategoryAndCityResponse> imagesByCategoryAndCity = new ArrayList<>();
-//        for (Image image : images) {
-//            GetImagesByCategoryAndCityResponse imageByCategoryAndCity = GetImagesByCategoryAndCityResponse.map(image);
-//            imagesByCategoryAndCity.add(imageByCategoryAndCity);
-//        }
-//        return imagesByCategoryAndCity;
-//    }
-
     @GetMapping
     public Set<ImageFilterResponseDTO> getAllImagesByDynamicFilter(@RequestBody ImageFilterRequestDTO request){
         return imageService.getImagesByDynamicFilter(request);

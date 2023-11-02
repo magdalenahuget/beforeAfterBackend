@@ -5,7 +5,7 @@ import com.mpm.beforeandafter.image.service.ImageService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -15,12 +15,6 @@ public class ImageController {
 
     public ImageController(ImageService imageService) {
         this.imageService = imageService;
-    }
-
-    @GetMapping
-    public List<GetImagesResponseByStatusApprovalDTO> getImages(
-            @Valid @RequestBody GetImagesRequestByStatusApprovalDTO request) {
-        return imageService.getImagesByApprovalStatus(request);
     }
 
     @PostMapping
@@ -43,9 +37,9 @@ public class ImageController {
 //        return imagesByCategoryAndCity;
 //    }
 
-    @GetMapping("/all")
-    public List<GetAllImagesResponseDTO> getAllImages() {
-        return imageService.getAllImages();
+    @GetMapping
+    public Set<ImageFilterResponseDTO> getAllImagesByDynamicFilter(@RequestBody ImageFilterRequestDTO request){
+        return imageService.getImagesByDynamicFilter(request);
     }
 
     @DeleteMapping("/{id}")

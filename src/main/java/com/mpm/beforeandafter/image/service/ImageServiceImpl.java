@@ -12,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -40,26 +40,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<GetImagesResponseByStatusApprovalDTO> getImagesByApprovalStatus(
-            GetImagesRequestByStatusApprovalDTO request) {
-        log.debug("Get all images by approval status: {}", request);
-        List<Image> allImagesByApprovalStatus = new ArrayList<>();
-        boolean approvalStatus = request.isApprovalStatus();
-        allImagesByApprovalStatus = imageRepository.findAll().stream()
-                .toList()
-                .stream()
-                .filter(image -> image.isApproved() == approvalStatus)
-                .toList();
-        log.info("Images by status approval: {}", allImagesByApprovalStatus);
-
-        return imageMapper.mapToGetImagesByStatusApprovalDTO(allImagesByApprovalStatus);
-    }
-
-    @Override
     public CreateImageResponseDTO createImage(CreateImageRequestDTO request) {
         log.debug("Creating new Image: {}", request);
         Image image = new Image();
         image.setFile(request.getFile());
+        image.setCityName(request.getCity());
         image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
         image.setDescription(request.getDescription());
         image.setUser(userRepository.getReferenceById(request.getUserId()));
@@ -76,12 +61,22 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.findImagesByCategoryAndCityName(category, cityName);
     }
 
+
     @Override
-    public List<GetAllImagesResponseDTO> getAllImages() {
-        log.debug("Get all images");
-        List<Image> images = imageRepository.findAll();
-        log.info("All images: {}", images);
-        return imageMapper.mapToGetAllImagesDTO(images);
+    public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {
+        Set<Image> images = new HashSet<>();
+        Set<String> validCategories = request.getCategories() != null ? request.getCategories() : Collections.emptySet();
+        Set<String> validCities = request.getCities() != null ? request.getCities() : Collections.emptySet();
+        Boolean isApproved = request.getApprovalStatus();
+
+        images = imageRepository.findAll().stream()
+                .filter(image ->
+                        (validCategories.isEmpty() || validCategories.contains(image.getCategory().getName())) && (validCities.isEmpty() ||
+                                validCities.contains(image.getCityName()))&& (isApproved == null || image.isApproved() == isApproved))
+                .collect(Collectors.toSet());
+        System.out.println(images);
+
+        return ImageFilterResponseDTO.map(images);
     }
 
     @Override

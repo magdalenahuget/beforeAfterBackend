@@ -6,7 +6,6 @@ import com.mpm.beforeandafter.image.dto.GetAllImagesResponseDTO;
 import com.mpm.beforeandafter.image.dto.GetImagesByCategoryAndCityResponseDTO;
 import com.mpm.beforeandafter.image.dto.GetImagesResponseByStatusApprovalDTO;
 import com.mpm.beforeandafter.image.model.Image;
-import com.mpm.beforeandafter.user.dto.GetUserResponseDto;
 import com.mpm.beforeandafter.user.service.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

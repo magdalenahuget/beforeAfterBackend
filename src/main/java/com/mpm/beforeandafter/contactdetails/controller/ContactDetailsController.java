@@ -1,8 +1,8 @@
 package com.mpm.beforeandafter.contactdetails.controller;
 
-import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsRequestDTO;
-import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsResponseDTO;
-import com.mpm.beforeandafter.contactdetails.dto.GetContactDetailsResponseDTO;
+import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsRequestDto;
+import com.mpm.beforeandafter.contactdetails.dto.CreateContactDetailsResponseDto;
+import com.mpm.beforeandafter.contactdetails.dto.GetContactDetailsResponseDto;
 import com.mpm.beforeandafter.contactdetails.service.ContactDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +22,12 @@ public class ContactDetailsController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateContactDetailsResponseDTO createContactDetails(@RequestBody CreateContactDetailsRequestDTO request) {
+    public CreateContactDetailsResponseDto createContactDetails(@RequestBody CreateContactDetailsRequestDto request) {
         return contactDetailsService.createContactDetails(request);
     }
 
     @GetMapping("/users/{id}")
-    public GetContactDetailsResponseDTO getContactDetailsByUserId(@PathVariable("id") Long userId) {
+    public GetContactDetailsResponseDto getContactDetailsByUserId(@PathVariable("id") Long userId) {
         return contactDetailsService.getContactDetailsByUserId(userId);
     }
 }

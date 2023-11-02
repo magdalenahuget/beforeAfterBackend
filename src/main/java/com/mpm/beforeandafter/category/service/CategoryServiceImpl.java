@@ -1,7 +1,7 @@
 package com.mpm.beforeandafter.category.service;
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequestDTO;
-import com.mpm.beforeandafter.category.dto.CategoryResponseDTO;
+import com.mpm.beforeandafter.category.dto.CategoryNameRequestDto;
+import com.mpm.beforeandafter.category.dto.CategoryResponseDto;
 import com.mpm.beforeandafter.category.model.Category;
 import com.mpm.beforeandafter.category.repository.CategoryRepository;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponseDTO createCategory(CategoryNameRequestDTO request) {
+    public CategoryResponseDto createCategory(CategoryNameRequestDto request) {
         log.debug("Creating category: {}", request);
         Category category = categoryMapper.mapToCategoryEntity(request);
         category = categoryRepository.save(category);
@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryResponseDTO> getCategories() {
+    public List<CategoryResponseDto> getCategories() {
         log.debug("Fetching all categories");
         List<Category> categories = categoryRepository.findAll();
         log.info("Getting all categories (count): {}", categories.size());
@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponseDTO getCategoryById(Long categoryId) {
+    public CategoryResponseDto getCategoryById(Long categoryId) {
         log.debug("Getting category by id: {}", categoryId);
         Category category = categoryRepository
                 .findById(categoryId)
@@ -68,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponseDTO updateCategoryName(Long categoryId, CategoryNameRequestDTO request) {
+    public CategoryResponseDto updateCategoryName(Long categoryId, CategoryNameRequestDto request) {
         log.debug("Updating category with ID: {} with data: {}", categoryId, request);
         Category category = categoryRepository
                 .findById(categoryId)

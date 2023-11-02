@@ -1,8 +1,8 @@
 package com.mpm.beforeandafter.category.controller;
 
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequestDTO;
-import com.mpm.beforeandafter.category.dto.CategoryResponseDTO;
+import com.mpm.beforeandafter.category.dto.CategoryNameRequestDto;
+import com.mpm.beforeandafter.category.dto.CategoryResponseDto;
 import com.mpm.beforeandafter.category.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +25,23 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryResponseDTO createCategory(@Valid @RequestBody CategoryNameRequestDTO request) {
+    public CategoryResponseDto createCategory(@Valid @RequestBody CategoryNameRequestDto request) {
         return categoryService.createCategory(request);
     }
 
     @GetMapping
-    public List<CategoryResponseDTO> getCategories() {
+    public List<CategoryResponseDto> getCategories() {
         return categoryService.getCategories();
     }
 
     @GetMapping("/{id}")
-    public CategoryResponseDTO getCategoryById(@PathVariable("id") Long categoryId) {
+    public CategoryResponseDto getCategoryById(@PathVariable("id") Long categoryId) {
         return categoryService.getCategoryById(categoryId);
     }
 
     @PatchMapping("/{id}")
-    public CategoryResponseDTO updateCategoryName(@PathVariable("id") Long categoryId,
-                                                  @Valid @RequestBody CategoryNameRequestDTO request) {
+    public CategoryResponseDto updateCategoryName(@PathVariable("id") Long categoryId,
+                                                  @Valid @RequestBody CategoryNameRequestDto request) {
         return categoryService.updateCategoryName(categoryId, request);
     }
 

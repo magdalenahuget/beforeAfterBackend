@@ -3,7 +3,7 @@ package com.mpm.beforeandafter.user.service;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.role.model.Role;
 import com.mpm.beforeandafter.role.repository.RoleRepository;
-import com.mpm.beforeandafter.role.type.RolesType;
+import com.mpm.beforeandafter.role.type.RoleType;
 import com.mpm.beforeandafter.user.dto.*;
 import com.mpm.beforeandafter.user.model.StatusType;
 import com.mpm.beforeandafter.user.model.User;
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<GetUserResponseDto> getUsers(RolesType roleType) {
+    public List<GetUserResponseDto> getUsers(RoleType roleType) {
         log.debug("Fetching all users");
         List<User> users;
         if (roleType == null) {
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public CreateUserResponseDto createUser(CreateUserRequestDto userDto, RolesType roleType) {
+    public CreateUserResponseDto createUser(CreateUserRequestDto userDto, RoleType roleType) {
         User user = new User();
         user.setName(userDto.getUserName());
         user.setEmail(userDto.getUserEmail());

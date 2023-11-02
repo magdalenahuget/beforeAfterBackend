@@ -3,6 +3,7 @@ package com.mpm.beforeandafter.image.controller;
 import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.service.ImageService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -18,11 +19,13 @@ public class ImageController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CreateImageResponseDTO createImage(@Valid @RequestBody CreateImageRequestDTO request) {
         return imageService.createImage(request);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public Set<ImageFilterResponseDTO> getAllImagesByDynamicFilter(@RequestBody ImageFilterRequestDTO request){
         return imageService.getImagesByDynamicFilter(request);
     }

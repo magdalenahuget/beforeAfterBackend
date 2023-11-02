@@ -1,8 +1,8 @@
 package com.mpm.beforeandafter.favourites.service;
 
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
-import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDTO;
-import com.mpm.beforeandafter.favourites.dto.DeleteFavouriteResponseDTO;
+import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDto;
+import com.mpm.beforeandafter.favourites.dto.DeleteFavouriteResponseDto;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.repository.ImageRepository;
 import com.mpm.beforeandafter.user.model.User;
@@ -35,7 +35,7 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     @Override
-    public AddToFavouritesResponseDTO addImageToFavourites(Long imageId, Long userId) {
+    public AddToFavouritesResponseDto addImageToFavourites(Long imageId, Long userId) {
         log.debug("Adding image with ID: {} to the favourites of user with ID: {}", imageId,
                 userId);
 
@@ -46,7 +46,7 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     @Override
-    public DeleteFavouriteResponseDTO deleteFavourite(Long imageId, Long userId) {
+    public DeleteFavouriteResponseDto deleteFavourite(Long imageId, Long userId) {
         Image image = findImageById(imageId);
         User user = findUserById(userId);
 
@@ -74,7 +74,7 @@ public class FavouritesServiceImpl implements FavouritesService {
                 });
     }
 
-    private AddToFavouritesResponseDTO addImageToFavouritesForUser(Image image, User user) {
+    private AddToFavouritesResponseDto addImageToFavouritesForUser(Image image, User user) {
         Long imageId = image.getId();
         Long userId = user.getId();
 

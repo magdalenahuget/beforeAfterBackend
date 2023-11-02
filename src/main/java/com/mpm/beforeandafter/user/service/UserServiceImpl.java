@@ -25,11 +25,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
         }
         log.info("Getting all users (count): {}", users.size());
         return users.stream()
-                .map(GetUserResponseDto::map)
+                .map(userMapper::mapToGetUserResponseDto)
                 .toList();
     }
 
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
         user.setStatus(StatusType.TO_REVIEW);
         userRepository.save(user);
-        return CreateUserResponseDto.map(user);
+        return userMapper.mapToCreateUserResponseDto(user);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class UserServiceImpl implements UserService {
                     return new RuntimeException(
                             "User not found with id: {}" + userId);
                 });
-        return GetUserResponseDto.map(user);
+        return userMapper.mapToGetUserResponseDto(user);
     }
 
     @Override
@@ -83,7 +85,7 @@ public class UserServiceImpl implements UserService {
                     return new RuntimeException(
                             "User not found with id: {}" + userId);
                 });
-        return GetAboutMeResponseDto.map(user);
+        return userMapper.mapToGetAboutMeResponseDto(user);
     }
 
     @Override
@@ -97,7 +99,7 @@ public class UserServiceImpl implements UserService {
                 });
         user.setAboutMe(aboutMe.getAboutMe());
         userRepository.save(user);
-        return CreateAboutMeResponseDto.map(user);
+        return userMapper.mapToCreateAboutMeResponseDto(user);
     }
 
     @Override

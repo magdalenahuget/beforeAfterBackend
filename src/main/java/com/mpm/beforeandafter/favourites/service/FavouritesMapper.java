@@ -1,24 +1,24 @@
 package com.mpm.beforeandafter.favourites.service;
 
 
-import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDTO;
-import com.mpm.beforeandafter.favourites.dto.DeleteFavouriteResponseDTO;
+import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDto;
+import com.mpm.beforeandafter.favourites.dto.DeleteFavouriteResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
 class FavouritesMapper {
 
-    AddToFavouritesResponseDTO mapToAddedToFavouritesDTO(Long userId, Long imageId,
+    AddToFavouritesResponseDto mapToAddedToFavouritesDTO(Long userId, Long imageId,
                                                          String status) {
-        return AddToFavouritesResponseDTO.builder()
+        return AddToFavouritesResponseDto.builder()
                 .userId(userId)
                 .imageId(imageId)
                 .status(status)
                 .build();
     }
 
-    DeleteFavouriteResponseDTO mapToDeleteFavouriteDTO(String message) {
-        return DeleteFavouriteResponseDTO.builder()
+    DeleteFavouriteResponseDto mapToDeleteFavouriteDTO(String message) {
+        return DeleteFavouriteResponseDto.builder()
                 .message(message)
                 .build();
     }

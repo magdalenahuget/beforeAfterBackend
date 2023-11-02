@@ -6,14 +6,15 @@ import com.mpm.beforeandafter.category.model.Category;
 import org.springframework.stereotype.Component;
 
 @Component
+public
 class CategoryMapper {
-    Category mapToCategoryEntity(CategoryNameRequestDTO requestDTO) {
+    public Category mapToCategoryEntity(CategoryNameRequestDTO requestDTO) {
         return Category.builder()
                 .name(requestDTO.categoryName())
                 .build();
     }
 
-    CategoryResponseDTO mapToCategoryResponseDto(Category category) {
+    public CategoryResponseDTO mapToCategoryResponseDto(Category category) {
         return CategoryResponseDTO.builder()
                 .id(category.getId())
                 .categoryName(category.getName())

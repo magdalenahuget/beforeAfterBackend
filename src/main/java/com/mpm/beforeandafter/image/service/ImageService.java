@@ -4,15 +4,15 @@ import com.mpm.beforeandafter.image.dto.*;
 import com.mpm.beforeandafter.image.model.Image;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ImageService {
-
-    List<GetImagesResponseByStatusApprovalDTO> getImagesByApprovalStatus(GetImagesRequestByStatusApprovalDTO request);
 
     CreateImageResponseDTO createImage(CreateImageRequestDTO request);
 
     List<Image> getImagesByCategoryAndCity(Long categoryId, String cityName);
 
-    List<GetAllImagesResponseDTO> getAllImages();
+    Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request);
+
 
 }

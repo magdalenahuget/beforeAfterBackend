@@ -1,12 +1,14 @@
 package com.mpm.beforeandafter.image.controller;
 
-import com.mpm.beforeandafter.image.dto.*;
+import com.mpm.beforeandafter.image.dto.CreateImageRequestDTO;
+import com.mpm.beforeandafter.image.dto.CreateImageResponseDTO;
+import com.mpm.beforeandafter.image.dto.ImageFilterRequestDTO;
+import com.mpm.beforeandafter.image.dto.ImageFilterResponseDTO;
 import com.mpm.beforeandafter.image.service.ImageService;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -16,11 +18,6 @@ public class ImageController {
 
     public ImageController(ImageService imageService) {
         this.imageService = imageService;
-    }
-
-    @GetMapping
-    public List<GetImagesResponseByStatusApprovalDTO> getImages(@Valid @RequestBody GetImagesRequestByStatusApprovalDTO request) {
-        return imageService.getImagesByApprovalStatus(request);
     }
 
     @PostMapping
@@ -43,8 +40,8 @@ public class ImageController {
 //        return imagesByCategoryAndCity;
 //    }
 
-    @GetMapping("/all")
-    public List<GetAllImagesResponseDTO> getAllImages() {
-        return imageService.getAllImages();
+    @GetMapping
+    public Set<ImageFilterResponseDTO> getAllImagesByDynamicFilter(@RequestBody ImageFilterRequestDTO request){
+        return imageService.getImagesByDynamicFilter(request);
     }
 }

@@ -18,6 +18,9 @@ public class CreateImageRequestDTO {
     @NotNull(message = "Description is mandatory")
     private String description;
 
+    @NotNull(message = "Name city is mandatory")
+    private String city;
+
     @NotNull(message = "UserId is mandatory")
     private Long userId;
 }

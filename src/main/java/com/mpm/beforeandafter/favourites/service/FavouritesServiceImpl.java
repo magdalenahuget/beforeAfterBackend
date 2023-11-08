@@ -3,12 +3,15 @@ package com.mpm.beforeandafter.favourites.service;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.favourites.dto.AddToFavouritesResponseDto;
 import com.mpm.beforeandafter.favourites.dto.DeleteFavouriteResponseDto;
+import com.mpm.beforeandafter.favourites.dto.GetFavouriteDTO;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.image.repository.ImageRepository;
 import com.mpm.beforeandafter.user.model.User;
 import com.mpm.beforeandafter.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -32,6 +35,14 @@ public class FavouritesServiceImpl implements FavouritesService {
         this.imageRepository = imageRepository;
         this.userRepository = userRepository;
         this.favouritesMapper = favouritesMapper;
+    }
+
+    @Override
+    public List<GetFavouriteDTO> getFavouritesByUserId(Long userId) {
+        User user = findUserById(userId);
+        return user.getFavourites().stream()
+                .map(image -> new GetFavouriteDTO(image.getId(), image.getFile()))
+                .toList();
     }
 
     @Override

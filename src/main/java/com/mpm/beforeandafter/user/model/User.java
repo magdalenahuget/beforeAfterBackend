@@ -15,6 +15,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -89,5 +90,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Image>images = new ArrayList<>();
 
-
+    @ManyToMany(mappedBy = "users")
+    private Set<Image> favourites;
 }

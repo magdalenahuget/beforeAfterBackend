@@ -9,9 +9,6 @@ import lombok.Setter;
 
 public class CreateImageRequestDTO {
 
-    @NotNull(message = "File is mandatory")
-    private String file;
-
     @NotNull(message = "CategoryId is mandatory")
     private Long categoryId;
 

@@ -11,10 +11,14 @@ import com.mpm.beforeandafter.image.repository.ImageRepository;
 import com.mpm.beforeandafter.user.model.StatusType;
 import com.mpm.beforeandafter.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,21 +45,21 @@ public class ImageServiceImpl implements ImageService {
         this.imageMapper = imageMapper;
     }
 
-    @Override
-    public CreateImageResponseDTO createImage(CreateImageRequestDTO request) {
-        log.debug("Creating new Image: {}", request);
-        Image image = new Image();
-        image.setFile(request.getFile());
-        image.setCityName(request.getCity());
-        image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
-        image.setDescription(request.getDescription());
-        image.setUser(userRepository.getReferenceById(request.getUserId()));
-        image.setStatus(StatusType.TO_REVIEW);
-        imageRepository.save(image);
-        log.info("New Image created: {}", image);
-
-        return imageMapper.mapToCreateImageDTO(image);
-    }
+//    @Override
+//    public CreateImageResponseDTO createImage(CreateImageRequestDTO request) {
+//        log.debug("Creating new Image: {}", request);
+//        Image image = new Image();
+//        image.setFile(request.getFile());
+//        image.setCityName(request.getCity());
+//        image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
+//        image.setDescription(request.getDescription());
+//        image.setUser(userRepository.getReferenceById(request.getUserId()));
+//        image.setStatus(StatusType.TO_REVIEW);
+//        imageRepository.save(image);
+//        log.info("New Image created: {}", image);
+//
+//        return imageMapper.mapToCreateImageDTO(image);
+//    }
 
     @Override
     public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {
@@ -77,6 +81,8 @@ public class ImageServiceImpl implements ImageService {
                                 (validUsers.isEmpty() || validUsers.contains(image.getUser().getId())) &&
                                 (isApproved == null || image.isApproved() == isApproved))
                 .collect(Collectors.toSet());
+        images = new HashSet<>(imageRepository.findAll());
+        System.out.println(images);
         log.info("Filtering completed");
         return images;
     }
@@ -94,5 +100,25 @@ public class ImageServiceImpl implements ImageService {
                     log.error(IMAGE_NOT_FOUND_LOG_ERROR_MSG, imageId);
                     throw new ResourceNotFoundException(IMAGE_NOT_FOUND_EXCEPTION_MSG + imageId);
                 });
+    }
+
+    @Override
+    public CreateImageResponseDTO createImage(MultipartFile file, CreateImageRequestDTO request) throws FileUploadException {
+        log.debug("Creating new Image: {}", request);
+        Image image = new Image();
+        try {
+            image.setFile(file.getBytes());
+        } catch (IOException e) {
+            throw new FileUploadException("File not uploaded.");
+        }
+        image.setCityName(request.getCity());
+        image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
+        image.setDescription(request.getDescription());
+        image.setUser(userRepository.getReferenceById(request.getUserId()));
+        image.setStatus(StatusType.TO_REVIEW);
+        imageRepository.save(image);
+        log.info("New Image created: {}", image);
+
+        return imageMapper.mapToCreateImageDTO(image);
     }
 }

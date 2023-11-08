@@ -26,7 +26,18 @@ public class ImageController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Set<ImageFilterResponseDTO> getAllImagesByDynamicFilter(@RequestBody ImageFilterRequestDTO request){
+    public Set<ImageFilterResponseDTO> getAllImagesByDynamicFilter(
+            @RequestParam(required = false) Set<String> categories,
+            @RequestParam(required = false) Set<String> cities,
+            @RequestParam(required = false) Boolean approvalStatus,
+            @RequestParam(required = false) Set<Long> usersID
+    ) {
+        ImageFilterRequestDTO request = new ImageFilterRequestDTO();
+        request.setCategories(categories);
+        request.setCities(cities);
+        request.setApprovalStatus(approvalStatus);
+        request.setUsersID(usersID);
+
         return imageService.getImagesByDynamicFilter(request);
     }
 

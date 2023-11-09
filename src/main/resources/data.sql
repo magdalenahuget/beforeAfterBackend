@@ -9,22 +9,30 @@ VALUES ('Beauty'),
        ('Cleaning');
 
 
-INSERT INTO users (name, email, password, role_id, city_name, status, is_approved)
--- delete sensitive data (password) -these are required only for tests
+INSERT INTO users (name, email, password, role_id, city_name, avatar, about_me, status, is_approved, approved_by_user_id,
+                   approved_date, contact_id)
 VALUES ('Patrycja', 'patrycja@example.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityA',
-        'TO_REVIEW', TRUE),
+        'https://cdn.logojoy.com/wp-content/uploads/2018/05/01104800/1050.png', 'About Patrycja', 'TO_REVIEW', TRUE, NULL, NULL,
+        (SELECT id FROM contact_details WHERE user_id = 1)),
        ('Magda', 'magda@example.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityB',
-        'TO_REVIEW', TRUE),
+        'https://www.logodee.com/wp-content/uploads/2020/03/Modern-Company-Logo-Design-Ideas.jpg', 'About Magda', 'TO_REVIEW', TRUE, NULL, NULL,
+        (SELECT id FROM contact_details WHERE user_id = 2)),
        ('Marcin', 'marcin@example.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityC',
-        'USER_REVISION', FALSE),
-       ('User1', 'user1@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityD', 'TO_REVIEW',
-        TRUE),
-       ('User2', 'user2@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityE', 'TO_REVIEW',
-        TRUE),
+        'https://1000logos.net/wp-content/uploads/2022/10/Noodles-and-Company-Logo-1995.png', 'About Marcin', 'USER_REVISION', FALSE, NULL, NULL,
+        (SELECT id FROM contact_details WHERE user_id = 3)),
+       ('User1', 'user1@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityD',
+        'https://www.thelogocreative.co.uk/wp-content/uploads/Mobilunity-Logo-Design-min.jpg', 'About User1', 'TO_REVIEW', TRUE, NULL, NULL,
+        (SELECT id FROM contact_details WHERE user_id = 4)),
+       ('User2', 'user2@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityE',
+        'https://www.newdesigngroup.ca/ndgcnt/uploads/2014/11/Caterpillar_logo.png', 'About User2', 'TO_REVIEW', TRUE, NULL, NULL,
+        (SELECT id FROM contact_details WHERE user_id = 5)),
        ('User3', 'user3@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityF',
-        'USER_REVISION', FALSE),
+        'https://cdn.dribbble.com/users/4504621/screenshots/14791146/media/96389471f11f8aad56a7d578d6573711.jpg', 'About User3', 'USER_REVISION', FALSE, NULL, NULL,
+        (SELECT id FROM contact_details WHERE user_id = 6)),
        ('User4', 'user4@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityG',
-        'USER_REVISION', FALSE);
+        'ahttps://cdn1.designhill.com/uploads/personal_designs/thumbs/a6d4072bf8723f18ec58bcd3c4a64a97-0c8ed5efd029f7ebd92af130517aac1816750927963243.jpg?ver=2.12.64', 'About User4', 'USER_REVISION', FALSE, NULL, NULL,
+        (SELECT id FROM contact_details WHERE user_id = 7));
+
 
 
 INSERT INTO contact_details(user_id, street_name, street_number, apart_number, post_code, phone_number, webpage)
@@ -39,10 +47,17 @@ VALUES (1, 'Bukowa', '1', '2A', '10001', '+48666111333', 'www.example1.com'),
 
 INSERT INTO images
 (file, category_id, description, city_name, user_id, is_approved, approved_by_user_id, approved_date, status)
-VALUES ('file1.jpg', 1, 'Description1', 'Warsaw', 1, TRUE, 2, '2023-10-29', 'ACCEPTED'),
-       ('file2.jpg', 2, 'Description2', 'Cracow', 2, TRUE, 1, '2023-10-28', 'ACCEPTED'),
-       ('file3.jpg', 1, 'Description3', 'Cracow', 3, FALSE, NULL, NULL, 'TO_REVIEW'),
-       ('file4.jpg', 2, 'Description4', 'Warsaw', 4, TRUE, 3, '2023-10-27', 'ACCEPTED'),
-       ('file5.jpg', 1, 'Description5', 'Cracow', 5, FALSE, NULL, NULL, 'TO_REVIEW'),
-       ('file6.jpg', 2, 'Description6', 'Cracow', 6, TRUE, 1, '2023-10-26', 'ACCEPTED'),
-       ('file7.jpg', 1, 'Description7', 'Sopot', 7, FALSE, NULL, NULL, 'TO_REVIEW');
+VALUES ('https://i.insider.com/5f15db39f34d0566ad407306?width=700', 1, 'Description1', 'Warsaw', 1, TRUE, 2,
+        '2023-10-29', 'ACCEPTED'),
+       ('https://thinkwood-wordpress.s3.amazonaws.com/wp-content/uploads/2021/09/22160454/ThinkWood_BeforeAfter-LivingRoom-01.png',
+        2, 'Description2', 'Cracow', 2, TRUE, 1, '2023-10-28', 'ACCEPTED'),
+       ('https://www.younghouselove.com/wp-content/uploads/2018/09/Beach-House-Before-After-Doorway-Side-By-Side-650x457.jpg',
+        1, 'Description3', 'Cracow', 3, FALSE, NULL, NULL, 'TO_REVIEW'),
+       ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu5DIHmy951O9FLSLPNdix22i7SfDeijyeNw&usqp=CAU', 2,
+        'Description4', 'Warsaw', 4, TRUE, 3, '2023-10-27', 'ACCEPTED'),
+       ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgn90OZSJ7hUaVV67326jeg_f0cYwrS2FFVw&usqp=CAU', 1,
+        'Description5', 'Cracow', 5, FALSE, NULL, NULL, 'TO_REVIEW'),
+       ('https://i.pinimg.com/originals/7c/64/6c/7c646cc9678ad5788f275dfa5f53084d.jpg', 2, 'Description6', 'Cracow', 6,
+        TRUE, 1, '2023-10-26', 'ACCEPTED'),
+       ('https://i0.wp.com/detourdetroiter.com/wpcom-142100448/wp-content/uploads/2020/09/north-end-reno-1-1.jpg?fit=1265%2C838&ssl=1',
+        1, 'Description7', 'Sopot', 7, FALSE, NULL, NULL, 'TO_REVIEW');

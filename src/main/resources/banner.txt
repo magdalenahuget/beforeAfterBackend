@@ -7,6 +7,6 @@
 ::Version:: Beta 1.0.1
 
 ::Created by::
- Magdalena Huget, Patrycja Markowska, Marcin Kącki
+ Magdalena Huget, Patrycja Markiewicz, Marcin Kącki
 
 

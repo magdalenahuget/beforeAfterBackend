@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -29,5 +30,5 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
-    private Set<Image> images;
+    private Set<Image> images = new HashSet<>();
 }

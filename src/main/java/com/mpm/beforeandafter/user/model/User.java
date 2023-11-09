@@ -15,6 +15,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -84,7 +85,13 @@ public class User {
     private ContactDetails contactDetails;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Image>images = new ArrayList<>();
+    private List<Image> images = new ArrayList<>();
 
-
+    @ManyToMany
+    @JoinTable(
+            name = "favourites",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id", referencedColumnName = "id")
+    )
+    private Set<Image> favourites;
 }

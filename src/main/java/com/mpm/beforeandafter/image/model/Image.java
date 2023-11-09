@@ -42,12 +42,7 @@ public class Image {
     @Column(name = "city_name", length = 100)
     private String cityName;
 
-    @ManyToMany
-    @JoinTable(
-            name = "favourites",
-            joinColumns = @JoinColumn(name = "image_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
-    )
+    @ManyToMany(mappedBy = "favourites")
     private Set<User> users = new HashSet<>();
 
     @ManyToOne

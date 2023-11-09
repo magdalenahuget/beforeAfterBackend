@@ -57,7 +57,8 @@ public class User {
     private String cityName;
 
     @Column(name = "user_profile_image", unique = true)
-    private String userProfileImage; //TODO:change type to proper type for images, and rename to "avatar"(?)
+    private String userProfileImage;
+            //TODO:change type to proper type for images, and rename to "avatar"(?)
 
     @Column(name = "contact_id") //TODO relation with table addresses oneToOne
     private Integer contactId;
@@ -88,8 +89,13 @@ public class User {
     private ContactDetails contactDetails;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Image>images = new ArrayList<>();
+    private List<Image> images = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
+    @JoinTable(
+            name = "favourites",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id", referencedColumnName = "id")
+    )
     private Set<Image> favourites;
 }

@@ -12,5 +12,6 @@ public class ContactDetailsRequestDto {
     private String postcode;
     private String phoneNumber;
     private String webpage;
+    private String cityName;
     private long userId;
 }

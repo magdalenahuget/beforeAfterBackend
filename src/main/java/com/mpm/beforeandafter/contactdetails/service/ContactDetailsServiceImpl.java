@@ -53,6 +53,9 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
         if(request.getPostcode() != null) {
             contactDetails.setPostcode(request.getPostcode());
         }
+        if(request.getCityName() != null) {
+            contactDetails.setCityName(request.getCityName());
+        }
         if(request.getPhoneNumber() != null) {
             contactDetails.setPhoneNumber(request.getPhoneNumber());
         }
@@ -68,6 +71,7 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
         contactDetails.setStreetNumber(request.getStreetNumber());
         contactDetails.setApartNumber(request.getApartNumber());
         contactDetails.setPostcode(request.getPostcode());
+        contactDetails.setCityName(request.getCityName());
         contactDetails.setPhoneNumber(request.getPhoneNumber());
         contactDetails.setWebpage(request.getWebpage());
         contactDetailsRepository.save(contactDetails);

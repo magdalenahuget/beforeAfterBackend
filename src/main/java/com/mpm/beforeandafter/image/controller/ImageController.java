@@ -24,14 +24,15 @@ public class ImageController {
             @RequestParam("file") MultipartFile file
             , @RequestParam("description") String description
             , @RequestParam("categoryId") Long categoryId
-            , @RequestParam("String") String city
-            , @RequestParam("Long") Long userId) {
+            , @RequestParam("city") String city
+            , @RequestParam("userId") Long userId)
+    {
 
         System.out.println("file.getOriginalFilename = " + file.getOriginalFilename());
 
         String message = "";
         CreateImageRequestDTO createImageRequestDTO = new CreateImageRequestDTO();
-        createImageRequestDTO.setCity(description);
+        createImageRequestDTO.setDescription(description);
         createImageRequestDTO.setCategoryId(categoryId);
         createImageRequestDTO.setCity(city);
         createImageRequestDTO.setUserId(userId);

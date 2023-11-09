@@ -34,7 +34,13 @@ VALUES ('Patrycja', 'patrycja@example.com', 'password123', (SELECT id FROM roles
         (SELECT id FROM contact_details WHERE user_id = 5)),
        ('User3', 'user3@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityF',
         'https://cdn.dribbble.com/users/4504621/screenshots/14791146/media/96389471f11f8aad56a7d578d6573711.jpg',
-        'About User3', 'USER_REVISION', FALSE, NULL, NULL,
+        'Nasza firma, Dom-Odnova, to esencja rodzinnej pasji do renowacji i odrodzenia piękna starych domów, nurt, który płynie w naszych żyłach od pokoleń. Historia naszego przedsiębiorstwa sięga początków dwudziestego wieku, kiedy to pradziadek Antoni, z zawodu cieśla i mistrz stolarski, rozpoczął przygodę z odbudową zniszczonych dworków. Jego praca, pełna zaangażowania i miłości do detalu, szybko zdobyła uznanie wśród lokalnej społeczności.
+
+        Po latach pałeczka przekazywana była z ojca na syna, aż dotarła do mnie – prawnuka Antoniego. Współcześnie, Dom-Odnova łączy tradycyjne metody rzemieślnicze z nowoczesnymi technologiami, by przywracać dawny blask budynkom z duszą. Każdy projekt traktujemy jak dzieło sztuki, dokładając wszelkich starań, aby odzwierciedlić w nim zarówno historię murów, jak i osobowość ich mieszkańców.
+
+        Nasza praca to nie tylko renowacja – to dialog z przeszłością i pieczołowite tworzenie przestrzeni, która będzie służyć kolejnym pokoleniom. Dumni z naszego dziedzictwa, z zapałem wyruszamy naprzeciw nowym wyzwaniom, pamiętając o rzemiośle naszych przodków i przekazując tę pasję dalej. Dom-Odnova to więcej niż firma – to opowieść o domach, które dzięki naszej pracy mogą opowiadać własne historie.',
+
+        'USER_REVISION', FALSE, NULL, NULL,
         (SELECT id FROM contact_details WHERE user_id = 6)),
        ('User4', 'user4@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityG',
         'ahttps://cdn1.designhill.com/uploads/personal_designs/thumbs/a6d4072bf8723f18ec58bcd3c4a64a97-0c8ed5efd029f7ebd92af130517aac1816750927963243.jpg?ver=2.12.64',

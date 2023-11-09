@@ -46,4 +46,8 @@ public class ContactDetails {
 
     @Column(name = "webpage", length = 150)
     private String webpage;
+
+    @Column(name = "city_name")
+    @Size(max = 30, message = "City name cannot exceed 30 characters")
+    private String cityName;
 }

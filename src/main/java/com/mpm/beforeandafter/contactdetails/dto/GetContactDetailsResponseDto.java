@@ -13,4 +13,5 @@ public class GetContactDetailsResponseDto {
     private String postcode;
     private String phoneNumber;
     private String webpage;
+    private String cityName;
 }

@@ -7,7 +7,6 @@ import lombok.Data;
 @Builder
 public class CreateImageResponseDTO {
     private long imageId;
-    private String file;
     private Long categoryId;
     private String description;
     private Long userId;

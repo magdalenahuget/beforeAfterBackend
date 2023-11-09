@@ -8,7 +8,7 @@ import lombok.Data;
 
 public class ImageFilterResponseDTO {
     private long id;
-    private String file;
+    private byte[] file;
     private String cityName;
     private Long categoryId;
     private Long userId;

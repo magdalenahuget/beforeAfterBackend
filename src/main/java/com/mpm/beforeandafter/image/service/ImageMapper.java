@@ -13,7 +13,6 @@ public class ImageMapper {
     CreateImageResponseDTO mapToCreateImageDTO(Image image) {
         return CreateImageResponseDTO.builder()
                 .imageId(image.getId())
-                .file(image.getFile())
                 .categoryId(image.getCategory().getId())
                 .description(image.getDescription())
                 .userId(image.getUser().getId())

@@ -6,8 +6,10 @@ import com.mpm.beforeandafter.user.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,8 +28,9 @@ public class Image {
     @Column(name = "id")
     private Long id;
 
+    @Lob
     @Column(name = "file")
-    private String file;
+    private byte[] file;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)

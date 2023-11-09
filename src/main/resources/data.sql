@@ -13,7 +13,11 @@ INSERT INTO users (name, email, password, role_id, city_name, avatar, about_me, 
                    approved_by_user_id,
                    approved_date, contact_id)
 VALUES ('Patrycja', 'patrycja@example.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityA',
-        'https://cdn.logojoy.com/wp-content/uploads/2018/05/01104800/1050.png', 'About Patrycja', 'TO_REVIEW', TRUE,
+        'https://cdn.logojoy.com/wp-content/uploads/2018/05/01104800/1050.png', '        ''Nasza firma, Dom-Odnova, to esencja rodzinnej pasji do renowacji i odrodzenia piękna starych domów, nurt, który płynie w naszych żyłach od pokoleń. Historia naszego przedsiębiorstwa sięga początków dwudziestego wieku, kiedy to pradziadek Antoni, z zawodu cieśla i mistrz stolarski, rozpoczął przygodę z odbudową zniszczonych dworków. Jego praca, pełna zaangażowania i miłości do detalu, szybko zdobyła uznanie wśród lokalnej społeczności.
+
+        Po latach pałeczka przekazywana była z ojca na syna, aż dotarła do mnie – prawnuka Antoniego. Współcześnie, Dom-Odnova łączy tradycyjne metody rzemieślnicze z nowoczesnymi technologiami, by przywracać dawny blask budynkom z duszą. Każdy projekt traktujemy jak dzieło sztuki, dokładając wszelkich starań, aby odzwierciedlić w nim zarówno historię murów, jak i osobowość ich mieszkańców.
+
+        Nasza praca to nie tylko renowacja – to dialog z przeszłością i pieczołowite tworzenie przestrzeni, która będzie służyć kolejnym pokoleniom. Dumni z naszego dziedzictwa, z zapałem wyruszamy naprzeciw nowym wyzwaniom, pamiętając o rzemiośle naszych przodków i przekazując tę pasję dalej. Dom-Odnova to więcej niż firma – to opowieść o domach, które dzięki naszej pracy mogą opowiadać własne historie.'',', 'TO_REVIEW', TRUE,
         NULL, NULL, (SELECT id FROM contact_details WHERE user_id = 1)),
 
        ('Magda', 'magda@example.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityB',
@@ -74,3 +78,10 @@ VALUES (1, 'Bukowa', '1', '2A', '10001', 'Warsaw', '+48666111333', 'www.example1
 --         TRUE, 1, '2023-10-26', 'ACCEPTED'),
 --        ('https://i0.wp.com/detourdetroiter.com/wpcom-142100448/wp-content/uploads/2020/09/north-end-reno-1-1.jpg?fit=1265%2C838&ssl=1',
 --         1, 'Description7', 'Sopot', 7, FALSE, NULL, NULL, 'TO_REVIEW');
+
+
+
+-- UPDATE images
+-- SET description = 'opis usługi'
+-- WHERE id = 6
+--   AND user_id = 6;

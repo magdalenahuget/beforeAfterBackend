@@ -81,8 +81,6 @@ public class ImageServiceImpl implements ImageService {
                                 (validUsers.isEmpty() || validUsers.contains(image.getUser().getId())) &&
                                 (isApproved == null || image.isApproved() == isApproved))
                 .collect(Collectors.toSet());
-        images = new HashSet<>(imageRepository.findAll());
-        System.out.println(images);
         log.info("Filtering completed");
         return images;
     }
@@ -112,9 +110,11 @@ public class ImageServiceImpl implements ImageService {
             throw new FileUploadException("File not uploaded.");
         }
         image.setCityName(request.getCity());
-        image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
+        image.setCategory(categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId())));
         image.setDescription(request.getDescription());
-        image.setUser(userRepository.getReferenceById(request.getUserId()));
+        image.setUser(userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + request.getUserId())));
         image.setStatus(StatusType.TO_REVIEW);
         imageRepository.save(image);
         log.info("New Image created: {}", image);

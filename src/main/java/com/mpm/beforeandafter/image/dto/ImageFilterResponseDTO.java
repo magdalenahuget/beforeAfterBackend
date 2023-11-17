@@ -10,6 +10,7 @@ public class ImageFilterResponseDTO {
     private long id;
     private byte[] file;
     private String cityName;
+    private String description;
     private Long categoryId;
     private Long userId;
     private boolean approvalStatus;

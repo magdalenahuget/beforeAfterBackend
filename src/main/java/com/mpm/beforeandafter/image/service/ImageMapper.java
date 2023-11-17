@@ -29,6 +29,7 @@ public class ImageMapper {
                     .categoryId(image.getCategory().getId())
                     .approvalStatus(image.isApproved())
                     .cityName(image.getCityName())
+                    .description(image.getDescription())
                     .userId(image.getUser().getId())
                     .build();
             result.add(mappedImage);

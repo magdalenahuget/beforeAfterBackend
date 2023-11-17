@@ -6,10 +6,8 @@ import com.mpm.beforeandafter.user.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +34,7 @@ public class Image {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "city_name", length = 100)

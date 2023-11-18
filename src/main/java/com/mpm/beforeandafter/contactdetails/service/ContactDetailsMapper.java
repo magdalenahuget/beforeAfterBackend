@@ -15,6 +15,7 @@ public class ContactDetailsMapper {
                 .streetNumber(contactDetails.getStreetNumber())
                 .apartNumber(contactDetails.getApartNumber())
                 .postcode(contactDetails.getPostcode())
+                .email(contactDetails.getEmail())
                 .cityName(contactDetails.getCityName())
                 .phoneNumber(contactDetails.getPhoneNumber())
                 .webpage(contactDetails.getWebpage())
@@ -29,6 +30,7 @@ public class ContactDetailsMapper {
                 .apartNumber(contactDetails.getApartNumber())
                 .postcode(contactDetails.getPostcode())
                 .cityName(contactDetails.getCityName())
+                .email(contactDetails.getEmail())
                 .phoneNumber(contactDetails.getPhoneNumber())
                 .webpage(contactDetails.getWebpage())
                 .build();

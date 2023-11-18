@@ -11,6 +11,7 @@ public class ContactDetailsRequestDto {
     private String apartNumber;
     private String postcode;
     private String phoneNumber;
+    private String email;
     private String webpage;
     private String cityName;
     private long userId;

@@ -51,15 +51,15 @@ VALUES ('Patrycja', 'beforeandafter757@gmail.com', 'password123', (SELECT id FRO
 
 
 
-INSERT INTO contact_details (user_id, street_name, street_number, apart_number, post_code, city_name, phone_number,
-                             webpage)
-VALUES (1, 'Bukowa', '1', '2A', '10001', 'Warsaw', '+48666111333', 'www.example1.com'),
-       (2, 'Akacjowa', '2', '5B', '10002', 'Cracow', '+48999555666', 'www.example2.com'),
-       (3, 'Świerkowa', '3', '12', '10003', 'Poznan', '+48777111222', 'www.example3.com'),
-       (4, 'Kaktusowa', '4', '4D', '10004', 'Warsaw', '+448909809767', 'www.example4.com'),
-       (5, 'Pistacjowa', '5', '9C', '10005', 'Gdansk', '+48515112098', 'www.example5.com'),
-       (6, 'Migdałowa', '6', '10E', '10006', 'Warsaw', '+503505202', 'www.example6.com'),
-       (7, 'Fistaszkowa', '7', '7F', '10007', 'Cracow', '+444555666', 'www.example7.com');
+INSERT INTO contact_details (user_id, street_name, street_number, apart_number, post_code, city_name, phone_number, email, webpage)
+VALUES
+    (1, 'Bukowa', '1', '2A', '10001', 'Warsaw', '666111333', 'beforeandafter757@gmail.com', 'www.example1.com'),
+    (2, 'Akacjowa', '2', '5B', '10002', 'Cracow', '999555666', 'user2@example.com', 'www.example2.com'),
+    (3, 'Świerkowa', '3', '12', '10003', 'Poznan', '777111222', 'user3@example.com', 'www.example3.com'),
+    (4, 'Kaktusowa', '4', '4D', '10004', 'Warsaw', '890980976', 'user4@example.com', 'www.example4.com'),
+    (5, 'Pistacjowa', '5', '9C', '10005', 'Gdansk', '515112098', 'user5@example.com', 'www.example5.com'),
+    (6, 'Migdałowa', '6', '10E', '10006', 'Warsaw', '3505202', 'user6@example.com', 'www.example6.com'),
+    (7, 'Fistaszkowa', '7', '7F', '10007', 'Cracow', '44555666', 'user7@example.com', 'www.example7.com');
 
 
 -- INSERT INTO images

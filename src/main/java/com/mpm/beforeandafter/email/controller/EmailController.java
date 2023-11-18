@@ -1,6 +1,6 @@
 package com.mpm.beforeandafter.email.controller;
 
-import com.mpm.beforeandafter.email.EmailService;
+import com.mpm.beforeandafter.email.service.EmailService;
 import com.mpm.beforeandafter.email.dto.ContactFormDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

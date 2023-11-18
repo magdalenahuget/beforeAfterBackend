@@ -1,4 +1,4 @@
-package com.mpm.beforeandafter.email;
+package com.mpm.beforeandafter.email.service;
 
 import com.mpm.beforeandafter.contactdetails.dto.GetContactDetailsResponseDto;
 import com.mpm.beforeandafter.contactdetails.service.ContactDetailsService;

@@ -12,7 +12,7 @@ VALUES ('Beauty'),
 INSERT INTO users (name, email, password, role_id, city_name, avatar, about_me, status, is_approved,
                    approved_by_user_id,
                    approved_date, contact_id)
-VALUES ('Patrycja', 'patrycja@example.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityA',
+VALUES ('Patrycja', 'beforeandafter757@gmail.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityA',
         'https://cdn.logojoy.com/wp-content/uploads/2018/05/01104800/1050.png', '        ''Nasza firma, Dom-Odnova, to esencja rodzinnej pasji do renowacji i odrodzenia piękna starych domów, nurt, który płynie w naszych żyłach od pokoleń. Historia naszego przedsiębiorstwa sięga początków dwudziestego wieku, kiedy to pradziadek Antoni, z zawodu cieśla i mistrz stolarski, rozpoczął przygodę z odbudową zniszczonych dworków. Jego praca, pełna zaangażowania i miłości do detalu, szybko zdobyła uznanie wśród lokalnej społeczności.
 
         Po latach pałeczka przekazywana była z ojca na syna, aż dotarła do mnie – prawnuka Antoniego. Współcześnie, Dom-Odnova łączy tradycyjne metody rzemieślnicze z nowoczesnymi technologiami, by przywracać dawny blask budynkom z duszą. Każdy projekt traktujemy jak dzieło sztuki, dokładając wszelkich starań, aby odzwierciedlić w nim zarówno historię murów, jak i osobowość ich mieszkańców.

@@ -2,6 +2,8 @@ package com.mpm.beforeandafter.contactdetails.model;
 
 import com.mpm.beforeandafter.user.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +45,12 @@ public class ContactDetails {
 
     @Column(name = "phone_number", length = 15)
     private String phoneNumber;
+
+    @Column(name = "email", length = 100, unique = true)
+    @NotNull
+    @NotBlank(message = "User email is mandatory.")
+    @Size(min = 5, max = 50, message = "User email must be between 5 and 50 characters long.")
+    private String email;
 
     @Column(name = "webpage", length = 150)
     private String webpage;

@@ -1,22 +1,15 @@
 package com.mpm.beforeandafter;
 
-import com.mpm.beforeandafter.category.dto.CategoryNameRequestDto;
-import com.mpm.beforeandafter.category.service.CategoryService;
-import com.mpm.beforeandafter.role.service.RoleServiceImpl;
-import com.mpm.beforeandafter.role.type.RoleType;
-import com.mpm.beforeandafter.user.dto.CreateUserRequestDto;
-import com.mpm.beforeandafter.user.service.UserService;
 import jakarta.servlet.MultipartConfigElement;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.util.unit.DataSize;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@EnableAsync
 public class BeforeAndAfterApplication {
 
     public static void main(String[] args) {

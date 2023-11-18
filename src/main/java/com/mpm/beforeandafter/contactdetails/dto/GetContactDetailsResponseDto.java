@@ -12,6 +12,7 @@ public class GetContactDetailsResponseDto {
     private String apartNumber;
     private String postcode;
     private String phoneNumber;
+    private String email;
     private String webpage;
     private String cityName;
 }

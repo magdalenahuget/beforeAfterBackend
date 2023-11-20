@@ -49,13 +49,16 @@ public class FavouritesServiceImpl implements FavouritesService {
     @Override
     @Transactional
     public AddToFavouritesResponseDto addImageToFavourites(Long imageId, Long userId) {
-        log.debug("Adding image with ID: {} to the favourites of user with ID: {}", imageId,
-                userId);
+        log.debug("Attempting to add image with ID: {} to the favourites of user with ID: {}",
+                imageId, userId);
 
         Image image = findImageById(imageId);
         User user = findUserById(userId);
 
-        return addImageToFavouritesForUser(image, user);
+        validateImageOwnership(image, user);
+        return isImageAlreadyFavourite(image, user)
+                ? createAlreadyFavouriteResponse(userId, imageId)
+                : addImageToFavourites(user, image);
     }
 
     @Override
@@ -87,22 +90,36 @@ public class FavouritesServiceImpl implements FavouritesService {
                 });
     }
 
-    private AddToFavouritesResponseDto addImageToFavouritesForUser(Image image, User user) {
-        Long imageId = image.getId();
-        Long userId = user.getId();
-
-        if (user.getFavourites().contains(image)) {
-            log.info("Image with ID: {} is already in the favourites of user with ID: {}", imageId,
-                    userId);
-            return favouritesMapper.mapToAddedToFavouritesDTO(userId, imageId,
-                    "Image is already in favourites");
-        } else {
-            user.getFavourites().add(image);
-            userRepository.save(user);
-            log.info("Image with ID: {} added to the favourites of user with ID: {}", imageId,
-                    userId);
-            return favouritesMapper.mapToAddedToFavouritesDTO(userId, imageId,
-                    "Image added to favourites");
+    private void validateImageOwnership(Image image, User user) {
+        if (image.getUser().equals(user)) {
+            log.info("User with ID: {} cannot add their own image with ID: {} to favourites",
+                    user.getId(), image.getId());
+            throw new IllegalArgumentException("Cannot add own image to favourites.");
         }
+    }
+
+    private boolean isImageAlreadyFavourite(Image image, User user) {
+        return user.getFavourites().contains(image);
+    }
+
+
+    private AddToFavouritesResponseDto createAlreadyFavouriteResponse(Long userId, Long imageId) {
+        log.info("Image with ID: {} is already in the favourites of user with ID: {}", imageId,
+                userId);
+        return favouritesMapper.mapToAddedToFavouritesDTO(userId, imageId,
+                "Image is already in favourites.");
+    }
+
+    private AddToFavouritesResponseDto addImageToFavourites(User user, Image image) {
+        user.getFavourites().add(image);
+        userRepository.save(user);
+        log.info("Image with ID: {} added to the favourites of user with ID: {}", image.getId(),
+                user.getId());
+        return createAddedToFavouritesResponse(user.getId(), image.getId());
+    }
+
+    private AddToFavouritesResponseDto createAddedToFavouritesResponse(Long userId, Long imageId) {
+        return favouritesMapper.mapToAddedToFavouritesDTO(userId, imageId,
+                "Image added to favourites.");
     }
 }

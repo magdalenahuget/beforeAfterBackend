@@ -39,6 +39,7 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<GetFavouriteDTO> getFavouritesByUserId(Long userId) {
         User user = findUserById(userId);
         return user.getFavourites().stream()
@@ -62,9 +63,18 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     @Override
+    @Transactional
     public DeleteFavouriteResponseDto deleteFavourite(Long imageId, Long userId) {
         Image image = findImageById(imageId);
         User user = findUserById(userId);
+
+        if (!user.getFavourites().contains(image)) {
+            log.info(
+                    "Image with ID: {} is not in the favourites of user with ID: {}, thus cannot " +
+                            "be removed",
+                    imageId, userId);
+            return favouritesMapper.mapToDeleteFavouriteDTO("Image not in favourites.");
+        }
 
         image.getUsers().remove(user);
         imageRepository.save(image);

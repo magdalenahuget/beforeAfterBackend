@@ -145,11 +145,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Authentication getAuthentication(UserRequest loginRequest) {
+        System.out.println("loginRequest:");
+        System.out.println(loginRequest);
         Authentication authentication = authenticationManager
                 .authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                loginRequest.getEmail(),
-                                loginRequest.getPassword()));
+                                loginRequest.getUserEmail(),
+                                loginRequest.getUserPassword()));
         return authentication;
     }
 

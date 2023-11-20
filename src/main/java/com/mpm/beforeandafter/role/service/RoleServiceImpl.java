@@ -24,8 +24,8 @@ public class RoleServiceImpl implements RoleService{
      */
     @Override
     public void createRoles() {
-        for (RoleType roleType: RoleType.values()) {
-            Role role = new Role(roleType.getRoleName());
+        for (RoleType roleType : RoleType.values()) {
+            Role role = new Role(roleType);
             roleRepository.save(role);
         }
     }

@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -41,7 +43,8 @@ public class UserServiceImpl implements UserService {
         if (roleType == null) {
             users = userRepository.findAll();
         } else {
-            users = userRepository.findByRoleName(roleType.getRoleName());
+            Role providedRole = roleRepository.findByName(roleType);
+            users = userRepository.findAllByRolesIn(Set.of(providedRole.getId()));
         }
         log.info("Getting all users (count): {}", users.size());
         return users.stream()
@@ -55,8 +58,11 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getUserName());
         user.setEmail(userDto.getUserEmail());
         user.setPassword(userDto.getUserPassword());
-        Role role = roleRepository.findByName(roleType.getRoleName());
-        user.setRole(role);
+        System.out.println(userDto);
+        System.out.println(roleType);
+        Role role = roleRepository.findByName(roleType);
+        System.out.println(role);
+        user.setRoles(Set.of(role));
         user.setStatus(StatusType.TO_REVIEW);
         userRepository.save(user);
         return userMapper.mapToCreateUserResponseDto(user);

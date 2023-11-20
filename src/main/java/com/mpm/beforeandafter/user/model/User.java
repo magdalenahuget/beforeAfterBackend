@@ -46,11 +46,13 @@ public class User {
     @Size(min = 8, max = 50, message = "User password must be between 8 and 50 characters long.")
     private String password;
 
-    @NotNull(message = "User role is mandatory.")
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    @JsonIgnore
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
     @Column(name = "city_name", length = 100)
     @Size(min = 2, max = 100, message = "User password must be between 2 and 100 characters long.")

@@ -25,8 +25,6 @@ public class FavouritesController {
         return favouritesService.getFavouritesByUserId(userId);
     }
 
-    //TO DO : usunięcie userId ze ścieżki - implementacja wyciągania userId z sesji lub tokena jwt.
-    //SKONSULTOWAĆ: przekazywanie imageId w kontekście JWT? Które podejście PathVariable/DTO?
     @PostMapping("/images/{imageId}/users/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
     public AddToFavouritesResponseDto addImageToFavourites(

@@ -68,20 +68,19 @@ public class FavouritesServiceImpl implements FavouritesService {
         Image image = findImageById(imageId);
         User user = findUserById(userId);
 
-        if (!user.getFavourites().contains(image)) {
-            log.info(
-                    "Image with ID: {} is not in the favourites of user with ID: {}, thus cannot " +
-                            "be removed",
-                    imageId, userId);
+        if (user.getFavourites().contains(image)) {
+            user.getFavourites().remove(image);
+            image.getUsers().remove(user);
+            userRepository.save(user);
+            imageRepository.save(image);
+            log.info("Image with ID: {} removed from the favourites of user with ID: {}", imageId,
+                    userId);
+            return favouritesMapper.mapToDeleteFavouriteDTO("Image removed from favourites.");
+        } else {
+            log.info("Image with ID: {} is not in the favourites of user with ID: {}", imageId,
+                    userId);
             return favouritesMapper.mapToDeleteFavouriteDTO("Image not in favourites.");
         }
-
-        image.getUsers().remove(user);
-        imageRepository.save(image);
-
-        log.info("Image with ID: {} removed from the favourites of user with ID: {}", imageId,
-                userId);
-        return favouritesMapper.mapToDeleteFavouriteDTO("Image removed from favourites.");
     }
 
     private Image findImageById(Long imageId) {

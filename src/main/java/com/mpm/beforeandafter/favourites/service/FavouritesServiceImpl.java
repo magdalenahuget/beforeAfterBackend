@@ -65,22 +65,16 @@ public class FavouritesServiceImpl implements FavouritesService {
     @Override
     @Transactional
     public DeleteFavouriteResponseDto deleteFavourite(Long imageId, Long userId) {
-        Image image = findImageById(imageId);
         User user = findUserById(userId);
 
-        if (user.getFavourites().contains(image)) {
-            user.getFavourites().remove(image);
-            image.getUsers().remove(user);
-            userRepository.save(user);
-            imageRepository.save(image);
-            log.info("Image with ID: {} removed from the favourites of user with ID: {}", imageId,
-                    userId);
-            return favouritesMapper.mapToDeleteFavouriteDTO("Image removed from favourites.");
-        } else {
-            log.info("Image with ID: {} is not in the favourites of user with ID: {}", imageId,
-                    userId);
-            return favouritesMapper.mapToDeleteFavouriteDTO("Image not in favourites.");
-        }
+        boolean removed = user.getFavourites().removeIf(img -> img.getId().equals(imageId));
+        userRepository.save(user);
+
+        String message = removed ? "Image removed from favourites." : "Image is no longer in " +
+                "favourites.";
+        log.info("User with ID: {} attempted to remove image with ID: {}: {}", userId, imageId,
+                message);
+        return favouritesMapper.mapToDeleteFavouriteDTO(message);
     }
 
     private Image findImageById(Long imageId) {

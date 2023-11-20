@@ -41,9 +41,9 @@ public class User {
     @Size(min = 5, max = 50, message = "User email must be between 5 and 50 characters long.")
     private String email;
 
-    @Column(name = "password", length = 200)//TODO security hash?
+    @Column(name = "password", length = 500)//TODO security hash?
     @NotBlank(message = "User password is mandatory.")
-    @Size(min = 8, max = 50, message = "User password must be between 8 and 50 characters long.")
+    @Size(min = 8, max = 500, message = "User password must be between 8 and 50 characters long.")
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

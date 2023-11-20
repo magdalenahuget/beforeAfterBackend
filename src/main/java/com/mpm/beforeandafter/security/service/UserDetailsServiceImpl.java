@@ -1,5 +1,6 @@
 package com.mpm.beforeandafter.security.service;
 
+import com.mpm.beforeandafter.role.model.Role;
 import com.mpm.beforeandafter.user.model.User;
 import com.mpm.beforeandafter.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 new UsernameNotFoundException("User Not Found with username: " + email));
         System.out.println("User = " + user);
         List<SimpleGrantedAuthority> roles = new ArrayList<>();
-        String roleName = user.getRole().getName();
-        roles.add(new SimpleGrantedAuthority(roleName));
-
+        for (Role role : user.getRoles()) {
+            roles.add(new SimpleGrantedAuthority(role.getName().name()));
+            System.out.println(role);
+        }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roles);
     }
 }

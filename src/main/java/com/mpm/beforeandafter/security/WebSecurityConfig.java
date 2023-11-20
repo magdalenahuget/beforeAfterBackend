@@ -62,7 +62,8 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("users/**").hasRole("USER")
+                        auth.requestMatchers("auth/**").permitAll()
+                                .requestMatchers("users/**").hasRole("USER")
                                 .requestMatchers("/images").permitAll()
                                 .anyRequest().authenticated()
 

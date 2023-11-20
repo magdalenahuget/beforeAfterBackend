@@ -10,6 +10,7 @@ import com.mpm.beforeandafter.user.model.User;
 import com.mpm.beforeandafter.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     @Override
+    @Transactional
     public AddToFavouritesResponseDto addImageToFavourites(Long imageId, Long userId) {
         log.debug("Adding image with ID: {} to the favourites of user with ID: {}", imageId,
                 userId);
@@ -89,18 +91,18 @@ public class FavouritesServiceImpl implements FavouritesService {
         Long imageId = image.getId();
         Long userId = user.getId();
 
-        if (image.getUsers().contains(user)) {
+        if (user.getFavourites().contains(image)) {
             log.info("Image with ID: {} is already in the favourites of user with ID: {}", imageId,
                     userId);
             return favouritesMapper.mapToAddedToFavouritesDTO(userId, imageId,
                     "Image is already in favourites");
+        } else {
+            user.getFavourites().add(image);
+            userRepository.save(user);
+            log.info("Image with ID: {} added to the favourites of user with ID: {}", imageId,
+                    userId);
+            return favouritesMapper.mapToAddedToFavouritesDTO(userId, imageId,
+                    "Image added to favourites");
         }
-
-        image.getUsers().add(user);
-        imageRepository.save(image);
-
-        log.info("Image with ID: {} added to the favourites of user with ID: {}", imageId, userId);
-        return favouritesMapper.mapToAddedToFavouritesDTO(userId, imageId,
-                "Image added to favourites");
     }
 }

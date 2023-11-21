@@ -21,7 +21,7 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@ToString
+//@ToString
 @Entity
 @Table(name = "users")
 public class User {
@@ -42,16 +42,18 @@ public class User {
     @Size(min = 5, max = 50, message = "User email must be between 5 and 50 characters long.")
     private String email;
 
-    @Column(name = "password", length = 200)//TODO security hash?
+    @Column(name = "password", length = 500)//TODO security hash?
     @NotBlank(message = "User password is mandatory.")
-    @Size(min = 8, max = 50, message = "User password must be between 8 and 50 characters long.")
+    @Size(min = 8, max = 500, message = "User password must be between 8 and 50 characters long.")
     private String password;
 
-    @NotNull(message = "User role is mandatory.")
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    @JsonIgnore
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
     @Column(name = "city_name", length = 100)
     @Size(min = 2, max = 100, message = "User password must be between 2 and 100 characters long.")

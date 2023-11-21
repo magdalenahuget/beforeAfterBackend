@@ -156,9 +156,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getSecurityContextAndJwt(Authentication authentication) {
+    public String getSecurityContextAndJwt(UserRequest loginRequest, Authentication authentication) {
+        String userEmail = loginRequest.getUserEmail();
+        com.mpm.beforeandafter.user.model.User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + userEmail));
+        // pobrać usera z db
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtUtils.generateJwtToken(authentication);
+        return jwtUtils.generateJwtToken(authentication, user.getId());
     }
 
     @Override

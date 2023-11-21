@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 
 @Component
 public class JwtUtils {
@@ -24,13 +25,17 @@ public class JwtUtils {
     @Value("${beforeandafter.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
+    public String generateJwtToken(Authentication authentication, Long userId) {
 
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 
+        System.out.println("userPrincipal:");
         System.out.println(userPrincipal.toString());
+        HashMap<String, String> claims = new HashMap<>();
+        claims.put("userId", String.valueOf(userId));
 
         return Jwts.builder()
+                .setClaims(claims)
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))

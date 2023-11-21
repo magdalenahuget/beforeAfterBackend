@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         System.out.println("Email = " + email);
         User user = userRepository.findByEmail(email).orElseThrow(() ->
                 new UsernameNotFoundException("User Not Found with username: " + email));
-        System.out.println("User = " + user);
+//        System.out.println("User = " + user);
         List<SimpleGrantedAuthority> roles = new ArrayList<>();
         for (Role role : user.getRoles()) {
             roles.add(new SimpleGrantedAuthority(role.getName().name()));

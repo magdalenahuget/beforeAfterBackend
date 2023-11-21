@@ -20,7 +20,7 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@ToString
+//@ToString
 @Entity
 @Table(name = "users")
 public class User {

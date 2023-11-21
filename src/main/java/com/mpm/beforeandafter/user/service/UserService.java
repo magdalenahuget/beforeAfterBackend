@@ -23,7 +23,7 @@ public interface UserService {
 
     Authentication getAuthentication(UserRequest loginRequest);
 
-    String getSecurityContextAndJwt(Authentication authentication);
+    String getSecurityContextAndJwt(UserRequest loginRequest, Authentication authentication);
 
     org.springframework.security.core.userdetails.User getUserDetails(Authentication authentication);
 

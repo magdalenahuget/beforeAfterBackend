@@ -14,6 +14,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -65,7 +66,7 @@ public class User {
     private String avatar; //TODO:change type to proper type for images
 
     @Column(name = "about_me", columnDefinition = "TEXT")
-    @Size(min = 10, max = 500, message = "About me must be between 10 and 500 characters.")
+    @Size(min = 10, max = 5000, message = "About me must be between 10 and 500 characters.")
     private String aboutMe;
 
     @Enumerated(EnumType.STRING)
@@ -95,5 +96,5 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "image_id", referencedColumnName = "id")
     )
-    private Set<Image> favourites;
+    private Set<Image> favourites = new HashSet<>();
 }

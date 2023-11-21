@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
-    CreateUserResponseDto mapToCreateUserResponseDto(User user){
+    CreateUserResponseDto mapToCreateUserResponseDto(User user) {
         return CreateUserResponseDto.builder()
                 .userName(user.getName())
                 .email(user.getEmail())
@@ -23,13 +23,13 @@ public class UserMapper {
                 .build();
     }
 
-    CreateAboutMeResponseDto mapToCreateAboutMeResponseDto(User user){
+    CreateAboutMeResponseDto mapToCreateAboutMeResponseDto(User user) {
         return CreateAboutMeResponseDto.builder()
                 .aboutMe(user.getAboutMe())
                 .build();
     }
 
-    public GetUserResponseDto mapToGetUserResponseDto(User user){
+    public GetUserResponseDto mapToGetUserResponseDto(User user) {
         return GetUserResponseDto.builder()
                 .userName(user.getName())
                 .email(user.getEmail())
@@ -37,7 +37,7 @@ public class UserMapper {
                 .build();
     }
 
-    GetAboutMeResponseDto mapToGetAboutMeResponseDto(User user){
+    GetAboutMeResponseDto mapToGetAboutMeResponseDto(User user) {
         return GetAboutMeResponseDto.builder()
                 .aboutMe(user.getAboutMe())
                 .build();

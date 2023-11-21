@@ -63,7 +63,7 @@ public class User {
     private String avatar; //TODO:change type to proper type for images
 
     @Column(name = "about_me", columnDefinition = "TEXT")
-    @Size(min = 10, max = 500, message = "About me must be between 10 and 500 characters.")
+    @Size(min = 10, max = 5000, message = "About me must be between 10 and 500 characters.")
     private String aboutMe;
 
     @Enumerated(EnumType.STRING)

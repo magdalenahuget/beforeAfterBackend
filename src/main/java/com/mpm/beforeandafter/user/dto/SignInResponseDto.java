@@ -11,11 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class JwtResponse {
+public class SignInResponseDto {
 
     private String jwt;
-
     private String email;
-
     private List<String> roles;
 }

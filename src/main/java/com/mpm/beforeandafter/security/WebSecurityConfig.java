@@ -22,9 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final UserDetailsService userDetailsService;
-
     private final AuthEntryPointJwt unauthorizedHandler;
-
     private final JwtUtils jwtUtils;
 
     public WebSecurityConfig(UserDetailsService userDetailsService, AuthEntryPointJwt unauthorizedHandler, JwtUtils jwtUtils) {
@@ -62,11 +60,17 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("auth/**").permitAll()
-                                .requestMatchers("users/**").hasRole("USER")
-                                .requestMatchers("/images").permitAll()
+                        auth.requestMatchers("api/v1/auth/**").permitAll()
+                                .requestMatchers("api/v1/categories/**").permitAll()
+                                .requestMatchers("api/v1/contact_details/**").permitAll()
+                                .requestMatchers("/api/v1/emails/**").permitAll()
+                                .requestMatchers("/api/v1/favourites/**").permitAll()
+                                .requestMatchers("/api/v1/images/**").permitAll()
+                                //TODO:add authorization to selected endpoints by "hasRole("USER")" as below,
+                                //TODO:verify if slash should be added or no
+//                                .requestMatchers("api/v1/users/**").hasRole("USER")
+                                .requestMatchers("api/v1/users/**").permitAll()
                                 .anyRequest().authenticated()
-
                 );
 
         http.authenticationProvider(authenticationProvider());

@@ -103,6 +103,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public CreateUserResponseDto updateUser(Long userId, CreateUserRequestDto userDto) {
+        log.debug("Getting user by id: {}", userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.error("There is no user with the given id: {}", userId);
+                    return new RuntimeException(
+                            "User not found with id: {}" + userId);
+                });
+        user.setName(userDto.getUserName());
+
+        userRepository.save(user);
+
+        return userMapper.mapToCreateUserResponseDto(user);
+    }
+
+    @Override
     public void deleteUser(Long userId) {
 
         log.debug("User with id:{}", userId);

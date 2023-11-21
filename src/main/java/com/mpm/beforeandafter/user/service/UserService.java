@@ -11,6 +11,8 @@ public interface UserService {
 
     CreateUserResponseDto createUser(CreateUserRequestDto userDto, RoleType roleType);
 
+    CreateUserResponseDto updateUser(Long userId, CreateUserRequestDto userDto);
+
     GetUserResponseDto getUserById(Long userId);
 
     GetAboutMeResponseDto getAboutMeByUserId(Long userId);

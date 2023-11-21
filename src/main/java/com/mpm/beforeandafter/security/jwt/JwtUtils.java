@@ -28,9 +28,9 @@ public class JwtUtils {
     public String generateJwtToken(Authentication authentication, Long userId) {
 
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+        //TODO: delete sout when security developed
+        System.out.println("UserPrincipal: " + userPrincipal.toString());
 
-        System.out.println("userPrincipal:");
-        System.out.println(userPrincipal.toString());
         HashMap<String, String> claims = new HashMap<>();
         claims.put("userId", String.valueOf(userId));
 

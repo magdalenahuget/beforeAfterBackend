@@ -19,9 +19,7 @@ import java.io.IOException;
 public class AuthTokenFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
-
     private final JwtUtils jwtUtils;
-
     private final UserDetailsService userDetailsService;
 
     public AuthTokenFilter(JwtUtils jwtUtils, UserDetailsService userDetailsService) {
@@ -35,7 +33,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                System.out.println("jwt = " + jwt);
+                //TODO: delete sout when security developed
+                System.out.println("Jwt = " + jwt);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
                         userDetails.getAuthorities());

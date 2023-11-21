@@ -9,8 +9,8 @@ import com.mpm.beforeandafter.security.jwt.JwtUtils;
 import com.mpm.beforeandafter.user.dto.*;
 import com.mpm.beforeandafter.user.model.StatusType;
 import com.mpm.beforeandafter.user.model.User;
-import com.mpm.beforeandafter.user.dto.JwtResponse;
-import com.mpm.beforeandafter.user.dto.UserRequest;
+import com.mpm.beforeandafter.user.dto.SignInResponseDto;
+import com.mpm.beforeandafter.user.dto.SignInRequestDto;
 import com.mpm.beforeandafter.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,11 +71,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CreateUserResponseDto createUser(CreateUserRequestDto userDto, RoleType roleType) {
-
+        //TODO: delete sout when security developed
         System.out.println(userDto);
         System.out.println(roleType);
         Role role = roleService.findByName(roleType);
-        System.out.println(role);
         User user = new User();
         user.setName(userDto.getUserName());
         user.setEmail(userDto.getUserEmail());
@@ -129,7 +128,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userId) {
-
         log.debug("User with id:{}", userId);
         userRepository
                 .findById(userId)
@@ -144,9 +142,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Authentication getAuthentication(UserRequest loginRequest) {
-        System.out.println("loginRequest:");
-        System.out.println(loginRequest);
+    public Authentication getAuthentication(SignInRequestDto loginRequest) {
+        //TODO: delete sout when security developed
+        System.out.println("LoginRequest: " + loginRequest);
         Authentication authentication = authenticationManager
                 .authenticate(
                         new UsernamePasswordAuthenticationToken(
@@ -156,11 +154,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getSecurityContextAndJwt(UserRequest loginRequest, Authentication authentication) {
+    public String getSecurityContextAndJwt(SignInRequestDto loginRequest, Authentication authentication) {
         String userEmail = loginRequest.getUserEmail();
         com.mpm.beforeandafter.user.model.User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + userEmail));
-        // pobrać usera z db
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtUtils.generateJwtToken(authentication, user.getId());
     }
@@ -177,7 +174,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JwtResponse createJwtResponse(String jwt, String username, List<String> roles) {
-        return new JwtResponse(jwt, username, roles);
+    public SignInResponseDto createJwtResponse(String jwt, String username, List<String> roles) {
+        return new SignInResponseDto(jwt, username, roles);
     }
 }

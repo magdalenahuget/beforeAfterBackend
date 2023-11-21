@@ -35,13 +35,13 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public GetUserResponseDto getUserById(@PathVariable("id") Long userId){
+    public GetUserResponseDto getUserById(@PathVariable("id") Long userId) {
         log.debug("Getting user by id: {}", userId);
         return userService.getUserById(userId);
     }
 
     @GetMapping("/{id}/about_me")
-    public GetAboutMeResponseDto getUserAboutMe(@PathVariable("id") Long userId){
+    public GetAboutMeResponseDto getUserAboutMe(@PathVariable("id") Long userId) {
         log.debug("Getting user about me by id: {}", userId);
         return userService.getAboutMeByUserId(userId);
     }
@@ -56,16 +56,15 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    @ResponseStatus
     public CreateUserResponseDto updateUser(@PathVariable("id") Long userId,
                                             @RequestBody CreateUserRequestDto user) {
-        return userService.updateUser(userId,user);
+        return userService.updateUser(userId, user);
     }
 
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable("id") Long userId){
+    public void deleteUser(@PathVariable("id") Long userId) {
         userService.deleteUser(userId);
     }
 }

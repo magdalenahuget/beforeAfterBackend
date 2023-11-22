@@ -33,6 +33,7 @@ public class UserMapper {
         return GetUserResponseDto.builder()
                 .userName(user.getName())
                 .email(user.getEmail())
+                .avatar(user.getAvatar())
                 .roles(changeRoleToString(user.getRoles()))
                 .build();
     }
@@ -43,7 +44,13 @@ public class UserMapper {
                 .build();
     }
 
+    CreateAvatarResponseDto mapToCreateAvatarResponseDto(User user){
+        return CreateAvatarResponseDto.builder()
+                .avatar(user.getAvatar())
+                .build();
+
     private List<String> changeRoleToString(Set<Role> roleSet){
         return roleSet.stream().map(role -> role.getName().name()).collect(Collectors.toList());
+
     }
 }

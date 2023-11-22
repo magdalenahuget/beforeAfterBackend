@@ -11,5 +11,7 @@ public class GetUserResponseDto {
 
     private String userName;
     private String email;
+    private byte[] avatar;
     private List<String> roles;
+
 }

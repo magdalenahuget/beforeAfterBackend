@@ -62,8 +62,9 @@ public class User {
     @Column(name = "contact_id") //TODO relation with table addresses oneToOne
     private Integer contactId;
 
-    @Column(name = "avatar", unique = true)
-    private String avatar; //TODO:change type to proper type for images
+    @Lob
+    @Column(name = "avatar")
+    private byte[] avatar;
 
     @Column(name = "about_me", columnDefinition = "TEXT")
     @Size(min = 10, max = 5000, message = "About me must be between 10 and 500 characters.")

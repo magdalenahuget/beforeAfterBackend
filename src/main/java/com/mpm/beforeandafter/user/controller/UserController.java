@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -67,4 +68,53 @@ public class UserController {
     public void deleteUser(@PathVariable("id") Long userId) {
         userService.deleteUser(userId);
     }
+
+    @PatchMapping(consumes = "multipart/form-data")
+    public CreateAvatarResponseDto updateAvatar(
+            @RequestParam MultipartFile file,
+            @RequestParam Long userId
+            ){
+        System.out.println("file.OriginalFileName = " + file.getOriginalFilename());
+
+        String message = "";
+        CreateAvatarRequestDto createAvatarRequestDto = new CreateAvatarRequestDto();
+        createAvatarRequestDto.setUserId(userId);
+
+        try {
+           CreateAvatarResponseDto avatarResponseDto = userService.createAvatar(file,createAvatarRequestDto);
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            System.out.println(message);
+            return avatarResponseDto;
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            System.out.println(message);
+            return null;
+        }
+    }
+
+    @PostMapping(consumes = "multipart/form-data")
+    public CreateAvatarResponseDto createAvatar(
+            @RequestParam MultipartFile file,
+            @RequestParam Long userId
+    ){
+        System.out.println("file.OriginalFileName = " + file.getOriginalFilename());
+
+        String message = "";
+        CreateAvatarRequestDto createAvatarRequestDto = new CreateAvatarRequestDto();
+        createAvatarRequestDto.setUserId(userId);
+
+        try {
+            CreateAvatarResponseDto avatarResponseDto = userService.createAvatar(file,createAvatarRequestDto);
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            System.out.println(message);
+            return avatarResponseDto;
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            System.out.println(message);
+            return null;
+        }
+    }
+
+
+
 }

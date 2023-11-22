@@ -26,12 +26,19 @@ public class UserMapper {
                 .userName(user.getName())
                 .email(user.getEmail())
                 .roleName(user.getRole().getName())
+                .avatar(user.getAvatar())
                 .build();
     }
 
     GetAboutMeResponseDto mapToGetAboutMeResponseDto(User user) {
         return GetAboutMeResponseDto.builder()
                 .aboutMe(user.getAboutMe())
+                .build();
+    }
+
+    CreateAvatarResponseDto mapToCreateAvatarResponseDto(User user){
+        return CreateAvatarResponseDto.builder()
+                .avatar(user.getAvatar())
                 .build();
     }
 }

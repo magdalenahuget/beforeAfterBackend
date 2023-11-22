@@ -4,6 +4,7 @@ import com.mpm.beforeandafter.contactdetails.dto.ContactDetailsRequestDto;
 import com.mpm.beforeandafter.contactdetails.dto.ContactDetailsResponseDto;
 import com.mpm.beforeandafter.contactdetails.dto.GetContactDetailsResponseDto;
 import com.mpm.beforeandafter.contactdetails.service.ContactDetailsService;
+import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,13 @@ public class ContactDetailsController {
 
     @GetMapping("/users/{id}")
     public GetContactDetailsResponseDto getContactDetailsByUserId(@PathVariable("id") Long userId) {
-        return contactDetailsService.getContactDetailsByUserId(userId);
+        GetContactDetailsResponseDto contactDetailsByUserId;
+        try {
+            contactDetailsByUserId = contactDetailsService.getContactDetailsByUserId(userId);
+        } catch (ResourceNotFoundException exception) {
+            contactDetailsByUserId = contactDetailsService.createAndGetDefaultContactDetails(userId);
+        }
+        return contactDetailsByUserId;
     }
 
     @PatchMapping("users/{id}")

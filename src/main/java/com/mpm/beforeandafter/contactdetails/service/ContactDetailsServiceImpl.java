@@ -109,4 +109,20 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
         log.info("Successfully fetched contact details for user with given id: {}", userId);
         return contactDetailsMapper.mapToGetContactDetailsResponseDto(contactDetails);
     }
+
+    public GetContactDetailsResponseDto createAndGetDefaultContactDetails(Long userId) {
+        log.info("Getting user with id: {}", userId);
+        User user = userRepository.findById(userId).orElseThrow(() -> {
+            log.error("User not found with given id: " + userId);
+            return new ResourceNotFoundException("User not found with given id: " + userId);
+        });
+        log.info("Successfully fetched user with id: {}", userId);
+
+        log.info("Contact details not found for user with given id: {}. Creating new empty contact details.", userId);
+        ContactDetails contactDetails = new ContactDetails();
+        contactDetails.setUser(user);
+        contactDetailsRepository.save(contactDetails);
+        log.info("Successfully fetched contact details for user with given id: {}", userId);
+        return contactDetailsMapper.mapToGetContactDetailsResponseDto(contactDetails);
+    }
 }

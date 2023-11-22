@@ -11,4 +11,6 @@ public interface ContactDetailsService {
     ContactDetailsResponseDto createContactDetails(ContactDetailsRequestDto request);
 
     GetContactDetailsResponseDto getContactDetailsByUserId(Long userId);
+
+    GetContactDetailsResponseDto createAndGetDefaultContactDetails(Long userId);
 }

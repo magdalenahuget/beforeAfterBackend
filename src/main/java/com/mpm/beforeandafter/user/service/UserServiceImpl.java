@@ -174,7 +174,7 @@ public class UserServiceImpl implements UserService {
 
         System.out.println(user);
 
-        try{
+        try {
             user.setAvatar(file.getBytes());
             System.out.println("test");
             System.out.println("test");
@@ -190,6 +190,8 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return userMapper.mapToCreateAvatarResponseDto(user);
+
+    }
 
     public Authentication getAuthentication(SignInRequestDto loginRequest) {
         //TODO: delete sout when security developed

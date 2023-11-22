@@ -1,10 +1,7 @@
 package com.mpm.beforeandafter.user.service;
 
 import com.mpm.beforeandafter.role.model.Role;
-import com.mpm.beforeandafter.user.dto.CreateAboutMeResponseDto;
-import com.mpm.beforeandafter.user.dto.CreateUserResponseDto;
-import com.mpm.beforeandafter.user.dto.GetAboutMeResponseDto;
-import com.mpm.beforeandafter.user.dto.GetUserResponseDto;
+import com.mpm.beforeandafter.user.dto.*;
 import com.mpm.beforeandafter.user.model.User;
 import org.springframework.stereotype.Component;
 
@@ -44,10 +41,11 @@ public class UserMapper {
                 .build();
     }
 
-    CreateAvatarResponseDto mapToCreateAvatarResponseDto(User user){
+    CreateAvatarResponseDto mapToCreateAvatarResponseDto(User user) {
         return CreateAvatarResponseDto.builder()
                 .avatar(user.getAvatar())
                 .build();
+    }
 
     private List<String> changeRoleToString(Set<Role> roleSet){
         return roleSet.stream().map(role -> role.getName().name()).collect(Collectors.toList());

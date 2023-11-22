@@ -1,6 +1,6 @@
 INSERT INTO roles (name)
-VALUES ('admin'),
-       ('user');
+VALUES ('ROLE_ADMIN'),
+       ('ROLE_USER');
 
 INSERT INTO categories (name)
 VALUES ('Beauty'),
@@ -9,35 +9,35 @@ VALUES ('Beauty'),
        ('Cleaning');
 
 
-INSERT INTO users (name, email, password, role_id, city_name, avatar, about_me, status, is_approved,
+INSERT INTO users (name, email, password, city_name, avatar, about_me, status, is_approved,
                    approved_by_user_id,
                    approved_date, contact_id)
-VALUES ('Patrycja', 'beforeandafter757@gmail.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityA',
-        'https://cdn.logojoy.com/wp-content/uploads/2018/05/01104800/1050.png', '        ''Nasza firma, Dom-Odnova, to esencja rodzinnej pasji do renowacji i odrodzenia piękna starych domów, nurt, który płynie w naszych żyłach od pokoleń. Historia naszego przedsiębiorstwa sięga początków dwudziestego wieku, kiedy to pradziadek Antoni, z zawodu cieśla i mistrz stolarski, rozpoczął przygodę z odbudową zniszczonych dworków. Jego praca, pełna zaangażowania i miłości do detalu, szybko zdobyła uznanie wśród lokalnej społeczności.
+VALUES ('Patrycja', 'beforeandafter757@gmail.com', 'password123', 'CityA',
+        NULL, '        ''Nasza firma, Dom-Odnova, to esencja rodzinnej pasji do renowacji i odrodzenia piękna starych domów, nurt, który płynie w naszych żyłach od pokoleń. Historia naszego przedsiębiorstwa sięga początków dwudziestego wieku, kiedy to pradziadek Antoni, z zawodu cieśla i mistrz stolarski, rozpoczął przygodę z odbudową zniszczonych dworków. Jego praca, pełna zaangażowania i miłości do detalu, szybko zdobyła uznanie wśród lokalnej społeczności.
 
         Po latach pałeczka przekazywana była z ojca na syna, aż dotarła do mnie – prawnuka Antoniego. Współcześnie, Dom-Odnova łączy tradycyjne metody rzemieślnicze z nowoczesnymi technologiami, by przywracać dawny blask budynkom z duszą. Każdy projekt traktujemy jak dzieło sztuki, dokładając wszelkich starań, aby odzwierciedlić w nim zarówno historię murów, jak i osobowość ich mieszkańców.
 
         Nasza praca to nie tylko renowacja – to dialog z przeszłością i pieczołowite tworzenie przestrzeni, która będzie służyć kolejnym pokoleniom. Dumni z naszego dziedzictwa, z zapałem wyruszamy naprzeciw nowym wyzwaniom, pamiętając o rzemiośle naszych przodków i przekazując tę pasję dalej. Dom-Odnova to więcej niż firma – to opowieść o domach, które dzięki naszej pracy mogą opowiadać własne historie.'',', 'TO_REVIEW', TRUE,
         NULL, NULL, (SELECT id FROM contact_details WHERE user_id = 1)),
 
-       ('Magda', 'magda@example.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityB',
-        'https://www.logodee.com/wp-content/uploads/2020/03/Modern-Company-Logo-Design-Ideas.jpg', 'About Magda',
+       ('Magda', 'magda@example.com', 'password123', 'CityB',
+        NULL, 'About Magda',
         'TO_REVIEW', TRUE, NULL, NULL,(SELECT id FROM contact_details WHERE user_id = 2)),
 
-       ('Marcin', 'marcin@example.com', 'password123', (SELECT id FROM roles WHERE name = 'admin'), 'CityC',
-        'https://1000logos.net/wp-content/uploads/2022/10/Noodles-and-Company-Logo-1995.png', 'About Marcin',
+       ('Marcin', 'marcin@example.com', 'password123', 'CityC',
+        NULL, 'About Marcin',
         'USER_REVISION', FALSE, NULL, NULL,(SELECT id FROM contact_details WHERE user_id = 3)),
 
-       ('User1', 'user1@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityD',
-        'https://www.thelogocreative.co.uk/wp-content/uploads/Mobilunity-Logo-Design-min.jpg', 'About User1',
+       ('User1', 'user1@example.com', 'password456', 'CityD',
+        NULL, 'About User1',
         'TO_REVIEW', TRUE, NULL, NULL,    (SELECT id FROM contact_details WHERE user_id = 4)),
 
-       ('User2', 'user2@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityE',
-        'https://www.newdesigngroup.ca/ndgcnt/uploads/2014/11/Caterpillar_logo.png', 'About User2', 'TO_REVIEW', TRUE,
+       ('User2', 'user2@example.com', 'password456', 'CityE',
+        NULL, 'About User2', 'TO_REVIEW', TRUE,
         NULL, NULL,     (SELECT id FROM contact_details WHERE user_id = 5)),
 
-       ('User3', 'user3@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityF',
-        'https://cdn.dribbble.com/users/4504621/screenshots/14791146/media/96389471f11f8aad56a7d578d6573711.jpg',
+       ('User3', 'user3@example.com', 'password456', 'CityF',
+        NULL,
         'Nasza firma, Dom-Odnova, to esencja rodzinnej pasji do renowacji i odrodzenia piękna starych domów, nurt, który płynie w naszych żyłach od pokoleń. Historia naszego przedsiębiorstwa sięga początków dwudziestego wieku, kiedy to pradziadek Antoni, z zawodu cieśla i mistrz stolarski, rozpoczął przygodę z odbudową zniszczonych dworków. Jego praca, pełna zaangażowania i miłości do detalu, szybko zdobyła uznanie wśród lokalnej społeczności.
 
         Po latach pałeczka przekazywana była z ojca na syna, aż dotarła do mnie – prawnuka Antoniego. Współcześnie, Dom-Odnova łączy tradycyjne metody rzemieślnicze z nowoczesnymi technologiami, by przywracać dawny blask budynkom z duszą. Każdy projekt traktujemy jak dzieło sztuki, dokładając wszelkich starań, aby odzwierciedlić w nim zarówno historię murów, jak i osobowość ich mieszkańców.
@@ -45,11 +45,18 @@ VALUES ('Patrycja', 'beforeandafter757@gmail.com', 'password123', (SELECT id FRO
         Nasza praca to nie tylko renowacja – to dialog z przeszłością i pieczołowite tworzenie przestrzeni, która będzie służyć kolejnym pokoleniom. Dumni z naszego dziedzictwa, z zapałem wyruszamy naprzeciw nowym wyzwaniom, pamiętając o rzemiośle naszych przodków i przekazując tę pasję dalej. Dom-Odnova to więcej niż firma – to opowieść o domach, które dzięki naszej pracy mogą opowiadać własne historie.',
         'USER_REVISION', FALSE, NULL, NULL,    (SELECT id FROM contact_details WHERE user_id = 6)),
 
-       ('User4', 'user4@example.com', 'password456', (SELECT id FROM roles WHERE name = 'user'), 'CityG',
-        'ahttps://cdn1.designhill.com/uploads/personal_designs/thumbs/a6d4072bf8723f18ec58bcd3c4a64a97-0c8ed5efd029f7ebd92af130517aac1816750927963243.jpg?ver=2.12.64',
+       ('User4', 'user4@example.com', 'password456', 'CityG',
+        NULL,
         'About User4', 'USER_REVISION', FALSE, NULL, NULL, (SELECT id FROM contact_details WHERE user_id = 7));
 
-
+INSERT INTO users_roles (id, role_id)
+VALUES ((SELECT id FROM users WHERE email = 'beforeandafter757@gmail.com'), (SELECT role_id FROM roles WHERE name = 'ROLE_ADMIN')),
+       ((SELECT id FROM users WHERE email = 'magda@example.com'), (SELECT role_id FROM roles WHERE name = 'ROLE_ADMIN')),
+       ((SELECT id FROM users WHERE email = 'marcin@example.com'), (SELECT role_id FROM roles WHERE name = 'ROLE_ADMIN')),
+       ((SELECT id FROM users WHERE email = 'user1@example.com'), (SELECT role_id FROM roles WHERE name = 'ROLE_USER')),
+       ((SELECT id FROM users WHERE email = 'user2@example.com'), (SELECT role_id FROM roles WHERE name = 'ROLE_USER')),
+       ((SELECT id FROM users WHERE email = 'user3@example.com'), (SELECT role_id FROM roles WHERE name = 'ROLE_USER')),
+       ((SELECT id FROM users WHERE email = 'user4@example.com'), (SELECT role_id FROM roles WHERE name = 'ROLE_USER'));
 
 INSERT INTO contact_details (user_id, street_name, street_number, apart_number, post_code, city_name, phone_number, email, webpage)
 VALUES

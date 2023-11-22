@@ -9,9 +9,12 @@ import com.mpm.beforeandafter.user.model.StatusType;
 import com.mpm.beforeandafter.user.model.User;
 import com.mpm.beforeandafter.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -132,5 +135,36 @@ public class UserServiceImpl implements UserService {
                             log.error(USER_NOT_FOUND_MSG_TEMPLATE_LOG_ERROR, userId);
                             throw new ResourceNotFoundException(USER_NOT_FOUND_MSG_TEMPLATE_EXCEPTION + userId);
                         });
+    }
+
+    @Override
+    public CreateAvatarResponseDto createAvatar(MultipartFile file, CreateAvatarRequestDto request) throws FileUploadException {
+
+        System.out.println(file.getOriginalFilename());
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> {
+                    log.error("There is no user with the given id: {}", request.getUserId());
+                    return new RuntimeException(
+                            "User not found with id: {}" + request.getUserId());
+                });
+
+        System.out.println(user);
+
+        try{
+            user.setAvatar(file.getBytes());
+            System.out.println("test");
+            System.out.println("test");
+            System.out.println("test");
+            System.out.println("test");
+            System.out.println("test");
+            System.out.println("test");
+
+        } catch (IOException e) {
+            throw new FileUploadException("File not uploaded.");
+        }
+
+        userRepository.save(user);
+
+        return userMapper.mapToCreateAvatarResponseDto(user);
     }
 }

@@ -11,6 +11,6 @@ public class ImageFilterRequestDTO {
     private Set<String> categories;
     private Set<String> cities;
     private Boolean approvalStatus;
-    private Set<Long> usersID;
+    private Set<Long> usersId;
 
 }

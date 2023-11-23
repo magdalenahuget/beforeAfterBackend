@@ -55,13 +55,13 @@ public class ImageController {
             @RequestParam(required = false) Set<String> categories,
             @RequestParam(required = false) Set<String> cities,
             @RequestParam(required = false) Boolean approvalStatus,
-            @RequestParam(required = false) Set<Long> usersID
+            @RequestParam(required = false) Set<Long> usersId
     ) {
         ImageFilterRequestDTO request = new ImageFilterRequestDTO();
         request.setCategories(categories);
         request.setCities(cities);
         request.setApprovalStatus(approvalStatus);
-        request.setUsersID(usersID);
+        request.setUsersId(usersId);
 
         return imageService.getImagesByDynamicFilter(request);
     }

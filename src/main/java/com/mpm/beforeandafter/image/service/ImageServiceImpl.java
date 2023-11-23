@@ -68,7 +68,7 @@ public class ImageServiceImpl implements ImageService {
         Set<String> validCities =
                 request.getCities() != null ? request.getCities() : Collections.emptySet();
         Set<Long> validUsers =
-                request.getUsersID() != null ? request.getUsersID() : Collections.emptySet();
+                request.getUsersId() != null ? request.getUsersId() : Collections.emptySet();
         Boolean isApproved = request.getApprovalStatus();
 
         return imageMapper.mapGetImageByFilter(

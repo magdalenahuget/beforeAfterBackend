@@ -9,4 +9,6 @@ public interface EmailService {
     CompletableFuture<EmailResponseDto> sendContactEmail(ContactFormRequestDto contactFormDto);
 
     CompletableFuture<EmailResponseDto> sendRegistrationEmail(String userName, String userEmail);
+
+    CompletableFuture<EmailResponseDto> sendPasswordResetEmail(String userEmail, String token);
 }

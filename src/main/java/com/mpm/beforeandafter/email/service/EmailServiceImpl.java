@@ -131,8 +131,12 @@ public class EmailServiceImpl implements EmailService {
     private final EmailLogRepository emailLogRepository;
     private final ContactDetailsService contactDetailsService;
 
+
     @Value("${spring.mail.username}")
     private String beforeAfterMainEmail;
+
+    @Value("${beforeandafter.app.frontendUrl}")
+    private String frontendBaseUrl;
 
     @Autowired
     public EmailServiceImpl(JavaMailSender javaMailSender,
@@ -158,6 +162,16 @@ public class EmailServiceImpl implements EmailService {
     public CompletableFuture<EmailResponseDto> sendRegistrationEmail(String userName, String userEmail) {
         String subject = "Welcome to Before & After!";
         String content = "Thank you for registering, " + userName + "!";
+        return sendEmail(beforeAfterMainEmail, userEmail, subject, content);
+    }
+
+    @Async
+    public CompletableFuture<EmailResponseDto> sendPasswordResetEmail(String userEmail, String token) {
+        String resetLink = frontendBaseUrl + "/reset-password?token=" + token;
+
+        String subject = "Password Reset Request";
+        String content = "To reset your password, click the link below:\n" + resetLink;
+
         return sendEmail(beforeAfterMainEmail, userEmail, subject, content);
     }
 

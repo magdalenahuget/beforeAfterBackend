@@ -1,5 +1,6 @@
 package com.mpm.beforeandafter.user.service;
 
+import com.mpm.beforeandafter.email.service.EmailService;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.role.model.Role;
 import com.mpm.beforeandafter.role.repository.RoleRepository;
@@ -9,8 +10,6 @@ import com.mpm.beforeandafter.security.jwt.JwtUtils;
 import com.mpm.beforeandafter.user.dto.*;
 import com.mpm.beforeandafter.user.model.StatusType;
 import com.mpm.beforeandafter.user.model.User;
-import com.mpm.beforeandafter.user.dto.SignInResponseDto;
-import com.mpm.beforeandafter.user.dto.SignInRequestDto;
 import com.mpm.beforeandafter.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -40,16 +39,21 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final RoleService roleService;
+
+    private final EmailService emailService;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService, UserMapper userMapper, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService,
+                           EmailService emailService, UserMapper userMapper, PasswordEncoder passwordEncoder,
+                           AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.roleService = roleService;
+        this.emailService = emailService;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -82,10 +86,20 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getUserName());
         user.setEmail(userDto.getUserEmail());
         user.setPassword(passwordEncoder.encode(userDto.getUserPassword()));
-        user.setRoles( Set.of(role));
+        user.setRoles(Set.of(role));
         user.setStatus(StatusType.TO_REVIEW);
         System.out.println(user);
         User createdUser = userRepository.save(user);
+
+        emailService.sendRegistrationEmail(createdUser.getName(), createdUser.getEmail())
+                .thenAcceptAsync(emailResponse -> {
+                    if (emailResponse.sentSuccessfully()) {
+                        log.info("Registration email sent successfully to {}", createdUser.getEmail());
+                    } else {
+                        log.error("Failed to send registration email to {}", createdUser.getEmail());
+                    }
+                });
+
         return userMapper.mapToCreateUserResponseDto(createdUser);
     }
 
@@ -162,7 +176,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
 
-    public CreateAvatarResponseDto createAvatar(MultipartFile file, CreateAvatarRequestDto request) throws FileUploadException {
+    public CreateAvatarResponseDto createAvatar(MultipartFile file, CreateAvatarRequestDto request)
+            throws FileUploadException {
 
         System.out.println(file.getOriginalFilename());
         User user = userRepository.findById(request.getUserId())

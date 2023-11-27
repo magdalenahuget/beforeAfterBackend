@@ -6,8 +6,10 @@ import com.mpm.beforeandafter.email.dto.ContactFormRequestDto;
 import com.mpm.beforeandafter.email.dto.EmailResponseDto;
 import com.mpm.beforeandafter.email.model.EmailLog;
 import com.mpm.beforeandafter.email.repository.EmailLogRepository;
+import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -78,9 +81,11 @@ public class EmailServiceImpl implements EmailService {
             try {
                 MimeMessage mimeMessage = createMimeMessage(sender, recipient, subject, content);
                 javaMailSender.send(mimeMessage);
+                log.info("Email sent successfully to {}", recipient);
                 logEmail(recipient, subject, LocalDateTime.now(), true, null);
                 return new EmailResponseDto(true);
             } catch (MessagingException e) {
+                log.error("Failed to send email to {}: {}", recipient, e.getMessage());
                 logEmail(recipient, subject, LocalDateTime.now(), false, e.getMessage());
                 return new EmailResponseDto(false);
             }
@@ -110,7 +115,7 @@ public class EmailServiceImpl implements EmailService {
 
     private GetContactDetailsResponseDto getContactDetailsOrThrow(Long userId) {
         return Optional.ofNullable(contactDetailsService.getContactDetailsByUserId(userId))
-                .orElseThrow(() -> new IllegalArgumentException("No contact details found for user ID: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("No contact details found for user ID: " + userId));
     }
 
     private void logEmail(String to, String subject, LocalDateTime dateSent, Boolean success, String errorMessage) {

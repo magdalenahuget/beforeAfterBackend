@@ -1,6 +1,5 @@
 package com.mpm.beforeandafter.user.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mpm.beforeandafter.contactdetails.model.ContactDetails;
 import com.mpm.beforeandafter.image.model.Image;
 import com.mpm.beforeandafter.role.model.Role;
@@ -11,7 +10,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -91,7 +89,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "favourites",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

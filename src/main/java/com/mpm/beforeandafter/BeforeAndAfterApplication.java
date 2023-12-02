@@ -16,28 +16,6 @@ public class BeforeAndAfterApplication {
         SpringApplication.run(BeforeAndAfterApplication.class, args);
     }
 
-//    @Bean
-//    CommandLineRunner commandLineRunner(
-//            RoleServiceImpl roleServiceImpl,
-//            UserService userService,
-//            CategoryService categoryService) {
-//        return runner -> {
-//            roleServiceImpl.createRoles();
-//            CreateUserRequestDto admin = new CreateUserRequestDto();
-//            admin.setUserName("exampleAdminName");
-//            admin.setUserEmail("exampleAdminEmail");
-//            admin.setUserPassword("exampleAdminPassword");
-//            userService.createUser(admin, RoleType.ADMIN);
-//            CreateUserRequestDto user = new CreateUserRequestDto();
-//            user.setUserName("exampleUserName");
-//            user.setUserEmail("exampleUserEmail");
-//            user.setUserPassword("exampleUserPassword");
-//            userService.createUser(user, RoleType.USER);
-//            CategoryNameRequestDto categoryBeauty = new CategoryNameRequestDto("Beauty");
-//            categoryService.createCategory(categoryBeauty);
-//        };
-//    }
-
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();

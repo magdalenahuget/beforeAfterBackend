@@ -22,8 +22,9 @@ import java.util.List;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.Matchers.is;
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
@@ -75,5 +76,34 @@ private WebApplicationContext webApplicationContext;
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{},{}]"));
+    }
+
+    @Test
+    @DisplayName("Should return user by indicated id")
+    public void getUserByIdShouldReturnUserByIndicatedId() throws Exception {
+        // GIVEN
+        RoleType userRoleType = RoleType.ROLE_USER;
+        Role userRole = new Role(userRoleType);
+        User user1 = new User();
+        user1.setId(1L);
+        user1.setName("Name1");
+        user1.setEmail("Email1");
+        user1.setRoles(Set.of(userRole));
+        GetUserResponseDto user1Dto = userMapper.mapToGetUserResponseDto(user1);
+
+        // WHEN
+        when(userService.getUserById(1L)).thenReturn(user1Dto);
+
+        // THEN
+        LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
+        requestParams.add("roleType", "ROLE_USER");
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/v1/users/1")
+                        .params(requestParams)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.userName", is("Name1")))
+                .andExpect(jsonPath("$.email", is("Email1")));
     }
 }

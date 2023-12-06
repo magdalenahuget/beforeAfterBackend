@@ -89,7 +89,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "favourites",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

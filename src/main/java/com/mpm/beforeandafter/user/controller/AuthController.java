@@ -30,7 +30,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public CreateUserResponseDto createUser(@RequestBody CreateUserRequestDto user) {
         //TODO: delete sout when security developed
-        System.out.println(user);
+        System.out.println("CreateUserRequestDto = " + user );
         return userService.createUser(user, RoleType.ROLE_USER);
     }
 

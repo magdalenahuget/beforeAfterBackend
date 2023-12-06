@@ -63,6 +63,7 @@ public class WebSecurityConfig {
                         auth.requestMatchers("api/v1/auth/**").permitAll()
                                 .requestMatchers("api/v1/categories/**").permitAll()
                                 .requestMatchers("api/v1/contact_details/**").permitAll()
+                                .requestMatchers("/api/v1/contact_details/users/**").permitAll()
                                 .requestMatchers("/api/v1/emails/**").permitAll()
                                 .requestMatchers("/api/v1/favourites/**").permitAll()
                                 .requestMatchers("/api/v1/images/**").permitAll()
@@ -70,6 +71,7 @@ public class WebSecurityConfig {
                                 //TODO:verify if slash should be added or no
 //                                .requestMatchers("api/v1/users/**").hasRole("USER")
                                 .requestMatchers("api/v1/users/**").permitAll()
+                                .requestMatchers("/api/v1/users/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 

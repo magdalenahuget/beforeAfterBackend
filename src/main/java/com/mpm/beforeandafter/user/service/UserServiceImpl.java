@@ -1,5 +1,6 @@
 package com.mpm.beforeandafter.user.service;
 
+import com.mpm.beforeandafter.contactdetails.service.ContactDetailsService;
 import com.mpm.beforeandafter.email.service.EmailService;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.role.model.Role;
@@ -45,11 +46,12 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final ContactDetailsService contactDetailsService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService,
                            EmailService emailService, UserMapper userMapper, PasswordEncoder passwordEncoder,
-                           AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+                           AuthenticationManager authenticationManager, JwtUtils jwtUtils, ContactDetailsService contactDetailsService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.roleService = roleService;
@@ -58,6 +60,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
+        this.contactDetailsService = contactDetailsService;
     }
 
     @Override
@@ -88,8 +91,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getUserPassword()));
         user.setRoles(Set.of(role));
         user.setStatus(StatusType.TO_REVIEW);
-        System.out.println(user);
         User createdUser = userRepository.save(user);
+        contactDetailsService.createAndGetDefaultContactDetails(createdUser.getId());
 
         emailService.sendRegistrationEmail(createdUser.getName(), createdUser.getEmail())
                 .thenAcceptAsync(emailResponse -> {

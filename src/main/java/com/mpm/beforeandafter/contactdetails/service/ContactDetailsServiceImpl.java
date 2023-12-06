@@ -39,7 +39,9 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
         if (contact.isPresent()) {
             contactDetails = contact.get();
             updateContactDetailsWithNonNullFields(request, contactDetails);
-            contactDetailsRepository.save(contactDetails);
+            ContactDetails savedDetails = contactDetailsRepository.save(contactDetails);
+        } else {
+            throw new ResourceNotFoundException("Contact details with user id " + userId + " not found");
         }
         return contactDetailsMapper.mapToCreateContactDetailsResponseDto(contactDetails);
     }
@@ -84,8 +86,7 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
         contactDetails.setPhoneNumber(request.getPhoneNumber());
         contactDetails.setEmail(request.getEmail());
         contactDetails.setWebpage(request.getWebpage());
-        contactDetailsRepository.save(contactDetails);
-
+        ContactDetails save = contactDetailsRepository.save(contactDetails);
         return contactDetailsMapper.mapToCreateContactDetailsResponseDto(contactDetails);
     }
 

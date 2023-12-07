@@ -5,6 +5,7 @@ VALUES ('ROLE_ADMIN'),
 INSERT INTO categories (name)
 VALUES ('Beauty'),
        ('House renovation'),
+       ('Upholstery'),
        ('Car Restoration'),
        ('Cleaning');
 

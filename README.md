@@ -1,9 +1,30 @@
-# About The Project
+# Before After
 
-# Application Presentation:
+## Table of Contents
+* [General Info](#general-information)
+* [Technologies Used](#technologies-used)
+* [Features](#features)
+* [Screenshots](#screenshots)
+* [Setup](#setup)
+* [Usage](#usage)
+* [Project Status](#project-status)
+* [Room for Improvement](#room-for-improvement)
+* [Authors](#authors)
 
-# Built With:
+## General Information
 
-# Getting Started:
+## Technologies Used
 
-# Authors:
+## Features
+
+## Screenshots
+
+## Setup
+
+## Usage
+
+## Project Status
+
+## Room for Improvement
+
+## Authors

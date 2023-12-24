@@ -63,6 +63,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {
+        log.info("[OPERATION] Filtering images by criteria.");
         Set<String> validCategories =
                 request.getCategories() != null ? request.getCategories() : Collections.emptySet();
         Set<String> validCities =
@@ -70,14 +71,19 @@ public class ImageServiceImpl implements ImageService {
         Set<Long> validUsers =
                 request.getUsersId() != null ? request.getUsersId() : Collections.emptySet();
         Boolean isApproved = request.getApprovalStatus();
-
+        log.info("Mapping filtered images...");
         return imageMapper.mapGetImageByFilter(
                 filterImages(validCategories, validCities, validUsers, isApproved));
     }
 
     private Set<Image> filterImages(Set<String> validCategories, Set<String> validCities,
                                     Set<Long> validUsers, Boolean isApproved) {
-        log.debug("Filtering images by criteria...");
+        log.info("Finding images by criteria. Categories: {}, cities: {}, users ids: {}, approved: {} "
+                , validCategories
+                , validCities
+                , validUsers
+                , isApproved);
+
         Set<Image> images;
         images = imageRepository.findAll().stream()
                 .filter(image ->
@@ -89,20 +95,21 @@ public class ImageServiceImpl implements ImageService {
                                         validUsers.contains(image.getUser().getId())) &&
                                 (isApproved == null || image.isApproved() == isApproved))
                 .collect(Collectors.toSet());
-        log.info("Filtering completed");
+        log.info("Filtering completed. Images to return: {}", images);
         return images;
     }
 
     @Override
     @Transactional
     public void deleteImage(Long imageId) {
-        log.debug("Deleting image with id: {}", imageId);
-
+        log.info("[OPERATION] Deleting image with id: {}", imageId);
+        log.info("Finding image entity...");
         Image image = imageRepository
                 .findById(imageId)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Image not found with id: " + imageId));
 
+        log.info("Deleting image from other users favourites...");
         image.getUsers().forEach(user -> user.getFavourites().remove(image));
         userRepository.saveAll(image.getUsers());
 
@@ -114,12 +121,14 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public CreateImageResponseDTO createImage(MultipartFile file, CreateImageRequestDTO request)
             throws FileUploadException {
-        log.debug("Creating new Image: {}", request);
+        log.info("[OPERATION] Creating new image from request: {}", request);
+
+        log.info("Preparing image to store...");
         Image image = new Image();
         try {
             image.setFile(file.getBytes());
         } catch (IOException e) {
-            throw new FileUploadException("File not uploaded.");
+            throw new FileUploadException("Cannot get bytes information from uploaded file.");
         }
         image.setCityName(request.getCity());
         image.setCategory(categoryRepository.findById(request.getCategoryId())
@@ -130,9 +139,14 @@ public class ImageServiceImpl implements ImageService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "User not found with id: " + request.getUserId())));
         image.setStatus(StatusType.TO_REVIEW);
-        imageRepository.save(image);
-        log.info("New Image created: {}", image);
+        log.info("Image preparation completed successfully. Image: {}", image);
 
+        // TODO: add database exception with proper status code
+        log.info("Saving image in database...");
+        Image savedImage = imageRepository.save(image);
+        log.info("New image saved in database: {}", savedImage);
+
+        log.info("Returning image dto...");
         return imageMapper.mapToCreateImageDTO(image);
     }
 }

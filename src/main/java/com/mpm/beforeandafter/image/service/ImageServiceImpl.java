@@ -63,6 +63,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {
+        log.info("[OPERATION] Filtering images by criteria.");
         Set<String> validCategories =
                 request.getCategories() != null ? request.getCategories() : Collections.emptySet();
         Set<String> validCities =
@@ -70,13 +71,18 @@ public class ImageServiceImpl implements ImageService {
         Set<Long> validUsers =
                 request.getUsersId() != null ? request.getUsersId() : Collections.emptySet();
         Boolean isApproved = request.getApprovalStatus();
-
+        log.info("Mapping filtered images...");
         return imageMapper.mapGetImageByFilter(
                 filterImages(validCategories, validCities, validUsers, isApproved));
     }
 
     private Set<Image> filterImages(Set<String> validCategories, Set<String> validCities,
                                     Set<Long> validUsers, Boolean isApproved) {
+        log.info("Finding images by criteria. Categories: {}, cities: {}, users ids: {}, approved: {} "
+                , validCategories
+                , validCities
+                , validUsers
+                , isApproved);
 
         Set<Image> images;
         images = imageRepository.findAll().stream()
@@ -89,7 +95,7 @@ public class ImageServiceImpl implements ImageService {
                                         validUsers.contains(image.getUser().getId())) &&
                                 (isApproved == null || image.isApproved() == isApproved))
                 .collect(Collectors.toSet());
-        log.info("Filtering completed");
+        log.info("Filtering completed. Images to return: {}", images);
         return images;
     }
 

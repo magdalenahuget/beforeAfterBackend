@@ -77,7 +77,7 @@ public class ImageServiceImpl implements ImageService {
 
     private Set<Image> filterImages(Set<String> validCategories, Set<String> validCities,
                                     Set<Long> validUsers, Boolean isApproved) {
-        log.info("Filtering images by criteria...");
+
         Set<Image> images;
         images = imageRepository.findAll().stream()
                 .filter(image ->
@@ -96,13 +96,14 @@ public class ImageServiceImpl implements ImageService {
     @Override
     @Transactional
     public void deleteImage(Long imageId) {
-        log.info("Deleting image with id: {}", imageId);
-
+        log.info("[OPERATION] Deleting image with id: {}", imageId);
+        log.info("Finding image entity...");
         Image image = imageRepository
                 .findById(imageId)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Image not found with id: " + imageId));
 
+        log.info("Deleting image from other users favourites...");
         image.getUsers().forEach(user -> user.getFavourites().remove(image));
         userRepository.saveAll(image.getUsers());
 
@@ -114,7 +115,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public CreateImageResponseDTO createImage(MultipartFile file, CreateImageRequestDTO request)
             throws FileUploadException {
-        log.info("Creating new image from request: {}", request);
+        log.info("[OPERATION] Creating new image from request: {}", request);
 
         log.info("Preparing image to store...");
         Image image = new Image();

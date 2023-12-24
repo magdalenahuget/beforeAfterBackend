@@ -77,7 +77,7 @@ public class ImageServiceImpl implements ImageService {
 
     private Set<Image> filterImages(Set<String> validCategories, Set<String> validCities,
                                     Set<Long> validUsers, Boolean isApproved) {
-        log.debug("Filtering images by criteria...");
+        log.info("Filtering images by criteria...");
         Set<Image> images;
         images = imageRepository.findAll().stream()
                 .filter(image ->
@@ -96,7 +96,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     @Transactional
     public void deleteImage(Long imageId) {
-        log.debug("Deleting image with id: {}", imageId);
+        log.info("Deleting image with id: {}", imageId);
 
         Image image = imageRepository
                 .findById(imageId)
@@ -114,12 +114,14 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public CreateImageResponseDTO createImage(MultipartFile file, CreateImageRequestDTO request)
             throws FileUploadException {
-        log.debug("Creating new Image: {}", request);
+        log.info("Creating new image from request: {}", request);
+
+        log.info("Preparing image to store...");
         Image image = new Image();
         try {
             image.setFile(file.getBytes());
         } catch (IOException e) {
-            throw new FileUploadException("File not uploaded.");
+            throw new FileUploadException("Cannot get bytes information from uploaded file.");
         }
         image.setCityName(request.getCity());
         image.setCategory(categoryRepository.findById(request.getCategoryId())
@@ -130,9 +132,14 @@ public class ImageServiceImpl implements ImageService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "User not found with id: " + request.getUserId())));
         image.setStatus(StatusType.TO_REVIEW);
-        imageRepository.save(image);
-        log.info("New Image created: {}", image);
+        log.info("Image preparation completed successfully. Image: {}", image);
 
+        // TODO: add database exception with proper status code
+        log.info("Saving image in database...");
+        Image savedImage = imageRepository.save(image);
+        log.info("New image saved in database: {}", savedImage);
+
+        log.info("Returning image dto...");
         return imageMapper.mapToCreateImageDTO(image);
     }
 }

@@ -77,7 +77,7 @@ public class ImageServiceImpl implements ImageService {
 
     private Set<Image> filterImages(Set<String> validCategories, Set<String> validCities,
                                     Set<Long> validUsers, Boolean isApproved) {
-        log.debug("Filtering images by criteria...");
+        log.info("Filtering images by criteria...");
         Set<Image> images;
         images = imageRepository.findAll().stream()
                 .filter(image ->
@@ -114,7 +114,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public CreateImageResponseDTO createImage(MultipartFile file, CreateImageRequestDTO request)
             throws FileUploadException {
-        log.debug("Creating new Image: {}", request);
+        log.info("Creating new Image: {}", request);
         Image image = new Image();
         try {
             image.setFile(file.getBytes());

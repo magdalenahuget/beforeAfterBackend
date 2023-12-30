@@ -84,6 +84,7 @@ public class ImageServiceImpl implements ImageService {
                 , validUsers
                 , isApproved);
 
+
         Set<Image> images;
         images = imageRepository.findAll().stream()
                 .filter(image ->
@@ -124,6 +125,7 @@ public class ImageServiceImpl implements ImageService {
         log.info("[OPERATION] Creating new image from request: {}", request);
 
         log.info("Preparing image to store...");
+
         Image image = new Image();
         try {
             image.setFile(file.getBytes());

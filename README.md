@@ -37,11 +37,16 @@ TODO
 TODO
 
 ## Usage
-TODO
-<!--How does one go about using it?
-Provide various use cases and code examples here.
+- **Serach service:**
 
-`write-your-code-here`-->
+- **Registration and Login:**
+  
+- - **Add new service transformation:** 
+
+- **Add/remove transformation to favourites:** 
+
+- **Add/edit service provider info:** 
+
 ## Project Status
 Project is: _in progress_
 

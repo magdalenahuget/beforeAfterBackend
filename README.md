@@ -37,11 +37,13 @@ TODO
 TODO
 
 ## Usage
-- **Serach service:**
+- **Serach service:** User can easily filter services by categories and provided city.
+
+- **Vieving transformations of selected service provider:** After selecting a specific service, the user can view all photos of metamorphoses performed by this service provider.
 
 - **Registration and Login:**
   
-- - **Add new service transformation:** 
+- **Add new service transformation:** 
 
 - **Add/remove transformation to favourites:** 
 

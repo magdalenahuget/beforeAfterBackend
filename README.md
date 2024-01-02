@@ -23,7 +23,7 @@ The application revolutionizes service exploration through "before and after" ph
 TODO
 
 ## Screenshots
-TODO
+![](readmeSources/before-after-main.gif)
 
 ## Setup
 TODO

@@ -42,7 +42,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {
-        log.info("[OPERATION] Filtering images by criteria.");
+        log.info("[OPERATION] Filtering images by criteria...");
         Set<String> validCategories =
                 request.getCategories() != null ? request.getCategories() : Collections.emptySet();
         Set<String> validCities =
@@ -50,9 +50,14 @@ public class ImageServiceImpl implements ImageService {
         Set<Long> validUsers =
                 request.getUsersId() != null ? request.getUsersId() : Collections.emptySet();
         Boolean isApproved = request.getApprovalStatus();
+
         log.info("Mapping filtered images...");
-        return imageMapper.mapGetImageByFilter(
+        Set<ImageFilterResponseDTO> imageFilterResponseDTOS = imageMapper.mapGetImageByFilter(
                 filterImages(validCategories, validCities, validUsers, isApproved));
+        log.info("Mapping filtered images completed successfully...");
+
+        log.info("[OPERATION] Filtering images by criteria completed successfully.");
+        return imageFilterResponseDTOS;
     }
 
     private Set<Image> filterImages(Set<String> validCategories, Set<String> validCities,
@@ -94,7 +99,7 @@ public class ImageServiceImpl implements ImageService {
         userRepository.saveAll(image.getUsers());
 
         imageRepository.delete(image);
-        log.info("Image with id: {} has been successfully deleted", imageId);
+        log.info("[OPERATION] Image with id: {} has been successfully deleted", imageId);
     }
 
     @Override
@@ -124,7 +129,7 @@ public class ImageServiceImpl implements ImageService {
         // TODO: add database exception with proper status code
         log.info("Saving image in database...");
         Image savedImage = imageRepository.save(image);
-        log.info("New image saved successfully in database: {}", savedImage);
+        log.info("[OPERATION] New image saved successfully in database: {}", savedImage);
 
         log.info("Returning image dto...");
         return imageMapper.mapToCreateImageDTO(image);

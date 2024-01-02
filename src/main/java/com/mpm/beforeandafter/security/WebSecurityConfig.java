@@ -3,6 +3,7 @@ package com.mpm.beforeandafter.security;
 import com.mpm.beforeandafter.security.jwt.AuthEntryPointJwt;
 import com.mpm.beforeandafter.security.jwt.AuthTokenFilter;
 import com.mpm.beforeandafter.security.jwt.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@Slf4j
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
@@ -56,6 +58,8 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        log.info("[OPERATION] Filtering chain...");
+
         http.csrf(csrf -> csrf.disable()).cors(cors -> cors.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -79,6 +83,7 @@ public class WebSecurityConfig {
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
+        log.info("[OPERATION] Filtering chain completed successfully...");
         return http.build();
     }
 }

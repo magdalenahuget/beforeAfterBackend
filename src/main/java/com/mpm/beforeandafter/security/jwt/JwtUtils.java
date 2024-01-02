@@ -29,7 +29,7 @@ public class JwtUtils {
 
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
         //TODO: delete sout when security developed
-        System.out.println("UserPrincipal: " + userPrincipal.toString());
+        logger.info("UserPrincipal: " + userPrincipal.toString());
 
         HashMap<String, String> claims = new HashMap<>();
         claims.put("userId", String.valueOf(userId));

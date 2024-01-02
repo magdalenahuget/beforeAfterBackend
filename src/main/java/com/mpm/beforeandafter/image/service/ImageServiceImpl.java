@@ -26,11 +26,6 @@ import java.util.stream.Collectors;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    private static final String IMAGE_NOT_FOUND_LOG_ERROR_MSG =
-            "There is no image found with the given ID: {}";
-    private static final String IMAGE_NOT_FOUND_EXCEPTION_MSG =
-            "There is no image found with the given ID: ";
-
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
@@ -44,22 +39,6 @@ public class ImageServiceImpl implements ImageService {
         this.userRepository = userRepository;
         this.imageMapper = imageMapper;
     }
-
-//    @Override
-//    public CreateImageResponseDTO createImage(CreateImageRequestDTO request) {
-//        log.debug("Creating new Image: {}", request);
-//        Image image = new Image();
-//        image.setFile(request.getFile());
-//        image.setCityName(request.getCity());
-//        image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
-//        image.setDescription(request.getDescription());
-//        image.setUser(userRepository.getReferenceById(request.getUserId()));
-//        image.setStatus(StatusType.TO_REVIEW);
-//        imageRepository.save(image);
-//        log.info("New Image created: {}", image);
-//
-//        return imageMapper.mapToCreateImageDTO(image);
-//    }
 
     @Override
     public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {

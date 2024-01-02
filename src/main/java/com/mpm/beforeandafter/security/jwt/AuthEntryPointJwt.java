@@ -20,10 +20,10 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         if (response.getStatus() == HttpStatus.NOT_FOUND.value()) {
-            logger.error("Not found error: {}", authException.getMessage());
+            logger.error("[ERROR] Not found error: {}", authException.getMessage());
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Error: Not found");
         } else {
-            logger.error("Unauthorized error: {}", authException.getMessage());
+            logger.error("[ERROR] Unauthorized error: {}", authException.getMessage());
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
         }
     }

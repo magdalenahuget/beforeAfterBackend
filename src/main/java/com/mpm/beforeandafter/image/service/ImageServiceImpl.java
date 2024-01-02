@@ -26,11 +26,6 @@ import java.util.stream.Collectors;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    private static final String IMAGE_NOT_FOUND_LOG_ERROR_MSG =
-            "There is no image found with the given ID: {}";
-    private static final String IMAGE_NOT_FOUND_EXCEPTION_MSG =
-            "There is no image found with the given ID: ";
-
     private final ImageRepository imageRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
@@ -45,25 +40,9 @@ public class ImageServiceImpl implements ImageService {
         this.imageMapper = imageMapper;
     }
 
-//    @Override
-//    public CreateImageResponseDTO createImage(CreateImageRequestDTO request) {
-//        log.debug("Creating new Image: {}", request);
-//        Image image = new Image();
-//        image.setFile(request.getFile());
-//        image.setCityName(request.getCity());
-//        image.setCategory(categoryRepository.getReferenceById(request.getCategoryId()));
-//        image.setDescription(request.getDescription());
-//        image.setUser(userRepository.getReferenceById(request.getUserId()));
-//        image.setStatus(StatusType.TO_REVIEW);
-//        imageRepository.save(image);
-//        log.info("New Image created: {}", image);
-//
-//        return imageMapper.mapToCreateImageDTO(image);
-//    }
-
     @Override
     public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {
-        log.info("[OPERATION] Filtering images by criteria.");
+        log.info("[OPERATION] Filtering images by criteria...");
         Set<String> validCategories =
                 request.getCategories() != null ? request.getCategories() : Collections.emptySet();
         Set<String> validCities =
@@ -71,9 +50,14 @@ public class ImageServiceImpl implements ImageService {
         Set<Long> validUsers =
                 request.getUsersId() != null ? request.getUsersId() : Collections.emptySet();
         Boolean isApproved = request.getApprovalStatus();
+
         log.info("Mapping filtered images...");
-        return imageMapper.mapGetImageByFilter(
+        Set<ImageFilterResponseDTO> imageFilterResponseDTOS = imageMapper.mapGetImageByFilter(
                 filterImages(validCategories, validCities, validUsers, isApproved));
+        log.info("Mapping filtered images completed successfully...");
+
+        log.info("[OPERATION] Filtering images by criteria completed successfully.");
+        return imageFilterResponseDTOS;
     }
 
     private Set<Image> filterImages(Set<String> validCategories, Set<String> validCities,
@@ -115,9 +99,8 @@ public class ImageServiceImpl implements ImageService {
         userRepository.saveAll(image.getUsers());
 
         imageRepository.delete(image);
-        log.info("Image with id: {} has been successfully deleted", imageId);
+        log.info("[OPERATION] Image with id: {} has been successfully deleted", imageId);
     }
-
 
     @Override
     public CreateImageResponseDTO createImage(MultipartFile file, CreateImageRequestDTO request)
@@ -146,7 +129,7 @@ public class ImageServiceImpl implements ImageService {
         // TODO: add database exception with proper status code
         log.info("Saving image in database...");
         Image savedImage = imageRepository.save(image);
-        log.info("New image saved in database: {}", savedImage);
+        log.info("[OPERATION] New image saved successfully in database: {}", savedImage);
 
         log.info("Returning image dto...");
         return imageMapper.mapToCreateImageDTO(image);

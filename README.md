@@ -31,7 +31,7 @@ The features used in "Before After" allowed to build a fully functional web appl
 | <img height="50" src="https://user-images.githubusercontent.com/25181517/117207330-263ba280-adf4-11eb-9b97-0ac5b40bc3be.png"> |     Docker      | Allows for deployment of application – in progress. |
 
 ## Screenshots
-TODO
+![](readmeSources/before-after-main.gif)
 
 ## Setup
 TODO

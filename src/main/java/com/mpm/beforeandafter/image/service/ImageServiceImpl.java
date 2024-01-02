@@ -118,7 +118,6 @@ public class ImageServiceImpl implements ImageService {
         log.info("Image with id: {} has been successfully deleted", imageId);
     }
 
-
     @Override
     public CreateImageResponseDTO createImage(MultipartFile file, CreateImageRequestDTO request)
             throws FileUploadException {
@@ -146,7 +145,7 @@ public class ImageServiceImpl implements ImageService {
         // TODO: add database exception with proper status code
         log.info("Saving image in database...");
         Image savedImage = imageRepository.save(image);
-        log.info("New image saved in database: {}", savedImage);
+        log.info("New image saved successfully in database: {}", savedImage);
 
         log.info("Returning image dto...");
         return imageMapper.mapToCreateImageDTO(image);

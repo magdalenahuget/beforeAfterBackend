@@ -58,9 +58,11 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        log.info("[OPERATION] Filtering chain...");
+        log.info("Filtering chain...");
 
-        http.csrf(csrf -> csrf.disable()).cors(cors -> cors.disable())
+        http
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
@@ -83,7 +85,7 @@ public class WebSecurityConfig {
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        log.info("[OPERATION] Filtering chain completed successfully...");
+        log.info("Filtering chain completed successfully...");
         return http.build();
     }
 }

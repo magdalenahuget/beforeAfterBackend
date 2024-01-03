@@ -106,7 +106,6 @@ public class ImageServiceImpl implements ImageService {
     public CreateImageResponseDTO createImage(MultipartFile file, CreateImageRequestDTO request)
             throws FileUploadException {
         log.info("[OPERATION] Creating new image from request: {}", request);
-
         log.info("Preparing image to store...");
 
         Image image = new Image();

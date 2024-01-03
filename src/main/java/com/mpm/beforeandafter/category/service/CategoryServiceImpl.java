@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto createCategory(CategoryNameRequestDto request) {
-        log.debug("Creating category: {}", request);
+        log.info("Creating category: {}", request);
         Category category = categoryMapper.mapToCategoryEntity(request);
         category = categoryRepository.save(category);
         log.info("Category created: {}", category);
@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryResponseDto> getCategories() {
-        log.debug("Fetching all categories");
+        log.info("Fetching all categories");
         List<Category> categories = categoryRepository.findAll();
         log.info("Getting all categories (count): {}", categories.size());
         return categories.stream()
@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto getCategoryById(Long categoryId) {
-        log.debug("Getting category by id: {}", categoryId);
+        log.info("Getting category by id: {}", categoryId);
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
@@ -69,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto updateCategoryName(Long categoryId, CategoryNameRequestDto request) {
-        log.debug("Updating category with ID: {} with data: {}", categoryId, request);
+        log.info("Updating category with ID: {} with data: {}", categoryId, request);
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
@@ -85,7 +85,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long categoryId) {
-        log.debug("Deleting category with id: {}", categoryId);
+        log.info("Deleting category with id: {}", categoryId);
         categoryRepository
                 .findById(categoryId)
                 .ifPresentOrElse(category -> {

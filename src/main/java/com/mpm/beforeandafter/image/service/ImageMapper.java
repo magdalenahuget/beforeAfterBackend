@@ -11,12 +11,13 @@ import java.util.Set;
 @Component
 public class ImageMapper {
     CreateImageResponseDTO mapToCreateImageDTO(Image image) {
-        return CreateImageResponseDTO.builder()
+        CreateImageResponseDTO createImageResponseDTO = CreateImageResponseDTO.builder()
                 .imageId(image.getId())
                 .categoryId(image.getCategory().getId())
                 .description(image.getDescription())
                 .userId(image.getUser().getId())
                 .build();
+        return createImageResponseDTO;
     }
 
     Set<ImageFilterResponseDTO> mapGetImageByFilter(Set<Image> images) {

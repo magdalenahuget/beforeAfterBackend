@@ -36,26 +36,39 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto createCategory(CategoryNameRequestDto request) {
-        log.debug("Creating category: {}", request);
+        log.info("[REQUEST] Creating new category from request: {}", request);
+
+        log.info("Preparing category to store...");
         Category category = categoryMapper.mapToCategoryEntity(request);
+        log.info("Category preparation completed successfully. Category: {}", category);
+
+        log.info("Saving category in database...");
         category = categoryRepository.save(category);
-        log.info("Category created: {}", category);
+        log.info("Category saved in database: {}", category);
+
+        log.info("Returning image dto...");
         return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
     public List<CategoryResponseDto> getCategories() {
-        log.debug("Fetching all categories");
+        log.info("[REQUEST] Fetching all categories...");
         List<Category> categories = categoryRepository.findAll();
         log.info("Getting all categories (count): {}", categories.size());
-        return categories.stream()
+
+        log.info("Creating categories dtos list...");
+        List<CategoryResponseDto> categoryResponseDtos = categories.stream()
                 .map(categoryMapper::mapToCategoryResponseDto)
                 .toList();
+        log.info("Creating categories dtos list completed successfully.");
+
+        log.info("Returning categories dtos list...");
+        return categoryResponseDtos;
     }
 
     @Override
     public CategoryResponseDto getCategoryById(Long categoryId) {
-        log.debug("Getting category by id: {}", categoryId);
+        log.info("[REQUEST] Getting category by id: {}", categoryId);
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
@@ -69,7 +82,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto updateCategoryName(Long categoryId, CategoryNameRequestDto request) {
-        log.debug("Updating category with ID: {} with data: {}", categoryId, request);
+        log.info("[REQUEST] Updating category with ID: {} with data: {}", categoryId, request);
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
@@ -79,13 +92,13 @@ public class CategoryServiceImpl implements CategoryService {
                 });
         category.setName(request.categoryName());
         category = categoryRepository.save(category);
-        log.info("Category updated: {}", category.getName());
+        log.info("Category updated successfully: {}", category.getName());
         return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
     public void deleteCategory(Long categoryId) {
-        log.debug("Deleting category with id: {}", categoryId);
+        log.info("[REQUEST] Deleting category with id: {}", categoryId);
         categoryRepository
                 .findById(categoryId)
                 .ifPresentOrElse(category -> {

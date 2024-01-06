@@ -25,8 +25,8 @@ The application revolutionizes service exploration through "before and after" ph
 
 
 - Figma was used to create project design.
-  ![](readmeSources/figma-main.png)
-  ![](readmeSources/figma-sign.png)
+  ![](readmeSources/figma-main.PNG)
+  ![](readmeSources/figma-sign.PNG)
 
 ## Technologies Used
 - Java - version 17.0.0

@@ -2,6 +2,7 @@
 
 ## Table of Contents
 * [General Info](#general-information)
+* [Planning](#planning)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
 * [Screenshots](#screenshots)
@@ -13,6 +14,10 @@
 
 ## General Information
 The application revolutionizes service exploration through "before and after" photos, allowing users to easily filter and view transformations in various categories. It addresses the common issue of inadequate visual representation in service discovery, aiming to increase user comfort by streamlining decision-making through a visually rich platform. The project was initiated to simplify and enhance the service exploration process, providing users with comprehensive information for transparent and user-friendly service selection.
+
+## Planning
+Jira software was used to create tasks, divide them and track their progress
+![](readmeSources/jira-cumulative-flow-diagram.PNG)
 
 ## Technologies Used
 - Java - version 17.0.0

@@ -16,10 +16,17 @@
 The application revolutionizes service exploration through "before and after" photos, allowing users to easily filter and view transformations in various categories. It addresses the common issue of inadequate visual representation in service discovery, aiming to increase user comfort by streamlining decision-making through a visually rich platform. The project was initiated to simplify and enhance the service exploration process, providing users with comprehensive information for transparent and user-friendly service selection.
 
 ## Planning
-Jira software was used to create tasks, divide them and track their progress.
+- Jira software was used to create tasks, divide them and track their progress.
 ![](readmeSources/jira-cumulative-flow-diagram.PNG)
-Lucidchart was used for database project creation.
+
+
+- Lucidchart was used for database project creation.
 ![](readmeSources/lucidchart-erd.png)
+
+
+- Figma was used to create project design.
+  ![](readmeSources/figma-main.png)
+  ![](readmeSources/figma-sign.png)
 
 ## Technologies Used
 - Java - version 17.0.0

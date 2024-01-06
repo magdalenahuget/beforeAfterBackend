@@ -19,7 +19,7 @@ The application revolutionizes service exploration through "before and after" ph
 Jira software was used to create tasks, divide them and track their progress.
 ![](readmeSources/jira-cumulative-flow-diagram.PNG)
 Lucidchart was used for database project creation.
-![](readmeSources/lucidchart-erd.PNG)
+![](readmeSources/lucidchart-erd.png)
 
 ## Technologies Used
 - Java - version 17.0.0
@@ -66,6 +66,7 @@ git clone <repository-url>
 
 ## Project Status
 Project is: _in progress_
+Basic functionalities have been implemented. However, the application is being further developed and new features and improvements are being added.
 
 ## Room for Improvement
 <!--Room for improvement:

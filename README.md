@@ -1,4 +1,9 @@
-# Before After 
+# Before After
+
+Here you can find repository with frontend part for this project:
+
+- [Frontend part](https://github.com/magdalenahuget/beforeAfterFrontend)
+
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -79,9 +84,6 @@ Project is: _in progress_
 Basic functionalities have been implemented. However, the application is being further developed and new features and improvements are being added.
 
 ## Room for Improvement
-<!--Room for improvement:
-- Improvement to be done-->
-
 To do:
 - improve exception handling
 - set and implement loggers convention

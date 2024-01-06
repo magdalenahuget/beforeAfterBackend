@@ -41,7 +41,7 @@ The features used in "Before After" allowed to build a fully functional web appl
 git clone <repository-url>
 ```
 
-3. *Configure application* - Set up the application logic and the database (e.g., PostgreSQL). Make sure to configure the backend files and database connections as needed.
+3. *Configure application* - Contact the project maintainers for configuration file. Set up PostgreSQL the database. Make sure to configure the backend files and database connections as needed. 
 4. *Run the Application* - After completing the above steps, you can now run the application.
 
 ## Usage
@@ -65,7 +65,10 @@ Project is: _in progress_
 - Improvement to be done-->
 
 To do:
-- Feature to be added: Admin panel to verify content
+- improve exception handling
+- set and implement loggers convention
+- add feature: approving resources and users by admin
+- create docker compose version to run
 
 ## Authors
 Magdalena Huget, 

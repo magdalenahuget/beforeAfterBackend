@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<GetUserResponseDto> getUsers(RoleType roleType) {
-        log.debug("Fetching all users");
+        log.info("[REQUEST] Fetching all users.");
         List<User> users;
         if (roleType == null) {
             users = userRepository.findAll();
@@ -89,7 +89,11 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getUserName());
         user.setEmail(userDto.getUserEmail());
         user.setPassword(passwordEncoder.encode(userDto.getUserPassword()));
-        user.setRoles(Set.of(role));
+        try {
+            user.setRoles(Set.of(role));
+        } catch (NullPointerException e) {
+            throw new ResourceNotFoundException("No roles in database");
+        }
         user.setStatus(StatusType.TO_REVIEW);
         User createdUser = userRepository.save(user);
         contactDetailsService.createAndGetDefaultContactDetails(createdUser.getId());
@@ -108,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public GetUserResponseDto getUserById(Long userId) {
-        log.debug("Getting user by id: {}", userId);
+        log.info("[REQUEST] Getting user by id: {}", userId);
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> {
@@ -121,7 +125,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public GetAboutMeResponseDto getAboutMeByUserId(Long userId) {
-        log.debug("Getting user about me by id: {}", userId);
+        log.info("[REQUEST] Getting user about me by id: {}", userId);
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> {
@@ -134,7 +138,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CreateAboutMeResponseDto updateUserByAboutMe(Long userId, CreateAboutMeRequestDto aboutMe) {
-        log.debug("Getting user by id: {}", userId);
+        log.info("[REQUEST] Getting user by id: {}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> {
                     log.error("There is no user with the given id: {}", userId);
@@ -148,7 +152,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CreateUserResponseDto updateUser(Long userId, CreateUserRequestDto userDto) {
-        log.debug("Getting user by id: {}", userId);
+        log.info("[REQUEST] Getting user by id: {}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> {
                     log.error("There is no user with the given id: {}", userId);
@@ -164,7 +168,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userId) {
-        log.debug("User with id:{}", userId);
+        log.info("[REQUEST] User with id:{}", userId);
         userRepository
                 .findById(userId)
                 .ifPresentOrElse(user -> {

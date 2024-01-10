@@ -32,6 +32,7 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
     @Override
     public ContactDetailsResponseDto modifiedContactDetails(Long userId,
                                                             ContactDetailsRequestDto request) {
+        log.info("[REQUEST] Modifying contact details with request: {}", request);
         Optional<ContactDetails> contact = Optional.of(userRepository.getReferenceById(userId))
                 .map(contactDetailsRepository::findContactDetailsByUser);
 
@@ -48,6 +49,7 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
 
     private static void updateContactDetailsWithNonNullFields(ContactDetailsRequestDto request,
                                                               ContactDetails contactDetails) {
+        log.info("[REQUEST] Updating contact details with request: {}", request);
         if (request.getStreetName() != null) {
             contactDetails.setStreetName(request.getStreetName());
         }
@@ -76,6 +78,7 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
 
     @Override
     public ContactDetailsResponseDto createContactDetails(ContactDetailsRequestDto request) {
+        log.info("[REQUEST] Creating new contact details from request: {}", request);
         ContactDetails contactDetails = new ContactDetails();
         contactDetails.setUser(userRepository.getReferenceById(request.getUserId()));
         contactDetails.setStreetName(request.getStreetName());
@@ -92,7 +95,7 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
 
     @Override
     public GetContactDetailsResponseDto getContactDetailsByUserId(Long userId) {
-        log.info("Getting user with id: {}", userId);
+        log.info("[REQUEST] Getting user with id: {}", userId);
         User user = userRepository.findById(userId).orElseThrow(() -> {
             log.error("User not found with given id: " + userId);
             return new ResourceNotFoundException("User not found with given id: " + userId);
@@ -112,7 +115,7 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
     }
 
     public GetContactDetailsResponseDto createAndGetDefaultContactDetails(Long userId) {
-        log.info("Getting user with id: {}", userId);
+        log.info("[REQUEST] Getting user with id: {}", userId);
         User user = userRepository.findById(userId).orElseThrow(() -> {
             log.error("User not found with given id: " + userId);
             return new ResourceNotFoundException("User not found with given id: " + userId);

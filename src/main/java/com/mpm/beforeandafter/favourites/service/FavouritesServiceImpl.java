@@ -41,6 +41,7 @@ public class FavouritesServiceImpl implements FavouritesService {
     @Override
     @Transactional(readOnly = true)
     public List<GetFavouriteDTO> getFavouritesByUserId(Long userId) {
+        log.info("[REQUEST] Getting favourites by user id: {}", userId);
         User user = findUserById(userId);
         return user.getFavourites().stream()
                 .map(image -> new GetFavouriteDTO(image.getId(), image.getFile()))
@@ -50,7 +51,7 @@ public class FavouritesServiceImpl implements FavouritesService {
     @Override
     @Transactional
     public AddToFavouritesResponseDto addImageToFavourites(Long imageId, Long userId) {
-        log.debug("Attempting to add image with ID: {} to the favourites of user with ID: {}",
+        log.info("[REQUEST] Attempting to add image with ID: {} to the favourites of user with ID: {}",
                 imageId, userId);
 
         Image image = findImageById(imageId);
@@ -78,6 +79,7 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     private Image findImageById(Long imageId) {
+        log.info("[REQUEST] Getting image by id: {}", imageId);
         return imageRepository.findById(imageId)
                 .orElseThrow(() -> {
                     log.error(IMAGE_NOT_FOUND_LOG_ERROR_MSG, imageId);
@@ -86,6 +88,7 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     private User findUserById(Long userId) {
+        log.info("[REQUEST] Getting user by id: {}", userId);
         return userRepository.findById(userId)
                 .orElseThrow(() -> {
                     log.error(USER_NOT_FOUND_LOG_ERROR_MSG, userId);
@@ -94,6 +97,7 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     private void validateImageOwnership(Image image, User user) {
+        log.info("[REQUEST] Validating image ownership.");
         if (image.getUser().equals(user)) {
             log.info("User with ID: {} cannot add their own image with ID: {} to favourites",
                     user.getId(), image.getId());

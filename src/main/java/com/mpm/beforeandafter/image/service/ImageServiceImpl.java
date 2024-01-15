@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
@@ -42,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Set<ImageFilterResponseDTO> getImagesByDynamicFilter(ImageFilterRequestDTO request) {
-        log.info("[OPERATION] Filtering images by criteria...");
+        log.info("[ACTION] Filtering images by criteria...");
         Set<String> validCategories =
                 request.getCategories() != null ? request.getCategories() : Collections.emptySet();
         Set<String> validCities =
@@ -51,23 +50,22 @@ public class ImageServiceImpl implements ImageService {
                 request.getUsersId() != null ? request.getUsersId() : Collections.emptySet();
         Boolean isApproved = request.getApprovalStatus();
 
-        log.info("Mapping filtered images...");
+        log.info("[ACTION] Mapping filtered images...");
         Set<ImageFilterResponseDTO> imageFilterResponseDTOS = imageMapper.mapGetImageByFilter(
                 filterImages(validCategories, validCities, validUsers, isApproved));
-        log.info("Mapping filtered images completed successfully...");
-
-        log.info("[OPERATION] Filtering images by criteria completed successfully.");
+        log.info("[ACTION] Mapping filtered images completed successfully.");
+        log.info("[ACTION] Filtering images by criteria completed successfully.");
         return imageFilterResponseDTOS;
     }
 
     private Set<Image> filterImages(Set<String> validCategories, Set<String> validCities,
                                     Set<Long> validUsers, Boolean isApproved) {
-        log.info("Finding images by criteria. Categories: {}, cities: {}, users ids: {}, approved: {} "
+        log.info("[ACTION] Filtering images...");
+        log.debug("[REQUEST] Finding images by criteria. Categories: {}, cities: {}, users ids: {}, approved: {} "
                 , validCategories
                 , validCities
                 , validUsers
                 , isApproved);
-
 
         Set<Image> images;
         images = imageRepository.findAll().stream()
@@ -80,33 +78,33 @@ public class ImageServiceImpl implements ImageService {
                                         validUsers.contains(image.getUser().getId())) &&
                                 (isApproved == null || image.isApproved() == isApproved))
                 .collect(Collectors.toSet());
-        log.info("Filtering completed. Images to return: {}", images);
+        log.debug("[RESPONSE] Images returned: {}", images);
+        log.info("[ACTION] Filtering completed.");
         return images;
     }
 
     @Override
     @Transactional
     public void deleteImage(Long imageId) {
-        log.info("[OPERATION] Deleting image with id: {}", imageId);
-        log.info("Finding image entity...");
+        log.info("[ACTION] Deleting image from other users favourites...");
+        log.debug("[REQUEST] Provided image id: {}", imageId);
         Image image = imageRepository
                 .findById(imageId)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Image not found with id: " + imageId));
 
-        log.info("Deleting image from other users favourites...");
         image.getUsers().forEach(user -> user.getFavourites().remove(image));
         userRepository.saveAll(image.getUsers());
-
         imageRepository.delete(image);
-        log.info("[OPERATION] Image with id: {} has been successfully deleted", imageId);
+        log.debug("[OPERATION] Image with id: {} has been deleted", imageId);
+        log.info("[ACTION] Deleting image completed successfully.");
     }
 
     @Override
     public CreateImageResponseDTO createImage(MultipartFile file, CreateImageRequestDTO request)
             throws FileUploadException {
-        log.info("[OPERATION] Creating new image from request: {}", request);
-        log.info("Preparing image to store...");
+        log.info("[ACTION] Creating new image from request...");
+        log.debug("[REQUEST] Provided user id: {}. Preparing image to store...", request.getUserId());
 
         Image image = new Image();
         try {
@@ -123,14 +121,14 @@ public class ImageServiceImpl implements ImageService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "User not found with id: " + request.getUserId())));
         image.setStatus(StatusType.TO_REVIEW);
-        log.info("Image preparation completed successfully. Image: {}", image);
+        log.debug("Image preparation completed successfully. Image: {}", image);
 
         // TODO: add database exception with proper status code
-        log.info("Saving image in database...");
-        Image savedImage = imageRepository.save(image);
-        log.info("[OPERATION] New image saved successfully in database: {}", savedImage);
+        log.info("[ACTION] Saving image in database...");
 
-        log.info("Returning image dto...");
+        Image savedImage = imageRepository.save(image);
+        log.debug("[RESPONSE] New image saved successfully in database: {}", savedImage);
+        log.info("[ACTION] Returning image dto...");
         return imageMapper.mapToCreateImageDTO(image);
     }
 }

@@ -23,7 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
@@ -32,15 +31,9 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final String USER_NOT_FOUND_MSG_TEMPLATE_LOG_ERROR =
-            "There isn't user with the given ID: {}";
-    private final String USER_NOT_FOUND_MSG_TEMPLATE_EXCEPTION =
-            "There isn't user with the given ID: ";
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final RoleService roleService;
-
     private final EmailService emailService;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
@@ -65,7 +58,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<GetUserResponseDto> getUsers(RoleType roleType) {
-        log.info("[REQUEST] Fetching all users.");
+        log.info("[ACTION] Fetching all users.");
+        log.debug("[REQUEST] Provided role type from request: {}", roleType);
         List<User> users;
         if (roleType == null) {
             users = userRepository.findAll();
@@ -73,7 +67,8 @@ public class UserServiceImpl implements UserService {
             Role providedRole = roleRepository.findByName(roleType);
             users = userRepository.findAllByRolesIn(Set.of(providedRole.getId()));
         }
-        log.info("Getting all users (count): {}", users.size());
+        log.debug("[RESPONSE] Getting all users (count): {}", users.size());
+        log.info("[ACTION] Users with specified role successfully retrieved.");
         return users.stream()
                 .map(userMapper::mapToGetUserResponseDto)
                 .toList();
@@ -81,9 +76,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CreateUserResponseDto createUser(CreateUserRequestDto userDto, RoleType roleType) {
-        //TODO: delete sout when security developed
-        System.out.println(userDto);
-        System.out.println(roleType);
+        //TODO: delete loggers when security developed and tested
+        log.debug("[DETAILS] Provided user DTO: {}", userDto);
+        log.debug("[DETAILS] Provided roleType: {}", roleType);
+        log.info("[ACTION] Creating a new user.");
+
         Role role = roleService.findByName(roleType);
         User user = new User();
         user.setName(userDto.getUserName());
@@ -107,68 +104,81 @@ public class UserServiceImpl implements UserService {
                     }
                 });
 
+        log.debug("[RESPONSE] New user created: {}", createdUser);
+        log.info("[ACTION] User has been successfully created.");
         return userMapper.mapToCreateUserResponseDto(createdUser);
     }
 
     @Override
     public GetUserResponseDto getUserById(Long userId) {
-        log.info("[REQUEST] Getting user by id: {}", userId);
+        log.info("[ACTION] Getting user by id.");
+        log.debug("[REQUEST] Provided user id from request: {}", userId);
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> {
-                    log.error("There is no user with the given id: {}", userId);
-                    return new RuntimeException(
+                    log.warn("There is no user with the given id: {}", userId);
+                    return new ResourceNotFoundException(
                             "User not found with id: {}" + userId);
                 });
+        log.debug("[RESPONSE] User with id: {} has been successfully retrieved: {}", userId, user);
+        log.info("[ACTION] Getting user by id completed successfully.");
         return userMapper.mapToGetUserResponseDto(user);
     }
 
     @Override
     public GetAboutMeResponseDto getAboutMeByUserId(Long userId) {
-        log.info("[REQUEST] Getting user about me by id: {}", userId);
+        log.info("[ACTION] Getting user about info.");
+        log.debug("[REQUEST] Provided user id from request: {}", userId);
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> {
-                    log.error("There is no user with the given id: {}", userId);
-                    return new RuntimeException(
+                    log.warn("There is no user with the given id: {}", userId);
+                    return new ResourceNotFoundException(
                             "User not found with id: {}" + userId);
                 });
+        log.debug("[RESPONSE] User about info for user id: {} has been successfully retrieved: {}", userId, user);
+        log.info("[ACTION] Getting user about info by user id completed successfully.");
         return userMapper.mapToGetAboutMeResponseDto(user);
     }
 
     @Override
     public CreateAboutMeResponseDto updateUserByAboutMe(Long userId, CreateAboutMeRequestDto aboutMe) {
-        log.info("[REQUEST] Getting user by id: {}", userId);
+        log.info("[ACTION] Updating about user info.");
+        log.debug("[REQUEST] Provided user id from request: {}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> {
-                    log.error("There is no user with the given id: {}", userId);
-                    return new RuntimeException(
+                    log.warn("There is no user with the given id: {}", userId);
+                    return new ResourceNotFoundException(
                             "User not found with id: {}" + userId);
                 });
         user.setAboutMe(aboutMe.getAboutMe());
         userRepository.save(user);
+        log.debug("[RESPONSE] User about info for user id: {} has been successfully updated: {}", userId, user);
+        log.info("[ACTION] Updating user about info completed successfully.");
         return userMapper.mapToCreateAboutMeResponseDto(user);
     }
 
     @Override
     public CreateUserResponseDto updateUser(Long userId, CreateUserRequestDto userDto) {
-        log.info("[REQUEST] Getting user by id: {}", userId);
+        log.info("[ACTION] Updating user details.");
+        log.debug("[REQUEST] Provided user id from request: {}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> {
-                    log.error("There is no user with the given id: {}", userId);
-                    return new RuntimeException(
+                    log.warn("There is no user with the given id: {}", userId);
+                    return new ResourceNotFoundException(
                             "User not found with id: {}" + userId);
                 });
         user.setName(userDto.getUserName());
-
         userRepository.save(user);
-
+        log.debug("[RESPONSE] User details for user id: {} has been successfully updated: {}", userId, user);
+        log.info("[ACTION] Updating user details completed successfully.");
         return userMapper.mapToCreateUserResponseDto(user);
     }
 
     @Override
     public void deleteUser(Long userId) {
-        log.info("[REQUEST] User with id:{}", userId);
+        log.info("[ACTION] Deleting specified user.");
+        log.debug("[REQUEST] Deleting user with id: {}", userId);
         userRepository
                 .findById(userId)
                 .ifPresentOrElse(user -> {
@@ -176,48 +186,43 @@ public class UserServiceImpl implements UserService {
                             log.info("User with id: {} deleted successfully", userId);
                         },
                         () -> {
-                            log.error(USER_NOT_FOUND_MSG_TEMPLATE_LOG_ERROR, userId);
-                            throw new ResourceNotFoundException(USER_NOT_FOUND_MSG_TEMPLATE_EXCEPTION + userId);
+                            log.warn( "There isn't user with the given ID: {}", userId);
+                            throw new ResourceNotFoundException("There isn't user with the given ID: " + userId);
                         });
+        log.debug("[RESPONSE] User with id: {} has been deleted.", userId);
+        log.info("[ACTION] Deleting user completed successfully.");
     }
 
     @Override
-
     public CreateAvatarResponseDto createAvatar(MultipartFile file, CreateAvatarRequestDto request)
             throws FileUploadException {
+        log.info("[ACTION] Adding user avatar.");
 
-        System.out.println(file.getOriginalFilename());
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> {
-                    log.error("There is no user with the given id: {}", request.getUserId());
-                    return new RuntimeException(
+                    log.warn("There is no user with the given id: {}", request.getUserId());
+                    return new ResourceNotFoundException(
                             "User not found with id: {}" + request.getUserId());
                 });
 
-        System.out.println(user);
+        log.debug("[REQUEST] Adding avatar for specified user: {}", user);
 
         try {
             user.setAvatar(file.getBytes());
-            System.out.println("test");
-            System.out.println("test");
-            System.out.println("test");
-            System.out.println("test");
-            System.out.println("test");
-            System.out.println("test");
-
         } catch (IOException e) {
             throw new FileUploadException("File not uploaded.");
         }
 
         userRepository.save(user);
-
+        log.debug("[RESPONSE] Avatar for user: {} has been added.", user);
+        log.info("[ACTION] Adding of avatar completed successfully.");
         return userMapper.mapToCreateAvatarResponseDto(user);
-
     }
 
     public Authentication getAuthentication(SignInRequestDto loginRequest) {
-        //TODO: delete sout when security developed
-        System.out.println("LoginRequest: " + loginRequest);
+        //TODO: delete logger when security developed
+        log.info("[ACTION] Getting authentication.");
+        log.debug("[REQUEST] Getting authentication for  request: {}", loginRequest);
         Authentication authentication = authenticationManager
                 .authenticate(
                         new UsernamePasswordAuthenticationToken(
@@ -228,6 +233,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getSecurityContextAndJwt(SignInRequestDto loginRequest, Authentication authentication) {
+        log.info("[ACTION] Getting security context and jwt.");
         String userEmail = loginRequest.getUserEmail();
         com.mpm.beforeandafter.user.model.User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + userEmail));
@@ -249,6 +255,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public SignInResponseDto createJwtResponse(String jwt, String username, List<String> roles) {
         return new SignInResponseDto(jwt, username, roles);
-
     }
 }

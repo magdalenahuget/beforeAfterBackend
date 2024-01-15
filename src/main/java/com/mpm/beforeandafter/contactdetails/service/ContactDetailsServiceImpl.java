@@ -111,23 +111,22 @@ public class ContactDetailsServiceImpl implements ContactDetailsService {
                     "Contact details not found for user with given id: " + userId);
         }
         log.info("[ACTION] Successfully fetched contact details for indicated user.");
-        log.debug("[REQUEST] Successfully fetched user with id: {}", userId);
+        log.debug("[RESPONSE] Successfully fetched user with id: {}", userId);
         return contactDetailsMapper.mapToGetContactDetailsResponseDto(contactDetails);
     }
 
     public GetContactDetailsResponseDto createAndGetDefaultContactDetails(Long userId) {
-        log.debug("[REQUEST] Getting user with id: {}", userId);
+        log.info("[ACTION] Creating new contact details...");
+        log.debug("[REQUEST] Provided user id: {}", userId);
         User user = userRepository.findById(userId).orElseThrow(() -> {
             log.warn("User not found with given id: " + userId);
             return new ResourceNotFoundException("User not found with given id: " + userId);
         });
-        log.info("Successfully fetched user with id: {}", userId);
-
-        log.info("Contact details not found for user with given id: {}. Creating new empty contact details.", userId);
+        log.info("[ACTION] Contact details not found for user with specified id: {}. Creating new empty contact details.", userId);
         ContactDetails contactDetails = new ContactDetails();
         contactDetails.setUser(user);
         contactDetailsRepository.save(contactDetails);
-        log.debug("[REQUEST] Successfully fetched contact details for user with given id: {}", userId);
+        log.debug("[RESPONSE] Successfully created default contact details for user with given id: {}", userId);
         return contactDetailsMapper.mapToGetContactDetailsResponseDto(contactDetails);
     }
 }

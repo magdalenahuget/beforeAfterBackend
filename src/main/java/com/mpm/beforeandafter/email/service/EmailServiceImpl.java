@@ -16,7 +16,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -28,7 +27,6 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
     private final EmailLogRepository emailLogRepository;
     private final ContactDetailsService contactDetailsService;
-
 
     @Value("${spring.mail.username}")
     private String beforeAfterMainEmail;
@@ -66,7 +64,6 @@ public class EmailServiceImpl implements EmailService {
     @Async
     public CompletableFuture<EmailResponseDto> sendPasswordResetEmail(String userEmail, String token) {
         String resetLink = frontendBaseUrl + "/reset-password?token=" + token;
-
         String subject = "Password Reset Request";
         String content = "To reset your password, click the link below:\n" + resetLink;
 
@@ -100,7 +97,7 @@ public class EmailServiceImpl implements EmailService {
         message.setReplyTo(sender);
         message.setTo(recipient);
         message.setSubject(subject);
-        message.setText(content, true); // HTML content - stworzyć ?
+        message.setText(content, true); // HTML content - should be created?
         return mimeMessage;
     }
 

@@ -9,9 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-
 
 @Slf4j
 @Service
@@ -22,10 +20,8 @@ public class CategoryServiceImpl implements CategoryService {
             "There is no category with the given ID: {}";
     private static final String CATEGORY_NOT_FOUND_EXCEPTION_MSG =
             "There is no category with the given ID: ";
-
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-
 
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository,
@@ -38,31 +34,31 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponseDto createCategory(CategoryNameRequestDto request) {
         log.info("[REQUEST] Creating new category from request: {}", request);
 
-        log.info("Preparing category to store...");
+        log.info("[ACTION] Preparing category to store...");
         Category category = categoryMapper.mapToCategoryEntity(request);
         log.info("Category preparation completed successfully. Category: {}", category);
 
-        log.info("Saving category in database...");
+        log.info("[ACTION] Saving category in database...");
         category = categoryRepository.save(category);
         log.info("Category saved in database: {}", category);
 
-        log.info("Returning image dto...");
+        log.info("[ACTION] Returning image dto...");
         return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
     public List<CategoryResponseDto> getCategories() {
-        log.info("[REQUEST] Fetching all categories...");
+        log.info("[ACTION] Fetching all categories...");
         List<Category> categories = categoryRepository.findAll();
         log.info("Getting all categories (count): {}", categories.size());
 
-        log.info("Creating categories dtos list...");
+        log.info("[ACTION] Creating categories dtos list...");
         List<CategoryResponseDto> categoryResponseDtos = categories.stream()
                 .map(categoryMapper::mapToCategoryResponseDto)
                 .toList();
-        log.info("Creating categories dtos list completed successfully.");
+        log.info("[ACTION] Creating categories dtos list completed successfully.");
 
-        log.info("Returning categories dtos list...");
+        log.info("[ACTION] Returning categories dtos list...");
         return categoryResponseDtos;
     }
 

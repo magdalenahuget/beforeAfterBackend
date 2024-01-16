@@ -32,17 +32,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto createCategory(CategoryNameRequestDto request) {
-        log.info("[REQUEST] Creating new category from request: {}", request);
-
         log.info("[ACTION] Preparing category to store...");
+        log.debug("[REQUEST] Category from request: {}", request);
         Category category = categoryMapper.mapToCategoryEntity(request);
-        log.info("Category preparation completed successfully. Category: {}", category);
-
         log.info("[ACTION] Saving category in database...");
         category = categoryRepository.save(category);
-        log.info("Category saved in database: {}", category);
-
-        log.info("[ACTION] Returning image dto...");
+        log.debug("[RESPONSE] Created category: {}", category);
+        log.info("[ACTION] Category preparation completed successfully.");
         return categoryMapper.mapToCategoryResponseDto(category);
     }
 
@@ -50,21 +46,18 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryResponseDto> getCategories() {
         log.info("[ACTION] Fetching all categories...");
         List<Category> categories = categoryRepository.findAll();
-        log.info("Getting all categories (count): {}", categories.size());
-
-        log.info("[ACTION] Creating categories dtos list...");
+        log.debug("[REQUEST] Getting all categories (count): {}", categories.size());
         List<CategoryResponseDto> categoryResponseDtos = categories.stream()
                 .map(categoryMapper::mapToCategoryResponseDto)
                 .toList();
         log.info("[ACTION] Creating categories dtos list completed successfully.");
-
-        log.info("[ACTION] Returning categories dtos list...");
         return categoryResponseDtos;
     }
 
     @Override
     public CategoryResponseDto getCategoryById(Long categoryId) {
-        log.info("[REQUEST] Getting category by id: {}", categoryId);
+        log.info("[ACTION] Fetching indicated category...");
+        log.debug("[REQUEST] Getting category by id: {}", categoryId);
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
@@ -72,13 +65,15 @@ public class CategoryServiceImpl implements CategoryService {
                     return new ResourceNotFoundException(
                             CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                 });
-        log.info("Successfully fetched category with ID: {}", categoryId);
+        log.debug("[RESPONSE] Fetched category with ID: {}", categoryId);
+        log.info("[ACTION] Category successfully retrieved.");
         return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
     public CategoryResponseDto updateCategoryName(Long categoryId, CategoryNameRequestDto request) {
-        log.info("[REQUEST] Updating category with ID: {} with data: {}", categoryId, request);
+        log.info("[ACTION] Updating category with indicated ID.");
+        log.info("[REQUEST] Category id: {} with data: {}", categoryId, request);
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> {
@@ -88,21 +83,24 @@ public class CategoryServiceImpl implements CategoryService {
                 });
         category.setName(request.categoryName());
         category = categoryRepository.save(category);
-        log.info("Category updated successfully: {}", category.getName());
+        log.debug("[RESPONSE] Category updated: {}", category.getName());
+        log.info("[ACTION] Category successfully updated.");
         return categoryMapper.mapToCategoryResponseDto(category);
     }
 
     @Override
     public void deleteCategory(Long categoryId) {
-        log.info("[REQUEST] Deleting category with id: {}", categoryId);
+        log.info("[ACTION] Deleting indicated category...");
+        log.debug("[REQUEST] Category with id: {}", categoryId);
         categoryRepository
                 .findById(categoryId)
                 .ifPresentOrElse(category -> {
                             categoryRepository.delete(category);
-                            log.info("Category with id: {} deleted successfully", categoryId);
+                            log.debug("[REQUEST] Deleted category id: {}", categoryId);
+                            log.info("[ACTION] Indicated category deleted successfully.");
                         },
                         () -> {
-                            log.error(CATEGORY_NOT_FOUND_LOG_ERROR_MSG, categoryId);
+                            log.warn(CATEGORY_NOT_FOUND_LOG_ERROR_MSG, categoryId);
                             throw new ResourceNotFoundException(
                                     CATEGORY_NOT_FOUND_EXCEPTION_MSG + categoryId);
                         });

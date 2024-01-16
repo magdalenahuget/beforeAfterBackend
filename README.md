@@ -67,9 +67,9 @@ git clone <repository-url>
 4. *Run the Application* - After completing the above steps, you can now run the application.
 
 ## Usage
-- **Serach service:** User can easily filter services by categories and provided city.
+- **Search service:** User can easily filter services by categories and provided city.
 
-- **Vieving transformations of selected service provider:** After selecting a specific service, the user can view all photos of metamorphoses performed by this service provider.
+- **Viewing transformations of selected service provider:** After selecting a specific service, the user can view all photos of metamorphoses performed by this service provider.
 
 - **Registration and Login:** Users can create their accounts in the application, providing access to full functionality, adding makeovers to favorites and adding new makeovers.
   
@@ -77,7 +77,7 @@ git clone <repository-url>
 
 - **Add/remove transformation to favourites:** User can create a list of their favorite before and after photos or remove them from this list.
 
-- **Add/edit service provider info:** Serice provider can edit and add their contact details so that customers can easily find and contact them.
+- **Add/edit service provider info:** Service provider can edit and add their contact details so that customers can easily find and contact them.
 
 ## Project Status
 Project is: _in progress_

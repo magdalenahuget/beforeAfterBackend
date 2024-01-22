@@ -55,6 +55,9 @@ The features used in "Before After" allowed to build a fully functional web appl
 
 ![](readmeSources/add-image.gif)
 
+
+![](readmeSources/swagger-example.PNG)
+
 ## Setup
 1. *Install Git* - Make sure you have the Git version control system installed on your computer.
 2. *Clone Repository* - Copy the project repository URL and clone it on your local computer using the following command in the terminal:

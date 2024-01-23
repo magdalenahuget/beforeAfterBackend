@@ -18,6 +18,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ErrorResponse("Resource Not Found", ex.getMessage());
     }
 
+    @ExceptionHandler(DuplicatedResourceException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleDuplicatedResourceException(DuplicatedResourceException ex) {
+        System.out.println("asdasdasd");
+        logger.error("Duplicated resource found exception: ", ex);
+        return new ErrorResponse("Duplicated resource ErrorResponse", ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleAllUncaughtException(Exception exception) {

@@ -2,6 +2,7 @@ package com.mpm.beforeandafter.user.service;
 
 import com.mpm.beforeandafter.contactdetails.service.ContactDetailsService;
 import com.mpm.beforeandafter.email.service.EmailService;
+import com.mpm.beforeandafter.exception.DuplicatedResourceException;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
 import com.mpm.beforeandafter.role.model.Role;
 import com.mpm.beforeandafter.role.repository.RoleRepository;
@@ -15,6 +16,7 @@ import com.mpm.beforeandafter.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -92,7 +94,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("No roles in database");
         }
         user.setStatus(StatusType.TO_REVIEW);
-        User createdUser = userRepository.save(user);
+        User createdUser = saveUser(user);
         contactDetailsService.createAndGetDefaultContactDetails(createdUser.getId());
 
         emailService.sendRegistrationEmail(createdUser.getName(), createdUser.getEmail())
@@ -107,6 +109,18 @@ public class UserServiceImpl implements UserService {
         log.debug("[RESPONSE] New user created: {}", createdUser);
         log.info("[ACTION] User has been successfully created.");
         return userMapper.mapToCreateUserResponseDto(createdUser);
+    }
+
+    private User saveUser(User user) {
+        User savedUser = null;
+        try {
+            savedUser = userRepository.save(user);
+
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
+            log.warn("Could not execute statement. User already exists.");
+            throw new DuplicatedResourceException("User already exists.");
+        }
+        return savedUser;
     }
 
     @Override

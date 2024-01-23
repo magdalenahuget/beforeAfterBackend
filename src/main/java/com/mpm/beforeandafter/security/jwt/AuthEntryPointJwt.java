@@ -19,9 +19,17 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        System.out.println("response.getStatus()");
+        System.out.println(response.getStatus());
         if (response.getStatus() == HttpStatus.NOT_FOUND.value()) {
+            System.out.println("zxc");
             logger.error("[ERROR] Not found error: {}", authException.getMessage());
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Error: Not found");
+        } else if (response.getStatus() == HttpStatus.CONFLICT.value()) {
+            // TODO: Fix duplicate response status
+            System.out.println("qweqweqw");
+            logger.error("[ERROR] Conflict error: {}", authException.getMessage());
+            response.sendError(HttpServletResponse.SC_CONFLICT, "Error: Conflict");
         } else {
             logger.error("[ERROR] Unauthorized error: {}", authException.getMessage());
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");

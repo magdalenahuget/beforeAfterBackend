@@ -24,13 +24,26 @@ The application revolutionizes service exploration through "before and after" ph
 ## Application Deployment Infrastructure
 
 ### Backend
-- Hosting: Azure Spring Apps
+- Hosting: Azure Spring Apps 
+
+  A fully managed service on Azure for deploying and scaling Spring Boot applications.
+  Provides a scalable and reliable environment for running backend services.
 
 ### Frontend
 - Hosting: Vercel
 
+  A cloud platform specializing in static site deployment and serverless functions.
+  Simplifies deployment and offers fast, secure hosting for the frontend application.
+
 ### Database
 - Database Management System: PostgreSQL
+
+  A powerful open-source relational database known for its reliability and extensibility.
+
+- Hosting: ElephantSQL
+
+  A cloud-based PostgreSQL service offering managed database hosting.
+  Features include automated backups and scaling for efficient data storage.
 
 ## Planning
 - **Jira software** was used to create tasks, divide them and track their progress.

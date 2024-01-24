@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://magdalenahuget-before-and-after.vercel.app"})
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -27,7 +27,6 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    @ResponseStatus(HttpStatus.CREATED)
     public CreateUserResponseDto createUser(@RequestBody CreateUserRequestDto user) {
         //TODO: delete sout when security developed
         System.out.println("CreateUserRequestDto = " + user );

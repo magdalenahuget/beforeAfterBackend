@@ -7,6 +7,7 @@ Here you can find repository with frontend part for this project:
 
 ## Table of Contents
 * [General Info](#general-information)
+* [Application Deployment Infrastructure](#application-deployment-infrastructure)
 * [Planning](#planning)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
@@ -19,6 +20,39 @@ Here you can find repository with frontend part for this project:
 
 ## General Information
 The application revolutionizes service exploration through "before and after" photos, allowing users to easily filter and view transformations in various categories. It addresses the common issue of inadequate visual representation in service discovery, aiming to increase user comfort by streamlining decision-making through a visually rich platform. The project was initiated to simplify and enhance the service exploration process, providing users with comprehensive information for transparent and user-friendly service selection.
+
+## Application Deployment Infrastructure
+
+Explore our deployed application by clicking the link below:
+
+- [before-after](https://magdalenahuget-before-and-after.vercel.app/)
+
+### Note: 
+Please use the application carefully and patiently. The resources are hosted on free or almost free tiers, which may result in slower network performance. Be mindful of the allocated resources to ensure optimal usage within the constraints of the chosen pricing plans.
+
+### Backend
+- Hosting: Azure Spring Apps 
+
+  A fully managed service on Azure for deploying and scaling Spring Boot applications.
+  Provides a scalable and reliable environment for running backend services.
+
+### Frontend
+- Hosting: Vercel
+
+  A cloud platform specializing in static site deployment and serverless functions.
+  Simplifies deployment and offers fast, secure hosting for the frontend application.
+
+### Database
+- Database Management System: PostgreSQL
+
+  A powerful open-source relational database known for its reliability and extensibility.
+
+- Hosting: ElephantSQL
+
+  A cloud-based PostgreSQL service offering managed database hosting.
+  Features include automated backups and scaling for efficient data storage.
+
+This deployment infrastructure ensures a cloud-native, scalable, and reliable foundation for your web application, providing seamless integration between the backend logic, frontend user interface, and data storage.
 
 ## Planning
 - **Jira software** was used to create tasks, divide them and track their progress.

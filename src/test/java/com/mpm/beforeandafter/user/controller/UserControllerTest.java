@@ -1,4 +1,5 @@
 package com.mpm.beforeandafter.user.controller;
+
 import com.mpm.beforeandafter.role.model.Role;
 import com.mpm.beforeandafter.role.type.RoleType;
 import com.mpm.beforeandafter.user.dto.GetUserResponseDto;
@@ -37,8 +38,8 @@ class UserControllerTest {
 
     private UserMapper userMapper;
 
-@Autowired
-private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @BeforeEach
     void setUp() {

@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://magdalenahuget-before-and-after.vercel.app"})
 @Slf4j
 @RestController
 @RequestMapping("api/v1/users")

@@ -23,6 +23,9 @@ The application revolutionizes service exploration through "before and after" ph
 
 ## Application Deployment Infrastructure
 
+### Note: 
+Please use the application carefully and patiently. The resources are hosted on free or almost free tiers, which may result in slower network performance. Be mindful of the allocated resources to ensure optimal usage within the constraints of the chosen pricing plans.
+
 ### Backend
 - Hosting: Azure Spring Apps 
 
@@ -44,6 +47,8 @@ The application revolutionizes service exploration through "before and after" ph
 
   A cloud-based PostgreSQL service offering managed database hosting.
   Features include automated backups and scaling for efficient data storage.
+
+This deployment infrastructure ensures a cloud-native, scalable, and reliable foundation for your web application, providing seamless integration between the backend logic, frontend user interface, and data storage.
 
 ## Planning
 - **Jira software** was used to create tasks, divide them and track their progress.

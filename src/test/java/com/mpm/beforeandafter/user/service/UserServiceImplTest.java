@@ -17,9 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -69,7 +67,7 @@ class UserServiceImplTest {
         userResponse.setRoles(List.of(RoleType.ROLE_USER.name()));
         ContactDetails contactDetails = new ContactDetails();
 
-        User user =  new User();
+        User user = new User();
         user.setName("John Doe");
         user.setEmail("john.doe@example.com");
 
@@ -83,20 +81,12 @@ class UserServiceImplTest {
         when(userMapper.mapToCreateUserResponseDto(user)).thenReturn(userResponse);
         EmailService emailServiceMock = mock(EmailService.class);
         doNothing().when(emailServiceMock).handleSendRegisterEmail(user);
-//        doNothing().when(userService).sendEmail(mockUser);
-
-        //        doNothing().when(userService.sendEmail(userResponse));
-//        when(emailService.sendRegistrationEmail(userResponse.getName(), userResponse.getEmail())).thenReturn(userResponse.getName());
 
         CreateUserResponseDto createUserResponseDto = userService.createUser(userRequestDto, roleType);
-        System.out.println("createUserResponseDto = " + createUserResponseDto);
-        System.out.println("userRepository.findByName(user.getName()) = " + userRepository.findByName(user.getName()));
-
 
         verify(roleService, times(1)).findByName(roleType);
         verify(passwordEncoder, times(1)).encode(userRequestDto.getUserPassword());
         verify(userRepository, times(1)).save(any());
-//        verify(userMapper, times(1)).mapToCreateUserResponseDto(userResponse);
 
         assertEquals("John Doe", createUserResponseDto.getUserName());
         assertEquals("john.doe@example.com", createUserResponseDto.getEmail());

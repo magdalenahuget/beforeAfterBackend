@@ -7,6 +7,7 @@ import com.mpm.beforeandafter.email.dto.EmailResponseDto;
 import com.mpm.beforeandafter.email.model.EmailLog;
 import com.mpm.beforeandafter.email.repository.EmailLogRepository;
 import com.mpm.beforeandafter.exception.ResourceNotFoundException;
+import com.mpm.beforeandafter.user.model.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -59,6 +60,18 @@ public class EmailServiceImpl implements EmailService {
         String subject = "Welcome to Before & After!";
         String content = "Thank you for registering, " + userName + "!";
         return sendEmail(beforeAfterMainEmail, userEmail, subject, content);
+    }
+
+    @Override
+    public void handleSendRegisterEmail(User createdUser) {
+        sendRegistrationEmail(createdUser.getName(), createdUser.getEmail())
+                .thenAcceptAsync(emailResponse -> {
+                    if (emailResponse.sentSuccessfully()) {
+                        log.info("Registration email sent successfully to {}", createdUser.getEmail());
+                    } else {
+                        log.error("Failed to send registration email to {}", createdUser.getEmail());
+                    }
+                });
     }
 
     @Async

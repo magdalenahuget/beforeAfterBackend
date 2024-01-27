@@ -96,26 +96,30 @@ public class UserServiceImpl implements UserService {
         user.setStatus(StatusType.TO_REVIEW);
         User createdUser = saveUser(user);
         contactDetailsService.createAndGetDefaultContactDetails(createdUser.getId());
-
-        emailService.sendRegistrationEmail(createdUser.getName(), createdUser.getEmail())
-                .thenAcceptAsync(emailResponse -> {
-                    if (emailResponse.sentSuccessfully()) {
-                        log.info("Registration email sent successfully to {}", createdUser.getEmail());
-                    } else {
-                        log.error("Failed to send registration email to {}", createdUser.getEmail());
-                    }
-                });
+        emailService.handleSendRegisterEmail(createdUser);
 
         log.debug("[RESPONSE] New user created: {}", createdUser);
         log.info("[ACTION] User has been successfully created.");
         return userMapper.mapToCreateUserResponseDto(createdUser);
     }
 
+//    public boolean sendEmail(User createdUser) {
+//        emailService.handleSendRegisterEmail(createdUser);
+//        emailService.sendRegistrationEmail(createdUser.getName(), createdUser.getEmail())
+//                .thenAcceptAsync(emailResponse -> {
+//                    if (emailResponse.sentSuccessfully()) {
+//                        log.info("Registration email sent successfully to {}", createdUser.getEmail());
+//                    } else {
+//                        log.error("Failed to send registration email to {}", createdUser.getEmail());
+//                    }
+//                });
+//        return true;
+//    }
+
     private User saveUser(User user) {
         User savedUser = null;
         try {
             savedUser = userRepository.save(user);
-
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             log.warn("Could not execute statement. User already exists.");
             throw new DuplicatedResourceException("User already exists.");

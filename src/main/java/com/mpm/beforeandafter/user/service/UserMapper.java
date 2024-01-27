@@ -4,7 +4,6 @@ import com.mpm.beforeandafter.role.model.Role;
 import com.mpm.beforeandafter.user.dto.*;
 import com.mpm.beforeandafter.user.model.User;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,6 +48,5 @@ public class UserMapper {
 
     private List<String> changeRoleToString(Set<Role> roleSet){
         return roleSet.stream().map(role -> role.getName().name()).collect(Collectors.toList());
-
     }
 }

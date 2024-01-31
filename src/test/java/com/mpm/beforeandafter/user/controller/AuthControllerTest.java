@@ -56,9 +56,10 @@ class AuthControllerTest {
         mockMvc.perform(post(signupAuth)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
-                .andExpect(status().isCreated());
-
+                .andExpect(status().isOk());
     }
+
+    // TODO: create test for login
 
 //    @Test
 //    @DisplayName("Should create and return the user")

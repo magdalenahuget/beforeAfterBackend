@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
-@CrossOrigin(origins = "https://magdalenahuget-before-and-after.vercel.app")
+@CrossOrigin(origins = {"http://localhost:3000", "https://magdalenahuget-before-and-after.vercel.app"})
 @RestController
 @RequestMapping("/api/v1/images")
 public class ImageController {

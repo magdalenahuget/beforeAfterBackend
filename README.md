@@ -27,6 +27,10 @@ Explore our deployed application by clicking the link below:
 
 - [before-after](https://magdalenahuget-before-and-after.vercel.app/)
 
+Credentials to sign in:
+Email: refineupholsterystudio@gmail.com
+Password: RefineUpholsteryStudio
+
 ### Note: 
 Please use the application carefully and patiently. The resources are hosted on free or almost free tiers, which may result in slower network performance. Be mindful of the allocated resources to ensure optimal usage within the constraints of the chosen pricing plans.
 

@@ -31,6 +31,8 @@ Credentials to sign in:
 Email: refineupholsterystudio@gmail.com
 Password: RefineUpholsteryStudio
 
+Warning! Due to Azure cloud fees and frequent rotation of free database credentials, the availability of the backend service may be limited.
+
 ### Note: 
 Please use the application carefully and patiently. The resources are hosted on free or almost free tiers, which may result in slower network performance. Be mindful of the allocated resources to ensure optimal usage within the constraints of the chosen pricing plans.
 

@@ -25,16 +25,15 @@ The application revolutionizes service exploration through "before and after" ph
 
 Explore our deployed application by clicking the link below:
 
-- [before-after](https://magdalenahuget-before-and-after.vercel.app/)
+- [before-after](https://magdalenahuget-before-and-after.vercel.app/signin)
 
 Credentials to sign in:
-Email: refineupholsterystudio@gmail.com
-Password: RefineUpholsteryStudio
 
-Warning! Due to Azure cloud fees and frequent rotation of free database credentials, the availability of the backend service may be limited.
+- Email: refineupholsterystudio@gmail.com
+- Password: RefineUpholsteryStudio
 
-### Note: 
-Please use the application carefully and patiently. The resources are hosted on free or almost free tiers, which may result in slower network performance. Be mindful of the allocated resources to ensure optimal usage within the constraints of the chosen pricing plans.
+### Note 
+Warning! Please use the application carefully and patiently. The resources are hosted on free or nearly free tiers, which could lead to slower network performance. Please be mindful of the allocated resources to ensure optimal usage within the limitations of the selected pricing plans. Additionally, due to Azure cloud fees and the frequent rotation of free database credentials, the availability of the backend service may be <ins>limited</ins> at times.
 
 ### Backend
 - Hosting: Azure Spring Apps 

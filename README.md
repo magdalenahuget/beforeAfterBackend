@@ -23,9 +23,9 @@ The application revolutionizes service exploration through "before and after" ph
 
 ## Application Deployment Infrastructure
 
-Explore our deployed application by clicking the link below:
-
-- [before-after](https://magdalenahuget-before-and-after.vercel.app/signin)
+Explore:
+- my deployed application by clicking the link below: [before-after](https://magdalenahuget-before-and-after.vercel.app/signin)
+- Swagger REST API documentation: https://huget-ba2.happyflower-f25c91cc.eastus2.azurecontainerapps.io/swagger-ui/index.html   
 
 Credentials to sign in:
 

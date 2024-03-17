@@ -1,9 +1,9 @@
 # Before After
+Welcome to the 'Before and After'!
 
-Here you can find repository with frontend part for this project:
+This app offers a straightforward way to choose services such as haircuts, plumbing, painting, or car detailing by showing "before and after" photos. It solves the problem of not knowing what to expect by providing clear visual comparisons, making it easier for users to make informed decisions. 
 
-- [Frontend part](https://github.com/magdalenahuget/beforeAfterFrontend)
-
+With this tool, finding and selecting a service becomes a simple and transparent process, ensuring users can confidently choose the right service based on visual evidence of quality and results.
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -46,6 +46,9 @@ Warning! Please use the application carefully and patiently. The resources are h
 
   A cloud platform specializing in static site deployment and serverless functions.
   Simplifies deployment and offers fast, secure hosting for the frontend application.
+
+Here you can find repository with frontend part for this project:
+- [Frontend part](https://github.com/magdalenahuget/beforeAfterFrontend)
 
 ### Database
 - Database Management System: PostgreSQL
